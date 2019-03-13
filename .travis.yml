@@ -1,0 +1,36 @@
+language: python
+
+os:
+  - linux
+
+matrix:
+  include:
+    - python: 3.5
+      env: PYVERSION=35
+    - python: 3.6
+      env: PYVERSION=36
+    - python: 3.7
+      dist: xenial
+      sudo: true
+      env: PYVERSION=37
+
+  allow_failures:
+    - python: "3.7"
+
+install:
+  - pip install -q pytest pytest-runner pytest-cov coverage
+  - pip install coveralls
+  - python setup.py install
+
+#before_script: # configure a headless display to test plot generation
+#  - if [ "$PYVERSION" != "37" ]; then #######; fi
+#  - "export DISPLAY=:99.0"
+#  - "sh -e /etc/init.d/xvfb start"
+#  - sleep 3 # give xvfb some time to start
+
+script:
+  - xvfb-run python setup.py test
+
+after_success:
+  - "ls -lr htmlcov"
+  - coveralls
