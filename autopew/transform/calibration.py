@@ -11,7 +11,7 @@ def _unpad(x):
 
 
 def affine_from_AB(X, Y):
-    A, res, rank, s = np.linalg.lstsq(_pad(X), _pad(Y), rcond=None)
+    A, res, rank, s = np.linalg.lstsq(_pad(X), _pad(Y), rcond=-1)
     return A
 
 
