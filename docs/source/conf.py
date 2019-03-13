@@ -21,7 +21,8 @@ from datetime import date
 sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../."))
 sys.path.insert(0, os.path.abspath("../.."))
-
+import recommonmark
+from recommonmark.transform import AutoStructify
 import autopew
 # -- Project information -----------------------------------------------------
 
@@ -50,6 +51,7 @@ extensions = [
     "sphinx.ext.mathjax",
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
+    "recommonmark"
 ]
 
 napoleon_google_docstring = False
@@ -298,3 +300,14 @@ def linkcode_resolve(domain, info):
             )
     else:
         return None
+
+def setup(app):
+    app.add_config_value(
+        "recommonmark_config",
+        {
+            "url_resolver": lambda url: github_doc_root + url,
+            "auto_toc_tree_section": "Contents",
+        },
+        True,
+    )
+    app.add_transform(AutoStructify)
