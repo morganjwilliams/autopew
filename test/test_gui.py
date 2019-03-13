@@ -3,9 +3,11 @@ import unittest
 import matplotlib.pyplot as plt
 import autopew.gui as gui
 
-ax = gui.image_registration(misc.face(), timeout=10000)
-ax.figure.timer.stop()
-ax.figure.timer.start()
+#ax = gui.image_registration(misc.face(), timeout=10000)
+#ax.figure.timer.stop()
+#ax.figure.timer.start()
+
+
 class TestGUI(unittest.TestCase):
     def setUp(self):
         self.img = misc.face()
