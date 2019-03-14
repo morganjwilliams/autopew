@@ -3,6 +3,7 @@ import versioneer
 
 tests_require = ["pytest", "pytest-runner", "pytest-cov", "coverage", "codecov"]
 
+gui_require = ["PyQt5"]
 dev_require = [
     "pytest",
     "versioneer",
@@ -41,17 +42,9 @@ setup(
     ],
     keywords=["laser ablation", "geochemistry"],
     packages=find_packages(exclude=["test*"]),
-    install_requires=[
-        "pathlib",
-        "numpy",
-        "scipy",
-        "pandas",
-        "matplotlib",
-        "xlrd",
-    ],
-    extras_require={
-        "dev": dev_require,
-    },
+    install_requires=["pathlib", "numpy", "scipy", "pandas", "matplotlib", "xlrd"]
+    + gui_require,
+    extras_require={"dev": dev_require},
     tests_require=tests_require,
     test_suite="test",
     package_data={"autopew": ["data/*"]},
