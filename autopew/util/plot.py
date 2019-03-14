@@ -6,6 +6,13 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
 
 
+def data_to_pixels_transform(ax):
+    # convert pixels to axes
+    a2p = ax.transData.transform
+    d2a = ax.transAxes.transform
+
+    return lambda x: a2p(d2a(x))
+
 def maprgb(img):
     c = img.reshape(-1, 3) / 255.0
     r, g, b = c.T

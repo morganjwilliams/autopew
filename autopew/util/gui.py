@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import logging
 from matplotlib.backends.backend_qt5 import TimerBase
-
+from matplotlib.backend_bases import MouseEvent
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
 
@@ -13,8 +13,9 @@ def timer_reset(self, *args, **kwargs):
     """
     self._timer.stop()
     self._timer.setInterval(self._interval)
-    logger.info('Timer Reset: ')
+    logger.info("Timer Reset: ")
     self._timer.start()
+
 
 setattr(TimerBase, "reset", timer_reset)
 
@@ -108,44 +109,51 @@ class ZoomPan(object):
                 new_alimy = (np.array([1, 1]) + np.array([-1, 1]) * scale_factor) * 0.5
 
             # now convert axes to data
+            xscl, yscl = tranSclA2D(tranA2D(tranP2A((x, y))))
+
             new_xlim0, new_ylim0 = tranSclA2D(tranA2D((new_alimx[0], new_alimy[0])))
             new_xlim1, new_ylim1 = tranSclA2D(tranA2D((new_alimx[1], new_alimy[1])))
 
             # and set limits
-            ax.set_xlim([new_xlim0, new_xlim1])
-            ax.set_ylim([new_ylim0, new_ylim1])
+            ax.set_xlim(np.array([new_xlim0, new_xlim1]))  # + 0.5 * (xscl-new_xlim 0))
+            ax.set_ylim(np.array([new_ylim0, new_ylim1]))  # + 0.5 * (yscl-new_ylim0))
             ax.figure.canvas.draw()
 
         fig = ax.get_figure()  # get the figure of interest
         fig.canvas.mpl_connect("scroll_event", zoom)
+        if hasattr(fig, "timer"):
+            fig.canvas.mpl_connect("scroll_event", fig.timer.reset)
         return zoom
 
     def pan_factory(self, ax):
         def onPress(event):
-            if event.inaxes != ax:
-                return
-            self.cur_xlim = ax.get_xlim()
-            self.cur_ylim = ax.get_ylim()
-            self.press = self.x0, self.y0, event.xdata, event.ydata
-            self.x0, self.y0, self.xpress, self.ypress = self.press
+            if event.button == 3:
+                if event.inaxes != ax:
+                    return
+                self.cur_xlim = ax.get_xlim()
+                self.cur_ylim = ax.get_ylim()
+                self.press = self.x0, self.y0, event.xdata, event.ydata
+                self.x0, self.y0, self.xpress, self.ypress = self.press
 
         def onRelease(event):
-            self.press = None
-            ax.figure.canvas.draw()
+            if event.button == 3:
+                self.press = None
+                ax.figure.canvas.draw()
 
         def onMotion(event):
-            if self.press is None:
-                return
-            if event.inaxes != ax:
-                return
-            dx = event.xdata - self.xpress
-            dy = event.ydata - self.ypress
-            self.cur_xlim -= dx
-            self.cur_ylim -= dy
-            ax.set_xlim(self.cur_xlim)
-            ax.set_ylim(self.cur_ylim)
+            if event.button == 3:
+                if self.press is None:
+                    return
+                if event.inaxes != ax:
+                    return
+                dx = event.xdata - self.xpress
+                dy = event.ydata - self.ypress
+                self.cur_xlim -= dx
+                self.cur_ylim -= dy
+                ax.set_xlim(self.cur_xlim)
+                ax.set_ylim(self.cur_ylim)
 
-            ax.figure.canvas.draw()
+                ax.figure.canvas.draw()
 
         fig = ax.get_figure()  # get the figure of interest
 
