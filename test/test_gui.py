@@ -13,7 +13,7 @@ class TestGUI(unittest.TestCase):
         self.img = misc.face()
 
     def test_gui_plot_window(self):
-        ax = gui.image_registration(self.img, timeout=10000)
+        ax = gui.image_point_registration(self.img, timeout=10000)
 
 
 if __name__ == "__main__":
