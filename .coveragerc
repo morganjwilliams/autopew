@@ -1,0 +1,13 @@
+[run]
+source = autopew
+omit =
+    # Omit test, docs, draft and data files
+    test/*
+    docs/*
+    **/data
+    autopew/draft/*
+
+    # Omit extensions with extra dependencies
+    
+    # Ignore _version.py
+    */_version.py
