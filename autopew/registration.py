@@ -1,6 +1,6 @@
 import numpy as np
-from pyrolite.util.plot import bin_edges_to_centres
 from .transform.calibration import affine_from_AB, transform_from_affine
+from .util.plot import bin_edges_to_centres
 import logging
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
