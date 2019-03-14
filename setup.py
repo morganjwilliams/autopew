@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import versioneer
 
-tests_require = ["pytest", "pytest-runner", "pytest-cov", "coverage", "coveralls"]
+tests_require = ["pytest", "pytest-runner", "pytest-cov", "coverage", "codecov"]
 
 dev_require = [
     "pytest",

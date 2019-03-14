@@ -19,7 +19,7 @@ matrix:
 
 install:
   - pip install -q pytest pytest-runner pytest-cov coverage
-  - pip install coveralls
+  - pip install codecov
   - python setup.py install
 
 #before_script: # configure a headless display to test plot generation
@@ -33,4 +33,5 @@ script:
 
 after_success:
   - "ls -lr htmlcov"
-  - coveralls
+  - codecov -t CODECOV_TOKEN
+  - bash <(curl -s https://codecov.io/bash) -t your-repository-upload-token
