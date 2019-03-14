@@ -1,14 +1,13 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import logging
+from matplotlib.backends.backend_qt5 import TimerBase
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
 
-from matplotlib.backends.backend_qt5 import TimerQT
 
-
-def _timer_reset(self, *args, **kwargs):
+def timer_reset(self, *args, **kwargs):
     """
     Timer reset for TimerQT objects.
     """
@@ -17,15 +16,14 @@ def _timer_reset(self, *args, **kwargs):
     logger.info('Timer Reset: ')
     self._timer.start()
 
-
-setattr(TimerQT, "_timer_reset", _timer_reset)
+setattr(TimerBase, "reset", timer_reset)
 
 
 def _timeout(fig, timeout=1000):
     timer = fig.canvas.new_timer(interval=timeout)
+    timer.add_callback(close_event)
     fig.timer = timer
-    fig.timer.add_callback(close_event)
-    fig.canvas.callbacks.connect("button_press_event", fig.timer._timer_reset)
+    fig.canvas.callbacks.connect("button_press_event", timer.reset)
 
 
 def close_event():

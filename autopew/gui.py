@@ -1,9 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import logging
-
 from .util.gui import ZoomPan, _timeout
 
+import logging
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
 
@@ -13,7 +12,8 @@ def image_point_registration(img, timeout=None):
     Launches a window which can be clicked to add points.
     """
     fig, ax = plt.subplots()
-    points= []
+    points = []
+
     def on_click(event):
         if event.inaxes is not None:
             x, y = event.xdata, event.ydata
