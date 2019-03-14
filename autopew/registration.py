@@ -29,10 +29,10 @@ class RegisteredImage(object):
         if isinstance(img, str) or isinstance(img, Path):
             im = matplotlib.image.imread(img)  # .transpose(1, 0, 2)
             self.image = im
-        elif isinstance(image, self.__class__):
-            self.image = im.image
-        elif isinstance(image, np.ndarray):
-            self.image = image
+        elif isinstance(img, self.__class__):
+            self.image = img.image
+        elif isinstance(img, np.ndarray):
+            self.image = img
         else:
             raise NotImplementedError
 
