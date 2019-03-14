@@ -33,5 +33,4 @@ script:
 
 after_success:
   - "ls -lr htmlcov"
-  - codecov -t CODECOV_TOKEN
-  - bash <(curl -s https://codecov.io/bash) -t your-repository-upload-token
+  - codecov -t $CODECOV_TOKEN
