@@ -21,7 +21,7 @@ class Session(object):
     """
 
     def __init__(self, report_template=None):
-
+        self.stage_limits = ()
         self.report_template = report_template
         self.registered_images = {}
         # self.priorities = None # Could prioritise points or lines etc
@@ -115,9 +115,10 @@ class Session(object):
 
 if __name__ == "__main__":
 
-    %matplotlib qt
+    #%matplotlib qt
     s = Session()
     img = "NOR1-3B", Path("./data/") / "images" / "NOR1-3B.jpg"
     newpoints = Path("./data/") / "NOR1-3B.csv"
     scancsv = Path("./data/") / "_AutosavedScans.scancsv"
     newverts = s.autoflow(img, scancsv, newpoints)
+    print(newverts)
