@@ -1,6 +1,9 @@
 import numpy as np
+from pathlib import Path
+import matplotlib.image
 from .transform.calibration import affine_from_AB, transform_from_affine
 from .util.plot import bin_edges_to_centres
+from .util.gui import image_point_registration
 import logging
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
@@ -9,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 class RegisteredImage(object):
     def __init__(self, img, origin=None, rotate=0.0, flip=None):
-        self.load_image(img)
+        self.load_imagearray(img)
         self.shape = self.image.shape[:-1]
         self.pixelcoords = np.meshgrid(
             *[bin_edges_to_centres(np.arange(s + 1)) for s in self.shape]
@@ -19,9 +22,19 @@ class RegisteredImage(object):
         self.output_transform = None
         self.input_transform = None
 
-    def load_image(self, img):
+        self.reference_pixels = None
+
+    def load_imagearray(self, img):
         """Load an image and deal with formatting etc."""
-        self.image = img
+        if isinstance(img, str) or isinstance(img, Path):
+            im = matplotlib.image.imread(img)  # .transpose(1, 0, 2)
+            self.image = im
+        elif isinstance(img, self.__class__):
+            self.image = img.image
+        elif isinstance(img, np.ndarray):
+            self.image = img
+        else:
+            raise NotImplementedError
 
     def transform_image_2D(self, transform):
         """
@@ -40,6 +53,7 @@ class RegisteredImage(object):
         self.input_transform = transform_from_affine(
             affine_from_AB(inputpoints, pixelpoints)
         )
+        return self.input_transform
 
     def calibrate_output(self, pixelpoints, transformpoints):
         """
@@ -50,6 +64,15 @@ class RegisteredImage(object):
         self.output_transform = transform_from_affine(
             affine_from_AB(pixelpoints, transformpoints)
         )
+        return self.output_transform
+
+    def set_calibration_pixelpoints(self, pixelpoints=None, *args, **kwargs):
+        if pixelpoints is None:
+            self.reference_pixels = image_point_registration(
+                self.image, *args, **kwargs
+            )
+
+        return self.reference_pixels
 
     def get_targets_image(self, transform=None):
         """

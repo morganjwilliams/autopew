@@ -1,27 +1,35 @@
 import matplotlib.pyplot as plt
+import numpy as np
 import logging
+from matplotlib.backend_bases import TimerBase
+from .plot import *
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
 
 
-def close_event():
-    plt.close()  # timer calls this function after 3 seconds and closes the window
+def timer_reset(self, *args, **kwargs):
+    """
+    Timer reset for TimerQT objects.
+    """
+    self._timer.stop()
+    self._timer.setInterval(self._interval)
+    logger.info("Timer Reset: ")
+    self._timer.start()
 
 
-def add_timeout(fig, timeout=10000):
+setattr(TimerBase, "reset", timer_reset)
+
+
+def _timeout(fig, timeout=1000):
     timer = fig.canvas.new_timer(interval=timeout)
     timer.add_callback(close_event)
-
-    def reset_timer():
-        timer.stop()
-        timer = None
-        timer = fig.canvas.new_timer(interval=timeout)
-        timer.add_callback(close_event)
-        fig.timer = timer
-
     fig.timer = timer
-    fig.timer.reset = reset_timer
+    fig.canvas.callbacks.connect("button_press_event", timer.reset)
+
+
+def close_event():
+    plt.close()  # timer calls this function after 3 seconds and closes the window
 
 
 class ZoomPan(object):
@@ -102,44 +110,51 @@ class ZoomPan(object):
                 new_alimy = (np.array([1, 1]) + np.array([-1, 1]) * scale_factor) * 0.5
 
             # now convert axes to data
+            xscl, yscl = tranSclA2D(tranA2D(tranP2A((x, y))))
+
             new_xlim0, new_ylim0 = tranSclA2D(tranA2D((new_alimx[0], new_alimy[0])))
             new_xlim1, new_ylim1 = tranSclA2D(tranA2D((new_alimx[1], new_alimy[1])))
 
             # and set limits
-            ax.set_xlim([new_xlim0, new_xlim1])
-            ax.set_ylim([new_ylim0, new_ylim1])
+            ax.set_xlim(np.array([new_xlim0, new_xlim1]))  # + 0.5 * (xscl-new_xlim 0))
+            ax.set_ylim(np.array([new_ylim0, new_ylim1]))  # + 0.5 * (yscl-new_ylim0))
             ax.figure.canvas.draw()
 
         fig = ax.get_figure()  # get the figure of interest
         fig.canvas.mpl_connect("scroll_event", zoom)
+        if hasattr(fig, "timer"):
+            fig.canvas.mpl_connect("scroll_event", fig.timer.reset)
         return zoom
 
     def pan_factory(self, ax):
         def onPress(event):
-            if event.inaxes != ax:
-                return
-            self.cur_xlim = ax.get_xlim()
-            self.cur_ylim = ax.get_ylim()
-            self.press = self.x0, self.y0, event.xdata, event.ydata
-            self.x0, self.y0, self.xpress, self.ypress = self.press
+            if event.button == 3:
+                if event.inaxes != ax:
+                    return
+                self.cur_xlim = ax.get_xlim()
+                self.cur_ylim = ax.get_ylim()
+                self.press = self.x0, self.y0, event.xdata, event.ydata
+                self.x0, self.y0, self.xpress, self.ypress = self.press
 
         def onRelease(event):
-            self.press = None
-            ax.figure.canvas.draw()
+            if event.button == 3:
+                self.press = None
+                ax.figure.canvas.draw()
 
         def onMotion(event):
-            if self.press is None:
-                return
-            if event.inaxes != ax:
-                return
-            dx = event.xdata - self.xpress
-            dy = event.ydata - self.ypress
-            self.cur_xlim -= dx
-            self.cur_ylim -= dy
-            ax.set_xlim(self.cur_xlim)
-            ax.set_ylim(self.cur_ylim)
+            if event.button == 3:
+                if self.press is None:
+                    return
+                if event.inaxes != ax:
+                    return
+                dx = event.xdata - self.xpress
+                dy = event.ydata - self.ypress
+                self.cur_xlim -= dx
+                self.cur_ylim -= dy
+                ax.set_xlim(self.cur_xlim)
+                ax.set_ylim(self.cur_ylim)
 
-            ax.figure.canvas.draw()
+                ax.figure.canvas.draw()
 
         fig = ax.get_figure()  # get the figure of interest
 
@@ -150,3 +165,36 @@ class ZoomPan(object):
 
         # return the function
         return onMotion
+
+
+def image_point_registration(img, timeout=None):
+    """
+    Launches a window which can be clicked to add points.
+    """
+    plt.ion()  # interactive mode - won't close plots.
+    fig, ax = plt.subplots()
+    points = []
+
+    def on_click(event):
+        if event.button == 1:
+            if event.inaxes is not None:
+                x, y = event.xdata, event.ydata
+                ax.scatter(x, y, marker="D", s=50, zorder=2)
+                ax.figure.canvas.draw()
+                points.append([x, y])
+            else:
+                print("Clicked ouside axes bounds but inside plot window")
+
+    fig.canvas.callbacks.connect("button_press_event", on_click)
+
+    zp = ZoomPan()
+    scale = 1.1
+    figZoom = zp.zoom_factory(ax, base_scale=scale)
+    figPan = zp.pan_factory(ax)
+    ax.imshow(img, origin="upper")
+    if timeout is not None:
+        _timeout(fig, timeout)
+        fig.timer.start()
+    plt.show(block=True)  # will be alive until close
+    plt.ioff()  # turn interactive mode off, other plots won't be kept alive
+    return np.array(points)

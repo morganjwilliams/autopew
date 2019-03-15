@@ -1,7 +1,8 @@
 from scipy import misc
 import unittest
 import matplotlib.pyplot as plt
-import autopew.gui as gui
+import autopew.util.gui as gui
+
 
 #ax = gui.image_registration(misc.face(), timeout=10000)
 #ax.figure.timer.stop()
@@ -13,7 +14,7 @@ class TestGUI(unittest.TestCase):
         self.img = misc.face()
 
     def test_gui_plot_window(self):
-        ax = gui.image_registration(self.img, timeout=10000)
+        ax = gui.image_point_registration(self.img, timeout=10000)
 
 
 if __name__ == "__main__":
