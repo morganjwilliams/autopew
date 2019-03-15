@@ -3,6 +3,7 @@ import numpy as np
 import logging
 from matplotlib.backend_bases import TimerBase
 from .plot import *
+
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
 
@@ -165,11 +166,12 @@ class ZoomPan(object):
         # return the function
         return onMotion
 
+
 def image_point_registration(img, timeout=None):
     """
     Launches a window which can be clicked to add points.
     """
-    plt.ion()
+    plt.ion()  # interactive mode - won't close plots.
     fig, ax = plt.subplots()
     points = []
 
@@ -183,18 +185,16 @@ def image_point_registration(img, timeout=None):
             else:
                 print("Clicked ouside axes bounds but inside plot window")
 
-
     fig.canvas.callbacks.connect("button_press_event", on_click)
 
     zp = ZoomPan()
     scale = 1.1
     figZoom = zp.zoom_factory(ax, base_scale=scale)
     figPan = zp.pan_factory(ax)
-    ax.imshow(img, origin='upper')
+    ax.imshow(img, origin="upper")
     if timeout is not None:
         _timeout(fig, timeout)
         fig.timer.start()
-    plt.show(block=True)
-    plt.ioff()
-    points = np.array(points)
-    return points
+    plt.show(block=True)  # will be alive until close
+    plt.ioff()  # turn interactive mode off, other plots won't be kept alive
+    return np.array(points)
