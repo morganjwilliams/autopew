@@ -10,6 +10,7 @@
 
    installation
    tests
+   docs
    future
    usage/examples
 

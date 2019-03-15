@@ -154,7 +154,7 @@ latex_documents = [
         master_doc,
         "autopew.tex",
         "autopew Documentation",
-        "Morgan Williams & Louise Schoneveld",
+        r"Morgan Williams \& Louise Schoneveld",
         "manual",
     )
 ]

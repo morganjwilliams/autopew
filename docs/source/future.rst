@@ -26,7 +26,7 @@ Stage 2:
 
 
 On The Horizon
-  -------------------
+-------------------
 
   * Standard area registration, gridded 'free positions'- auto sample standard bracketing
   * Report templates
