@@ -59,75 +59,33 @@ class ZoomPan(object):
             coordinates and use the proper scaling transform to convert to data
             limits."""
 
-            x = event.x
-            y = event.y
+            x, y = event.x, event.y
+            tranP2A = ax.transAxes.inverted().transform  # display to axes
+            tranA2D = ax.transLimits.inverted().transform  # ax to data
+            tranSclA2D = ax.transScale.inverted().transform  # data to scale
 
-            # convert pixels to axes
-            tranP2A = ax.transAxes.inverted().transform
-            # convert axes to data limits
-            tranA2D = ax.transLimits.inverted().transform
-            # convert the scale (for log plots)
-            tranSclA2D = ax.transScale.inverted().transform
-
-            if event.button == "down":
-                # deal with zoom in
-                scale_factor = base_scale
-            elif event.button == "up":
-                # deal with zoom out
-                scale_factor = 1 / base_scale
-            else:
-                # deal with something that should never happen
-                scale_factor = 1
-
-            # get my axes position to know where I am with respect to them
+            scale = [base_scale, 1 / base_scale][event.button == "up"]
             xa, ya = tranP2A((x, y))
-            zoomx = False
-            zoomy = False
-            if ya < 0:
-                if xa >= 0 and xa <= 1:
-                    zoomx = True
-                    zoomy = False
-            elif ya <= 1:
-                if xa < 0:
-                    zoomx = False
-                    zoomy = True
-                elif xa <= 1:
-                    zoomx = True
-                    zoomy = True
-                else:
-                    zoomx = False
-                    zoomy = True
-            else:
-                if xa >= 0 and xa <= 1:
-                    zoomx = True
-                    zoomy = False
-
-            new_alimx = (0, 1)
-            new_alimy = (0, 1)
-            if zoomx:
-                new_alimx = (np.array([1, 1]) + np.array([-1, 1]) * scale_factor) * 0.5
-            if zoomy:
-                new_alimy = (np.array([1, 1]) + np.array([-1, 1]) * scale_factor) * 0.5
-
-            # now convert axes to data
-            xscl, yscl = tranSclA2D(tranA2D(tranP2A((x, y))))
-
-            new_xlim0, new_ylim0 = tranSclA2D(tranA2D((new_alimx[0], new_alimy[0])))
-            new_xlim1, new_ylim1 = tranSclA2D(tranA2D((new_alimx[1], new_alimy[1])))
-
-            # and set limits
-            ax.set_xlim(np.array([new_xlim0, new_xlim1]))  # + 0.5 * (xscl-new_xlim 0))
-            ax.set_ylim(np.array([new_ylim0, new_ylim1]))  # + 0.5 * (yscl-new_ylim0))
+            zoomx, zoomy = bool((xa > 0) & (xa < 1)), bool((ya > 0) & (ya < 1))
+            scaledlim = 0.5 * np.array([1 - scale, 1 + scale])
+            xlim, ylim = [(0, 1), scaledlim][zoomx], [(0, 1), scaledlim][zoomy]
+            xd, yd = tranSclA2D(tranA2D(np.array([xlim, ylim]).T)).T  # data coords
+            ax.set_xlim(xd)
+            ax.set_ylim(yd)
             ax.figure.canvas.draw()
 
         fig = ax.get_figure()  # get the figure of interest
         fig.canvas.mpl_connect("scroll_event", zoom)
-        if hasattr(fig, "timer"):
-            fig.canvas.mpl_connect("scroll_event", fig.timer.reset)
         return zoom
 
     def pan_factory(self, ax):
         def onPress(event):
+            # rescale to full extent if key is pressed.
+            if event.key is not None: # doesn't currently work
+                ax.relim()
+                ax.autoscale_view(True, True, True)
+                return
+
             if event.button == 3:
                 if event.inaxes != ax:
                     return
@@ -136,10 +94,12 @@ class ZoomPan(object):
                 self.press = self.x0, self.y0, event.xdata, event.ydata
                 self.x0, self.y0, self.xpress, self.ypress = self.press
 
+
         def onRelease(event):
             if event.button == 3:
                 self.press = None
                 ax.figure.canvas.draw()
+
 
         def onMotion(event):
             if event.button == 3:
@@ -195,6 +155,8 @@ def image_point_registration(img, timeout=None):
     if timeout is not None:
         _timeout(fig, timeout)
         fig.timer.start()
+    if hasattr(fig, "timer"):
+        fig.canvas.mpl_connect("scroll_event", fig.timer.reset)
     plt.show(block=True)  # will be alive until close
     plt.ioff()  # turn interactive mode off, other plots won't be kept alive
     return np.array(points)

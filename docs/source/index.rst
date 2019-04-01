@@ -12,6 +12,7 @@
    tests
    docs
    future
+   dev
    usage/examples
 
 
