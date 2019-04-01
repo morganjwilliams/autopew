@@ -42,7 +42,15 @@ setup(
     ],
     keywords=["laser ablation", "geochemistry"],
     packages=find_packages(exclude=["test*"]),
-    install_requires=["pathlib", "numpy", "scipy", "pandas", "matplotlib", "xlrd"]
+    install_requires=[
+        "pathlib",
+        "numpy",
+        "scipy",
+        "pandas",
+        "matplotlib",
+        "xlrd",
+        "pyrolite",
+    ]
     + gui_require,
     extras_require={"dev": dev_require},
     tests_require=tests_require,
