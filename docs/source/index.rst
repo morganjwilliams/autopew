@@ -6,7 +6,7 @@
 
 .. toctree::
    :maxdepth: 1
-
+   :hidden:
 
    installation
    tests
@@ -14,13 +14,7 @@
    future
    dev
    usage/examples
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
+   submodules
 
 
 .. note:: This documentation is a work in progress and is updated regularly. Contact

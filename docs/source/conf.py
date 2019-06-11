@@ -24,6 +24,7 @@ sys.path.insert(0, os.path.abspath("../.."))
 import recommonmark
 from recommonmark.transform import AutoStructify
 import autopew
+
 # -- Project information -----------------------------------------------------
 
 project = "autopew"
@@ -51,7 +52,8 @@ extensions = [
     "sphinx.ext.mathjax",
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
-    "recommonmark"
+    "recommonmark",
+    "sphinx.ext.viewcode",  # generates sourcecode on docs site, with reverse links to docs
 ]
 
 napoleon_google_docstring = False
@@ -97,7 +99,7 @@ html_theme = "sphinx_rtd_theme"
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-# html_theme_options = {}
+html_theme_options = {"prev_next_buttons_location": None}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -109,7 +111,9 @@ html_static_path = ["_static"]
 #
 html_sidebars = {
     "**": [
-        "relations.html",  # needs 'show_related': True theme option to display
+        "globaltoc.html",
+        "sourcelink.html",
+        # "relations.html",  # needs 'show_related': True theme option to display
         "searchbox.html",
     ]
 }
@@ -189,7 +193,7 @@ texinfo_documents = [
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
     "numpy": ("http://docs.scipy.org/doc/numpy/", None),
-    "scipy": ("http://docs.scipy.org/doc/scipy/reference/", None),
+    "scipy": ("https://docs.scipy.org/doc/scipy/reference/", None),
     "pandas": ("https://pandas.pydata.org/pandas-docs/stable/", None),
     "matplotlib": ("https://matplotlib.org/", None),
 }
@@ -221,11 +225,10 @@ epub_exclude_files = ["search.html"]
 # Example configuration for intersphinx: refer to the Python standard library.
 
 
+'''
 # -----------------------------------------------------------------------------
-# Source code links
+# Source code links to GitHub
 # -----------------------------------------------------------------------------
-
-import re
 import inspect
 from os.path import relpath, dirname
 
@@ -300,6 +303,20 @@ def linkcode_resolve(domain, info):
             )
     else:
         return None
+'''
+
+from docutils import nodes
+
+
+def rcparam_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    """
+    Role for matplotlib's rcparams, which are referred to in the documentation via links.
+    """
+    rendered = nodes.Text('rcParams["{}"]'.format(text))
+    refuri = "https://matplotlib.org/api/matplotlib_configuration_api.html#matplotlib.rcParams"
+    ref = nodes.reference(rawtext, rendered, refuri=refuri)
+    return [nodes.literal("", "", ref)], []
+
 
 def setup(app):
     app.add_config_value(
