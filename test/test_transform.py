@@ -1,6 +1,6 @@
 import unittest
 from autopew.transform import CoordinateTransform
-from pyrolite.util.general import stream_log
+from pyrolite.util.meta import stream_log
 
 stream_log("autopew.transform")
 

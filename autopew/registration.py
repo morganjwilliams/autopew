@@ -67,7 +67,7 @@ class RegisteredImage(object):
         return self.output_transform
 
     def set_calibration_pixelpoints(self, pixelpoints=None, *args, **kwargs):
-        if pixelpoints is None:
+        if pixelpoints is None: # load a gui
             self.reference_pixels = image_point_registration(
                 self.image, *args, **kwargs
             )
