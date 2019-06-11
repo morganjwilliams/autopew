@@ -47,7 +47,7 @@ setup(
         "numpy",
         "scipy",
         "pandas",
-        "matplotlib",
+        "matplotlib<3.1",
         "xlrd",
         "pyrolite",
     ]
