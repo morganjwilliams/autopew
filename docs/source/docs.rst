@@ -1,9 +1,5 @@
-Documentation
-==============
-
-
 Building Documentation
------------------------
+========================
 
 Documentation for :mod:`autopew` is in the :code:`docs` directory. From this directory,
 documentation can be built as follows:

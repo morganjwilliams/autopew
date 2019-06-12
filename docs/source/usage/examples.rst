@@ -1,6 +1,10 @@
 Examples
 ================
 
+.. seealso::
+
+  `Getting Started <gettingstarted.html>`__
+  `Common Use Cases <usecases.html>`__
 
 Workflows
 -----------------
@@ -10,7 +14,6 @@ Workflows
 
    workflows/*
 
-
 Images
 -----------------
 .. toctree::
@@ -18,7 +21,6 @@ Images
    :maxdepth: 1
 
    images/*
-
 
 Transforms
 -----------------

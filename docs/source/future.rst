@@ -2,10 +2,12 @@ Future
 ========
 
 This page details some of the under-development and planned features for
-:code:`autopew`. Note that while no schedules are attached, features under development
+**autopew**. Note that while no schedules are attached, features under development
 are likely to be completed with weeks to months, while those 'On The Horizon' may be
 significantly further away (or in some cases may not make it to release).
 
+Initial development focuses on work relevant to LA-ICP-MS workflows, and the project
+may later generalise some of these workflows.
 
 Under Development
 -------------------
@@ -23,6 +25,8 @@ Stage 2:
   * Sample-standard bracketing using a specific 'reference mount location' (needs to be updated later)
   * Be able to transform maps with points on them so correspondence is easier to see
   * Should be able to work from multiple maps --> need multiple registered images
+  * Overlay images
+  * Serialising coordinate transform systems for later use
 
 
 On The Horizon

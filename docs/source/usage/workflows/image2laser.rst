@@ -9,7 +9,7 @@ Step 1: Acquire an Image and Register Points
 ---------------------------------------------
 
 Once an image is acquired, points can be added (either via ImageJ, or through
-:code:`autopew` extensions). Optionally, add calibration points specifically for
+**autopew** extensions). Optionally, add calibration points specifically for
 calibrating the image-stage coordinate transform later on (3 points minimum, preferably
 5-6 to average out inconsistencies and provide an accurate transform).
 
@@ -39,15 +39,15 @@ Step 4: Transform Image Point Coordinates to Stage Coordinates
 Step 5: Export Points to for Stage Coordinates
 -------------------------------------------------
 
-* Export the transformed point stage coordinates to a file you can import into the
-    software controlling the stage.
+  * Export the transformed point stage coordinates to a file you can import into the
+      software controlling the stage.
 
 
 Optional Next Steps
 ---------------------
 
-* Export an aligned image.
+  * Export an aligned image.
 
-    Imported images can be realigned to the stage coordinate system for easier
-    recognition of sample features and more accurate visual determination of new point
-    location.
+      Imported images can be realigned to the stage coordinate system for easier
+      recognition of sample features and more accurate visual determination of new point
+      location.
