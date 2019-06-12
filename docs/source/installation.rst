@@ -1,8 +1,9 @@
 Installation
 ================
 
-:code:`autopew` is a private repo on `GitHub <https://github.com/morganjwilliams/autopew>`_.
-If you have access on github, you can install it with pip (you may be prompted for user-password):
+**autopew** is a private repo on `GitHub <https://github.com/morganjwilliams/autopew>`_.
+If you have access on GitHub, you can install it with pip (you may be prompted
+for user-password):
 
 .. code-block:: bash
 
@@ -17,7 +18,7 @@ Alternatively, you can also clone it locally and install with pip:
   pip install -e <repo-directory>
 
 
-Optional dependencies (`dev`, `gui`) can be specified during pip installation.
+Optional dependencies (**dev**, **gui**) can be specified during pip installation.
 For example:
 
 .. code-block:: bash
