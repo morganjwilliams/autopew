@@ -4,12 +4,6 @@ autopew\.util\.array
       :members:
       :undoc-members:
 
-autopew\.util\.gui
---------------------------------
-  .. automodule:: autopew.util.gui
-      :members:
-      :undoc-members:
-
 autopew\.util\.plot
 --------------------------------
   .. automodule:: autopew.util.plot

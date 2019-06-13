@@ -11,6 +11,26 @@ autopew\.transform
 
     submoddoc/transform
 
+
+autopew\.image
+------------------------
+
+  .. automodule:: autopew.image
+
+  .. toctree::
+    :maxdepth: 2
+
+    submoddoc/image
+
+
+autopew\.gui
+------------------------
+
+  .. toctree::
+    :maxdepth: 2
+
+    submoddoc/gui
+
 autopew\.util
 ------------------------
 
