@@ -11,11 +11,13 @@ for user-password):
    # or, for the develop version
    pip install git+https://github.com/morganjwilliams/autopew.git@develop#egg=autopew
 
-Alternatively, you can also clone it locally and install with pip:
+Alternatively, you can also clone it locally perform an editable install with pip:
 
 .. code-block:: bash
 
   pip install -e <repo-directory>
+  # e.g if you navigate to the directory, this is then:
+  pip install -e .
 
 
 Optional dependencies (**dev**, **gui**) can be specified during pip installation.
