@@ -105,8 +105,9 @@ class Session(object):
         points = self.points_from_csv(newpoints, image=im)
         scandata = ScanData(scancsv)
         refpoints = scandata.get_verticies()
-        lasercoords = refpoints.loc[
-            ("Spot" in i for i in refpoints.index.values), :
+    
+        lasercoords = refpoints.iloc[
+            [("Spot" in i) for i in refpoints.index.values], :
         ].values.astype(np.float)
 
         pc = im.set_calibration_pixelpoints()
