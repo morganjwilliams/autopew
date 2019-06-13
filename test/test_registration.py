@@ -1,7 +1,7 @@
 import unittest
 from scipy import misc
 import matplotlib.pyplot as plt
-from autopew import registration as reg
+from autopew.image import registration as reg
 from autopew.util.plot import maprgb
 
 class TestRegisteredImage(unittest.TestCase):
