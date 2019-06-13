@@ -50,6 +50,7 @@ setup(
         "matplotlib<3.1",
         "xlrd",
         "pyrolite",
+        "pillow"
     ]
     + gui_require,
     extras_require={"dev": dev_require},
