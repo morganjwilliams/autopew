@@ -8,6 +8,13 @@ This is applied to integrating coordinate systems across analytical instrumentat
 with each instrument typically having its own individual coordinate systems based on
 imagery and/or a sample stage.
 
+**autopew** also includes functions for importing and exporting .lase files, for
+automated generation of point sets within a relevant format.
+
+.. image:: _static/transform_concept.png
+   :align: center
+   :width: 70%
+
 
 What is **autopew** not?
 ----------------------
