@@ -22,7 +22,6 @@ Stage 1:
 
 Stage 2:
 
-  * Sample-standard bracketing using a specific 'reference mount location' (needs to be updated later)
   * Be able to transform maps with points on them so correspondence is easier to see
   * Should be able to work from multiple maps --> need multiple registered images
   * Overlay images
@@ -31,7 +30,9 @@ Stage 2:
 
 On The Horizon
 -------------------
-
-  * Standard area registration, gridded 'free positions'- auto sample standard bracketing
+  * Activities to optimise instrument usage time:
+    * Sample-standard bracketing using a specific 'reference mount location' (needs to be updated later)
+    * Reordering points based on their positions.
+    * Standard area registration, gridded 'free positions'- auto sample standard bracketing
   * Report templates
   * Be able to set spotsizes

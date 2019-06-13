@@ -1,3 +1,6 @@
+"""
+Submodule for calculating affine transforms between planar coordinate systems.
+"""
 import sys
 import logging
 import numpy as np
@@ -12,13 +15,23 @@ __RCOND__ = [-1, None][sys.version_info >= (3, 7)]  # 3.6 will fail with lapack 
 
 
 def affine_from_AB(X, Y):
+    """
+    Create an affine transform matrix based on two sets of coordinates.
+    """
+    assert X.shape == Y.shape
     A, res, rank, s = np.linalg.lstsq(_pad(X), _pad(Y), rcond=__RCOND__)
     return A
 
 
 def transform_from_affine(A):
+    """
+    Create an affine transform function based on affine matrix A.
+    """
     return lambda x: _unpad(np.dot(_pad(x), A))
 
 
 def inverse_transform_from_affine(A):
+    """"
+    Create an inverse affine transform function based on affine matrix A.
+    """
     return lambda x: _unpad(np.dot(_pad(x), np.linalg.inv(A)))

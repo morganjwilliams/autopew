@@ -1,9 +1,9 @@
 import numpy as np
 from pathlib import Path
 import matplotlib.image
-from .transform.calibration import affine_from_AB, transform_from_affine
-from .util.plot import bin_edges_to_centres
-from .util.gui import image_point_registration
+from ..transform.calibration import affine_from_AB, transform_from_affine
+from ..util.plot import bin_edges_to_centres
+from ..util.gui import image_point_registration
 import logging
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
