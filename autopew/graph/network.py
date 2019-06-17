@@ -10,6 +10,11 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
 
 
+def autolink(x):
+    """Default link function."""
+    return x
+
+
 class Net(object):
     """
     Network of transformations between objects.
@@ -40,6 +45,7 @@ class Net(object):
         """
         """
         self.components = {**self.components, name: object}
+        setattr(object, "__net__", self)
         self.graph.add_node(name, **kwargs)
 
     def add_edge(self, A, B, transform=None, **kwargs):
@@ -70,9 +76,7 @@ class Net(object):
         logger.debug("Adding Edge: {}".format(edge))
         self.graph.add_edges_from(edge)
 
-    def link(
-        self, A, B, transform=lambda x: x, inverse_transform=lambda x: x, **kwargs
-    ):
+    def link(self, A, B, transform=autolink, inverse_transform=autolink, **kwargs):
         """
         Link nodes A and B with transforms along edges.
         """
