@@ -5,13 +5,20 @@ import sys
 import logging
 import numpy as np
 from matplotlib.transforms import Affine2D
-from ..util.array import _pad, _unpad
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
 
 
 __RCOND__ = [-1, None][sys.version_info >= (3, 7)]  # 3.6 will fail with lapack error
+
+
+def _pad(x):
+    return np.hstack([x, np.ones((x.shape[0], 1))])
+
+
+def _unpad(x):
+    return x[:, :-1]
 
 
 def affine_from_AB(X, Y):

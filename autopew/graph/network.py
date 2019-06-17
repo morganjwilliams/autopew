@@ -117,8 +117,11 @@ class Net(object):
         ]  # size of nodes tied to name
         nc = [self.graph.nodes[n].get("color", nc) for n in self.graph.nodes]
         ec = [self.graph.edges[a, b].get("color", ec) for [a, b] in self.graph.edges]
-        nodetypes = [self.components[n].__class__.__name__ for n in self.graph.nodes]
-        print(nodetypes)
+
+        # Here we could get shapes for individual types of nodes.. but would have to
+        # Draw them separately using a nodelist.
+        # nodetypes = [self.components[n].__class__.__name__ for n in self.graph.nodes]
+
         method(
             self.graph,
             edge_color=ec,
