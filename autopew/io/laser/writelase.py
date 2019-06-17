@@ -10,6 +10,10 @@ def xy2scansv(xy, filename="testfile", z=20800, spotname_prefix="Spot"):
     """
     Write x-y coordinates to a laser.scancsv file.
 
+    Returns
+    --------
+    :class:`pandas.DataFrame`
+
     Todo
     ------
 

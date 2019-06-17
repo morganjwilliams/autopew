@@ -20,7 +20,7 @@ class TestNetwork(unittest.TestCase):
         n.graph.edges  # ["A", "B"]
 
         n.shortest_path("A", "C")
-        # n.draw()
+        ax = n.draw()
 
 
 if __name__ == "__main__":

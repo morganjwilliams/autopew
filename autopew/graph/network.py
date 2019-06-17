@@ -81,3 +81,4 @@ class Net(object):
             connectionstyle="arc3,rad=0.1",
         )
         ax.axis(np.array(ax.axis()) * 1.1)  # 110% range, as the axis is about 0, 0
+        return ax

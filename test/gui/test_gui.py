@@ -4,11 +4,6 @@ import matplotlib.pyplot as plt
 import autopew.gui as gui
 
 
-# ax = gui.image_registration(misc.face(), timeout=10000)
-# ax.figure.timer.stop()
-# ax.figure.timer.start()
-
-
 class TestGUI(unittest.TestCase):
     def setUp(self):
         self.img = misc.face()
@@ -17,7 +12,7 @@ class TestGUI(unittest.TestCase):
         plt.close("all")
 
     def test_gui_plot_window(self):
-        ax = gui.image_point_registration(self.img, timeout=10000)
+        ax = gui.image_point_registration(self.img, timeout=10)  # 10 ms timeout
 
 
 if __name__ == "__main__":

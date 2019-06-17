@@ -4,14 +4,36 @@ import pandas as pd
 from pathlib import Path
 
 
-def read_lasefile(filename):
+def split_config(s):
+    """
+    Splits a config-formatted string.
+
+    Returns
+    ---------
+    :class:`str`
+    """
+    x = re.split(r";", s)
+    d = {k: v for (k, v) in [i.split("=") for i in x]}
+    return d
+
+
+def read_lasefile(filename, encoding="cp1252"):
     """
     Read a .lase formatted file.
+
+    Returns
+    ---------
+    :class:`dict`
+
+    Todo
+    ------
+
+        * DataFrame return
     """
     path = Path(filename)
     if not path.suffix == ".lase":
         path = path.with_suffix(".lase")
-    file = open(path, encoding="cp1252").read()
+    file = open(path, encoding=encoding).read()
     lines = [i for i in re.split("[\n\r]", file) if i]
 
     data = {}
@@ -26,35 +48,14 @@ def read_lasefile(filename):
     return data
 
 
-def read_scancsv(filename):
-    """
-    Read a .scancsv formatted file.
-    """
-    path = Path(filename)
-    if not path.suffix == ".scancsv":
-        path = path.with_suffix(".scancsv")
-    scanfile = open(path, encoding="cp1252").read()  # .readlines()
-    scanfilelines = [i for i in re.split("[\n\r]", scanfile) if i]
-
-    scanfiledict = {}
-    scanfiledict["Header"] = scanfilelines[0]
-    for ix, l in enumerate(scanfilelines[1:]):
-        scanfiledict[ix] = l
-
-    data = get_scandata(scanfiledict)
-    return data
-
-
-def split_config(s):
-    """
-    Splits a config-formatted string.
-    """
-    x = re.split(r";", s)
-    d = {k: v for (k, v) in [i.split("=") for i in x]}
-    return d
-
-
 def get_scandata(scandict):
+    """
+    Process a dictionary of scan information into a Pandas DataFrame.
+
+    Returns
+    ---------
+    :class:`pandas.DataFrame`
+    """
     headers = scandict["Header"].split(",")
     scannames = [i for i in scandict.keys() if not i == "Header"]
     no_scans = len(scannames)
@@ -82,26 +83,50 @@ def get_scandata(scandict):
     return df
 
 
+def read_scancsv(filename, encoding="cp1252"):
+    """
+    Read a .scancsv formatted file.
+
+    Returns
+    ---------
+    :class:`pandas.DataFrame`
+    """
+    path = Path(filename)
+    if not path.suffix == ".scancsv":
+        path = path.with_suffix(".scancsv")
+    scanfile = open(path, encoding=encoding).read()  # .readlines()
+    scanfilelines = [i for i in re.split("[\n\r]", scanfile) if i]
+
+    scanfiledict = {}
+    scanfiledict["Header"] = scanfilelines[0]
+    for ix, l in enumerate(scanfilelines[1:]):
+        scanfiledict[ix] = l
+
+    data = get_scandata(scanfiledict)
+    return data
+
+
 class ScanData(object):
-    def __init__(self, data):
-
+    def __init__(self, datapath):
         self.default_z = 20800
-        self.load_data(data)
+        self.load_data(datapath)
 
-    def load_data(self, data):
-        if isinstance(data, dict):
-            self.df = get_scandata(dict)
-        elif isinstance(data, str) or isinstance(data, Path):
-            data = Path(data)
+    def load_data(self, datapath):
+        if isinstance(datapath, dict):  # from dict
+            self.df = get_scandata(datapath)
+        elif isinstance(datapath, str) or isinstance(datapath, Path): # from path
+            data = Path(datapath)
             if "lase" in data.suffix:
-                self.df = read_lasefile(data)
+                self.df = read_lasefile(datapath)
             else:
-                self.df = read_scancsv(data)
+                self.df = read_scancsv(datapath)
 
     def get_verticies(self):
-        verts = np.vstack(self.df["Vertex List"].map(np.array).values).reshape(
-            self.df.index.size, -1
-        ).astype(np.float)
+        verts = (
+            np.vstack(self.df["Vertex List"].map(np.array).values)
+            .reshape(self.df.index.size, -1)
+            .astype(np.float)
+        )
         return pd.DataFrame(verts, index=self.df.Description, columns=["x", "y", "z"])
 
     def __repr__(self):
