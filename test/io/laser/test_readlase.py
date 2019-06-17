@@ -24,10 +24,8 @@ class TestReadScancsv(unittest.TestCase):
 
 
 class TestScanData(unittest.TestCase):
-    def test_default(self):
-        sd = readlase.ScanData(readlase.read_lasefile(test_lase))
 
-    def test_from_dict(self):
+    def test_default(self):
         sd = readlase.ScanData(test_scancsv)
 
     def test_get_verticies(self):

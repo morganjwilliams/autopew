@@ -112,14 +112,11 @@ class ScanData(object):
         self.load_data(datapath)
 
     def load_data(self, datapath):
-        if isinstance(datapath, dict):  # from dict
-            self.df = get_scandata(datapath)
-        elif isinstance(datapath, str) or isinstance(datapath, Path): # from path
-            data = Path(datapath)
-            if "lase" in data.suffix:
-                self.df = read_lasefile(datapath)
-            else:
-                self.df = read_scancsv(datapath)
+        data = Path(datapath)
+        if "lase" in data.suffix:
+            self.df = read_lasefile(datapath)
+        else:
+            self.df = read_scancsv(datapath)
 
     def get_verticies(self):
         verts = (
