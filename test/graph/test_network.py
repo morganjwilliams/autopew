@@ -13,13 +13,19 @@ class TestNetwork(unittest.TestCase):
         n.update("C", ["C"])
         n.update("B", ["B"])
         n.link(
-            "A", "B", transform=lambda x: x, inverse_transform=lambda x: x, color="red"
+            "A",
+            "B",
+            transform=lambda x: x + 1,
+            inverse_transform=lambda x: x - 1,
+            color="red",
         )
-        # n.link("A", "C", transform=lambda x: x, inverse_transform=lambda x: x)
-        n.link("B", "C", transform=lambda x: x, inverse_transform=lambda x: x)
-        n.graph.edges  # ["A", "B"]
-
-        n.shortest_path("A", "C")
+        n.link(
+            "B", "C", transform=lambda x: x ** 2, inverse_transform=lambda x: x ** 0.5
+        )
+        tfm = n.get_transform("A", "C")
+        self.assertTrue(tfm(1) == 4) # coordinate transform from A to C
+        ivtfm = n.get_transform("C", "A")
+        self.assertTrue(ivtfm(1) == 0) # coordinate transform from A to C
         ax = n.draw()
 
 
