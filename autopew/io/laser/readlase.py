@@ -33,7 +33,7 @@ def read_lasefile(filename, encoding="cp1252"):
     path = Path(filename)
     if not path.suffix == ".lase":
         path = path.with_suffix(".lase")
-    file = open(path, encoding=encoding).read()
+    file = open(str(path), encoding=encoding).read()
     lines = [i for i in re.split("[\n\r]", file) if i]
 
     data = {}
@@ -94,7 +94,7 @@ def read_scancsv(filename, encoding="cp1252"):
     path = Path(filename)
     if not path.suffix == ".scancsv":
         path = path.with_suffix(".scancsv")
-    scanfile = open(path, encoding=encoding).read()  # .readlines()
+    scanfile = open(str(path), encoding=encoding).read()  # .readlines()
     scanfilelines = [i for i in re.split("[\n\r]", scanfile) if i]
 
     scanfiledict = {}
