@@ -23,15 +23,8 @@ def affine_from_AB(X, Y):
     return A
 
 
-def transform_from_affine(A):
+def affine_transform(A):
     """
     Create an affine transform function based on affine matrix A.
     """
     return lambda x: _unpad(np.dot(_pad(x), A))
-
-
-def inverse_transform_from_affine(A):
-    """"
-    Create an inverse affine transform function based on affine matrix A.
-    """
-    return lambda x: _unpad(np.dot(_pad(x), np.linalg.inv(A)))

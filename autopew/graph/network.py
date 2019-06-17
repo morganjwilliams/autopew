@@ -3,8 +3,7 @@ import numpy as np
 import networkx
 import matplotlib.pyplot as plt
 
-
-class Network(object):
+class Net(object):
     """
     Network of transformations between objects.
 
@@ -82,15 +81,3 @@ class Network(object):
             connectionstyle="arc3,rad=0.1",
         )
         ax.axis(np.array(ax.axis()) * 1.1)  # 110% range, as the axis is about 0, 0
-
-
-n = Network()
-n.update("A", ["A"])
-n.update("C", ["C"])
-n.update("B", ["B"])
-n.link("A", "B", transform=lambda x: x, inverse_transform=lambda x: x, color="red")
-#n.link("A", "C", transform=lambda x: x, inverse_transform=lambda x: x)
-n.link("B", "C", transform=lambda x: x, inverse_transform=lambda x: x)
-n.graph.edges  # ["A", "B"]
-n.draw()
-n.shortest_path('A', 'C')

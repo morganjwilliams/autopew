@@ -1,46 +1,24 @@
-import json
 from pathlib import Path
-import pandas as pd
 import numpy as np
-from PIL import Image
-import matplotlib.image
-import matplotlib.pyplot as plt
-import logging
+import pandas as pd
 from .image.registration import RegisteredImage
 from .util.readlase import ScanData
-
-# from .targets import Point, Line, Map
+import logging
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
 
-class Stage(object):
-
-    def __int__(self, limits=None):
-        self.limits = limits
-
-    def get_limits(self):
-        return self.limits
-
-# create stage <--> image transforms (2D), stage <--> stage transforms (3D)
 
 class Session(object):
     """
     Session objects to store context for analytical sessions.
     """
 
-    def __init__(self, report_template=None, stage=None):
-
-
-        self.report_template = report_template
+    def __init__(self, stage=None):
         self.registered_images = {}
-        # self.priorities = None # Could prioritise points or lines etc
         self.points = pd.DataFrame()
         self.lines = pd.DataFrame()
         self.maps = pd.DataFrame()
-
-        #self.stage = Stage()
-        #self.stagelimits = self.stage.get_limits
 
     def load_image(self, name, image):
         self.registered_images[name] = RegisteredImage(image)
@@ -105,7 +83,7 @@ class Session(object):
         points = self.points_from_csv(newpoints, image=im)
         scandata = ScanData(scancsv)
         refpoints = scandata.get_verticies()
-    
+
         lasercoords = refpoints.iloc[
             [("Spot" in i) for i in refpoints.index.values], :
         ].values.astype(np.float)

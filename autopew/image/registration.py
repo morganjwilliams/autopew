@@ -1,7 +1,7 @@
 import numpy as np
 from pathlib import Path
 import matplotlib.image
-from ..transform.calibration import affine_from_AB, transform_from_affine
+from ..transform.affine import affine_from_AB, affine_transform
 from ..util.plot import bin_edges_to_centres
 from ..gui import image_point_registration
 import logging
@@ -50,7 +50,7 @@ class RegisteredImage(object):
         coordinates.
         """
         # this is an exercise of point-set registration
-        self.input_transform = transform_from_affine(
+        self.input_transform = affine_transform(
             affine_from_AB(inputpoints, pixelpoints)
         )
         return self.input_transform
@@ -61,13 +61,13 @@ class RegisteredImage(object):
         (i.e laser stage).
         """
         # this is an exercise of point-set registration
-        self.output_transform = transform_from_affine(
+        self.output_transform = inverse_affine_transform(
             affine_from_AB(pixelpoints, transformpoints)
         )
         return self.output_transform
 
     def set_calibration_pixelpoints(self, pixelpoints=None, *args, **kwargs):
-        if pixelpoints is None: # load a gui
+        if pixelpoints is None:  # load a gui
             self.reference_pixels = image_point_registration(
                 self.image, *args, **kwargs
             )
