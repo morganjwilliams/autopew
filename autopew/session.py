@@ -64,16 +64,6 @@ class Session(object):
         )  # point pixel coordinates
         return points
 
-    def reorder_analyses(self):
-        """
-        Reorder analyses to be more efficient to minimise stage movement.
-        """
-        pass
-
-    def standard_bracket(self, standard_name="Standard", interval=12):
-        self.points
-        return
-
     def autoflow(self, img, scancsv, newpoints):
         """
         Automated workflow given an image, a .scancsv with refernce points and a .csv
@@ -99,9 +89,6 @@ class Session(object):
 
     def dump(self):
         """Dump configuration to json"""
-        pass
-
-    def report(self, template=None):
         pass
 
 

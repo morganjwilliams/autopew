@@ -24,7 +24,6 @@ class TestReadScancsv(unittest.TestCase):
 
 
 class TestScanData(unittest.TestCase):
-
     def test_default(self):
         sd = readlase.ScanData(test_scancsv)
 

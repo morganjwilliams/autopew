@@ -12,7 +12,6 @@ may later generalise some of these workflows.
 Under Development
 -------------------
 
-
 Stage 1:
 
   * Be able to register points on one image
@@ -22,6 +21,7 @@ Stage 1:
 
 Stage 2:
 
+  * Be able to set spotsizes, point names
   * Be able to transform maps with points on them so correspondence is easier to see
   * Should be able to work from multiple maps --> need multiple registered images
   * Overlay images
@@ -30,9 +30,10 @@ Stage 2:
 
 On The Horizon
 -------------------
+
   * Activities to optimise instrument usage time:
     * Sample-standard bracketing using a specific 'reference mount location' (needs to be updated later)
     * Reordering points based on their positions.
     * Standard area registration, gridded 'free positions'- auto sample standard bracketing
+
   * Report templates
-  * Be able to set spotsizes
