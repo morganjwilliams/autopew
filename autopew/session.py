@@ -2,7 +2,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from .image.registration import RegisteredImage
-from .util.readlase import ScanData
+from .io.laser.readlase import ScanData
 import logging
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())

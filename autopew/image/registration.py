@@ -61,7 +61,7 @@ class RegisteredImage(object):
         (i.e laser stage).
         """
         # this is an exercise of point-set registration
-        self.output_transform = inverse_affine_transform(
+        self.output_transform = affine_transform(
             affine_from_AB(pixelpoints, transformpoints)
         )
         return self.output_transform

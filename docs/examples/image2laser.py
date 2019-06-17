@@ -2,13 +2,13 @@
 
 from autopew.session import Session
 from pathlib import Path
-from autopew.util.writelase import xy2scansv
-from bs4 import UnicodeDammit
+from autopew.util.meta import autopew_datafolder
+from autopew.io.laser.writelase import xy2scansv
 
 s = Session()
-img = "NOR1-3B", Path("../../autopew/data/") / "images" / "NOR1-3B.jpg"  # image
-newpoints = Path("../../autopew/data/") / "NOR1-3B.csv"  #
-scancsv = Path("../../autopew/data/") / "_AutosavedScans.scancsv"  # coordination points
+img = "NOR1-3B", autopew_datafolder("images") / "NOR1-3B.jpg"  # image
+newpoints = autopew_datafolder() / "NOR1-3B.csv"  #
+scancsv = autopew_datafolder("examples") / "autopew_test.scancsv"  # coordination points
 
 newverts = s.autoflow(img, scancsv.resolve(), newpoints.resolve())
 
