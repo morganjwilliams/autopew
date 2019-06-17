@@ -44,13 +44,13 @@ setup(
     packages=find_packages(exclude=["test*"]),
     install_requires=[
         "pathlib",
+        "pillow",
+        "networkx",
         "numpy",
-        "scipy",
-        "pandas",
         "matplotlib<3.1",
         "xlrd",
-        "pyrolite",
-        "pillow"
+        "pandas",
+        "scipy"
     ]
     + gui_require,
     extras_require={"dev": dev_require},

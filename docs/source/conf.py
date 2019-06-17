@@ -297,7 +297,7 @@ def linkcode_resolve(domain, info):
             )
         else:
             return "https://github.com/morganjwilliams/autopew/blob/master/%s%s" % (
-                pyrolite.__version__,
+                autopew.__version__,
                 fn,
                 linespec
             )
