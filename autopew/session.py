@@ -9,6 +9,25 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
 
 
+def points_from_csv(
+    filename, xvar="X", yvar="Y", zvar=None, labelvar=None, prependfile=True
+):
+    """
+    Get a set of points in pixel coordinates from a ImageJ csv.
+    """
+    file = Path(filename)
+    name = file.stem
+    if zvar is None:  # just 2D
+        vars = (xvar, yvar)
+    else:
+        vars = (xvar, yvar, zvar)
+
+    points = pd.read_csv(filename)
+    points = points.loc[:, vars]
+    points.columns = points.columns.map(str.lower)
+    return points
+
+
 class Session(object):
     """
     Session objects to store context for analytical sessions.
@@ -24,29 +43,17 @@ class Session(object):
         self.registered_images[name] = RegisteredImage(image)
         return self.registered_images[name]
 
-    def points_from_csv(
-        self,
-        filename,
-        xvar="X",
-        yvar="Y",
-        zvar=None,
-        labelvar=None,
-        prependfile=True,
-        image=None,
-    ):
-        """
-        Add a set of points in pixel coordinates from a csv.
-        """
-        file = Path(filename)
-        name = file.stem
-        if zvar is None:  # just 2D
-            vars = (xvar, yvar)
-        else:
-            vars = (xvar, yvar, zvar)
+    def load_points(self, points, image=None, **kwargs):
+        """Load a set of points."""
+        if isinstance(points, (str, Path)):
+            points = points_from_csv(points, **kwargs)
+        else:  # array, list
+            points = pd.DataFrame(points)
+            points.columns = ["x", "y"]
 
-        df = pd.read_csv(filename)
-        points = df.loc[:, vars]
-        points.columns = points.columns.map(str.lower)
+        self.points = pd.concat(
+            [self.points, points], axis=0
+        )  # point pixel coordinates
 
         if image is not None:  # if we need to transform coordinates
             if isinstance(image, RegisteredImage):
@@ -57,31 +64,55 @@ class Session(object):
             else:
                 image = self.load_image(name, image)
 
-            points["image"] = name  # store the reference only
-
-        self.points = pd.concat(
-            [self.points, points], axis=0
-        )  # point pixel coordinates
         return points
 
-    def autoflow(self, img, scancsv, newpoints):
+    def autoflow(self, img=None, src_coord=None, dest_coord=None, src_points=None):
         """
         Automated workflow given an image, a .scancsv with refernce points and a .csv
-        with new points in it."""
-        im = self.load_image(*img)
+        with new points in it.
 
-        points = self.points_from_csv(newpoints, image=im)
-        scandata = ScanData(scancsv)
-        refpoints = scandata.get_verticies()
+        Parameters
+        -----------
+        img
+            Image to load.
+        src_coord : :class:`numpy.ndarray`, :code:`None`
+            Array of source coordinates (e.g. pixels for an image).
+        dest_coord : :class:`str` | :class:`pathlib.Path`
+            Path of scancsv with ordered reference points, or array of reference point
+            coordinates.
+        src_points : :class:`np.ndarray` | :class:`str` , :class:`pathlib.Path`
+            Array or path of file with new set of points in source coordinates
+            (e.g. pixels for an image).
+        """
 
-        lasercoords = refpoints.iloc[
-            [("Spot" in i) for i in refpoints.index.values], :
-        ].values.astype(np.float)
+        if isinstance(dest_coord, (str, Path)):
+            dest = ScanData(dest_coord).get_verticies()
+            dest = dest.iloc[[("Spot" in i) for i in dest.index.values], :]
+            dest = dest.loc[:, ["x", "y"]].values.astype(np.float)
+        else:
+            dest = np.array(dest_coord)
 
-        pc = im.set_calibration_pixelpoints()
-        tfm = im.calibrate_output(pc, lasercoords[:, :-1])
-        newverts = tfm(points.loc[:, ["x", "y"]].astype(np.float).values)
-        return newverts
+        logger.info("Dest Coords:\n{}".format(dest))
+
+        if img is not None:  # Image is needed for picking in case of no src_coord
+            logger.info("Loading Image.")
+            im = self.load_image(*img)
+
+        if src_coord is None:
+            src = im.set_calibration_pixelpoints()
+        else:
+            src = src_coord
+        logger.info("Source Coords:\n{}".format(src))
+        tfm = im.calibrate_output(src, dest)
+
+        newpoints = (
+            self.load_points(src_points, image=im)
+            .loc[:, ["x", "y"]]
+            .astype(np.float)
+            .values
+        )
+        logger.info("Calculating Dest Coords for new points.")
+        return tfm(newpoints)
 
     def to_scancsv(self):
         """Create a .scancsv file."""
