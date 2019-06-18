@@ -62,7 +62,7 @@ class RegisteredImage(object):
         """
         # this is an exercise of point-set registration
         self.output_transform = affine_transform(
-            affine_from_AB(pixelpoints, transformpoints)
+            affine_from_AB(transformpoints, pixelpoints)
         )
         return self.output_transform
 

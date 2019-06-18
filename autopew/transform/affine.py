@@ -26,8 +26,9 @@ def affine_from_AB(X, Y):
     Create an affine transform matrix based on two sets of coordinates.
     """
     assert X.shape == Y.shape
+    # least squares X * A = Y
     A, res, rank, s = np.linalg.lstsq(_pad(X), _pad(Y), rcond=__RCOND__)
-    A[np.isclose(A, 0.)] = 0.
+    A[np.isclose(A, 0.0)] = 0.0
     return A
 
 
