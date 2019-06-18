@@ -41,12 +41,15 @@ class Net(object):
     def edges(self):
         return self.graph.edges
 
-    def update(self, name, object, **kwargs):
+    def update(self, name, obj, **kwargs):
         """
         """
-        self.components = {**self.components, name: object}
-        setattr(object, "__net__", self)
+        self.components = {**self.components, name: obj}
         self.graph.add_node(name, **kwargs)
+        try:  # store a reference on the object, if possible
+            obj.autonet = self
+        except AttributeError:  # can't add attribute to immutible obejcts..
+            pass
 
     def add_edge(self, A, B, transform=None, **kwargs):
         """

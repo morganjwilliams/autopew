@@ -37,3 +37,5 @@ On The Horizon
     * Standard area registration, gridded 'free positions'- auto sample standard bracketing
 
   * Report templates
+
+  * Dealing with larger images (>20 MB - jpg will warn of compression bomb)
