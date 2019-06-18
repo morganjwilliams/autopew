@@ -82,7 +82,7 @@ class ZoomPan(object):
     def pan_factory(self, ax):
         def onPress(event):
             # rescale to full extent if key is pressed.
-            if event.key is not None: # doesn't currently work
+            if event.key is not None:  # doesn't currently work
                 ax.relim()
                 ax.autoscale_view(True, True, True)
                 return
@@ -95,12 +95,10 @@ class ZoomPan(object):
                 self.press = self.x0, self.y0, event.xdata, event.ydata
                 self.x0, self.y0, self.xpress, self.ypress = self.press
 
-
         def onRelease(event):
             if event.button == 3:
                 self.press = None
                 ax.figure.canvas.draw()
-
 
         def onMotion(event):
             if event.button == 3:
@@ -132,7 +130,9 @@ def image_point_registration(img, timeout=None):
     """
     Launches a window which can be clicked to add points.
     """
-    get_ipython().run_line_magic('matplotlib', 'qt')
+    ipython = get_ipython()
+    if ipython is not None:
+        ipython.run_line_magic("matplotlib", "qt")
     plt.ion()  # interactive mode - won't close plots.
     fig, ax = plt.subplots()
     points = []
@@ -161,5 +161,6 @@ def image_point_registration(img, timeout=None):
         fig.canvas.mpl_connect("scroll_event", fig.timer.reset)
     plt.show(block=True)  # will be alive until close
     plt.ioff()  # turn interactive mode off, other plots won't be kept alive
-    get_ipython().run_line_magic('matplotlib', 'inline')
+    if ipython is not None:
+        ipython.run_line_magic("matplotlib", "inline")
     return np.array(points)
