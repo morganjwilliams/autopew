@@ -10,7 +10,13 @@ logger = logging.getLogger(__name__)
 
 
 def points_from_csv(
-    filename, xvar="X", yvar="Y", zvar=None, labelvar=None, prependfile=True
+    filename,
+    xvar="X",
+    yvar="Y",
+    zvar=None,
+    labelvar=None,
+    prependfile=True,
+    encoding="cp1252",
 ):
     """
     Get a set of points in pixel coordinates from a ImageJ csv.
@@ -22,7 +28,7 @@ def points_from_csv(
     else:
         vars = (xvar, yvar, zvar)
 
-    points = pd.read_csv(filename)
+    points = pd.read_csv(filename, encoding=encoding)
     points = points.loc[:, vars]
     points.columns = points.columns.map(str.lower)
     return points
@@ -103,7 +109,7 @@ class Session(object):
         else:
             src = src_coord
         logger.info("Source Coords:\n{}".format(src))
-        tfm = im.calibrate_output(src, dest)
+        tfm = im.calibrate_output(dest, src)
 
         newpoints = (
             self.load_points(src_points, image=im)

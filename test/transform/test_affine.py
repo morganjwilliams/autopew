@@ -49,6 +49,36 @@ class TestAffine(unittest.TestCase):
                 expect = rotate(src)
                 self.assertTrue(np.isclose(out, expect).all())
 
+    def test_affine_xyflip(self):
+        """Check function for translations."""
+
+        p0 = np.array([[0.0, 0.0], [1.0, 1.0], [0.0, 1.0]])
+        rotate = lambda x: x[:, ::-1]
+        p1 = rotate(p0)
+        A = affine_from_AB(p0, p1)  # matrix
+        tfm = affine_transform(A)
+        for src in [np.array([[-1, 1]]), np.array([[-100, 1]]), np.array([[100, 1]])]:
+            with self.subTest(src=src):
+                out = tfm(src)
+                expect = rotate(src)
+                self.assertTrue(np.isclose(out, expect).all())
+
+    def test_affine_shear(self):
+        """Check function for translations."""
+
+        p0 = np.array([[0.0, 0.0], [1.0, 1.0], [0.0, 1.0]])
+        shear = lambda x: x + x[:, ::-1] * np.array(
+            [1.5, 0]
+        )  # 90 degree right rotation
+        p1 = shear(p0)
+        A = affine_from_AB(p0, p1)  # matrix
+        tfm = affine_transform(A)
+        for src in [np.array([[-1, 1]]), np.array([[-100, 1]]), np.array([[100, 1]])]:
+            with self.subTest(src=src):
+                out = tfm(src)
+                expect = shear(src)
+                self.assertTrue(np.isclose(out, expect).all())
+
     def test_affine_homogeneous_scale(self):
         """Check function for in homegeneous scale."""
 
@@ -95,6 +125,7 @@ class TestAffine(unittest.TestCase):
         scale = lambda x: x * np.array([1, 1.5])  # 150% y stretch
         rotate = lambda x: x[:, ::-1] * np.array([1, -1])  # 90 degree right rotation
         translate = lambda x: x + np.array([1, 1])
+
         p0 = np.array([[0.0, 0.0], [1.0, 1.0], [0.0, 1.0]])
         p1 = rotate(scale(translate(p0)))
         A = affine_from_AB(p0, p1)  # matrix

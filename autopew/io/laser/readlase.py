@@ -62,7 +62,7 @@ def get_scandata(scandict):
     df = pd.DataFrame(columns=headers, index=scannames)
     for s in scannames:
         scandata = re.findall(r'".+?"|[\w-]+', scandict[s])
-        df.loc[s, headers] = scandata
+        df.loc[s, headers[: len(scandata)]] = scandata
 
     for c in [
         "Description",

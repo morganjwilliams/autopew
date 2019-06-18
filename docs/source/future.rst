@@ -24,7 +24,7 @@ Stage 2:
   * Be able to set spotsizes, point names
   * Be able to transform maps with points on them so correspondence is easier to see
   * Should be able to work from multiple maps --> need multiple registered images
-  * Overlay images
+  * Overlay images (see post `here <https://stackabuse.com/affine-image-transformations-in-python-with-numpy-pillow-and-opencv/>`__)
   * Serialising coordinate transform systems for later use
 
 
