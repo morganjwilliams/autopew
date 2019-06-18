@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import logging
 from matplotlib.backend_bases import TimerBase
+from IPython import get_ipython
 from ..util.plot import *
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
@@ -131,6 +132,7 @@ def image_point_registration(img, timeout=None):
     """
     Launches a window which can be clicked to add points.
     """
+    get_ipython().run_line_magic('matplotlib', 'qt')
     plt.ion()  # interactive mode - won't close plots.
     fig, ax = plt.subplots()
     points = []
@@ -159,4 +161,5 @@ def image_point_registration(img, timeout=None):
         fig.canvas.mpl_connect("scroll_event", fig.timer.reset)
     plt.show(block=True)  # will be alive until close
     plt.ioff()  # turn interactive mode off, other plots won't be kept alive
+    get_ipython().run_line_magic('matplotlib', 'inline')
     return np.array(points)
