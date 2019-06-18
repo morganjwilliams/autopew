@@ -9,9 +9,9 @@ class TestNetwork(unittest.TestCase):
 
     def test_net(self):
         n = Net()
-        n.update("A", ["A"])
-        n.update("C", ["C"])
-        n.update("B", ["B"])
+        n.update("A", "A")
+        n.update("C", "C")
+        n.update("B", "B")
         n.link(
             "A",
             "B",
