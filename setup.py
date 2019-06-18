@@ -45,6 +45,7 @@ setup(
     install_requires=[
         "pathlib",
         "pillow",
+        "ipython",
         "networkx",
         "numpy",
         "matplotlib<3.1",
