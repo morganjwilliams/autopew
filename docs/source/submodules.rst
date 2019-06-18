@@ -23,6 +23,28 @@ autopew\.image
     submoddoc/image
 
 
+autopew\.graph
+------------------------
+
+  .. automodule:: autopew.graph
+
+  .. toctree::
+    :maxdepth: 2
+
+    submoddoc/graph
+
+
+autopew\.io
+------------------------
+
+  .. automodule:: autopew.io
+
+  .. toctree::
+    :maxdepth: 2
+
+    submoddoc/io
+    
+
 autopew\.gui
 ------------------------
 
@@ -30,6 +52,7 @@ autopew\.gui
     :maxdepth: 2
 
     submoddoc/gui
+
 
 autopew\.util
 ------------------------

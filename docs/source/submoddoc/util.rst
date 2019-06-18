@@ -1,23 +1,11 @@
-autopew\.util\.array
---------------------------------
-  .. automodule:: autopew.util.array
-      :members:
-      :undoc-members:
-
 autopew\.util\.plot
 --------------------------------
   .. automodule:: autopew.util.plot
       :members:
       :undoc-members:
 
-autopew\.util\.readlase
+autopew\.util\.meta
 --------------------------------
-  .. automodule:: autopew.util.readlase
-      :members:
-      :undoc-members:
-
-autopew\.util\.reports
---------------------------------
-  .. automodule:: autopew.util.reports
+  .. automodule:: autopew.util.meta
       :members:
       :undoc-members:

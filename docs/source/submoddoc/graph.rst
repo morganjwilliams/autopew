@@ -1,5 +1,5 @@
-autopew\.transform\.affine
+autopew\.graph\.network
 --------------------------------
-  .. automodule:: autopew.transform.affine
+  .. automodule:: autopew.graph.network
       :members:
       :undoc-members:
