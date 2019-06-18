@@ -27,6 +27,7 @@ def affine_from_AB(X, Y):
     """
     assert X.shape == Y.shape
     A, res, rank, s = np.linalg.lstsq(_pad(X), _pad(Y), rcond=__RCOND__)
+    A[np.isclose(A, 0.)] = 0.
     return A
 
 
