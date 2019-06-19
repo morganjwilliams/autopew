@@ -1,6 +1,7 @@
 from pathlib import Path
 import numpy as np
 import pandas as pd
+from .transform.affine import affine_from_AB, affine_transform
 from .image.registration import RegisteredImage
 from .io.laser.readlase import ScanData
 import logging
@@ -100,19 +101,22 @@ class Session(object):
 
         logger.info("Dest Coords:\n{}".format(dest))
 
-        if img is not None:  # Image is needed for picking in case of no src_coord
+        if img is not None:
             logger.info("Loading Image.")
             im = self.load_image(*img)
+            img = im
 
-        if src_coord is None:
+        if src_coord is None:  # Image is needed for picking in case of no src_coord
             src = im.set_calibration_pixelpoints()
+            tfm = im.calibrate_output(src, dest)
         else:
             src = src_coord
+            tfm = affine_transform(affine_from_AB(src, dest))
+
         logger.info("Source Coords:\n{}".format(src))
-        tfm = im.calibrate_output(dest, src)
 
         newpoints = (
-            self.load_points(src_points, image=im)
+            self.load_points(src_points, image=img)
             .loc[:, ["x", "y"]]
             .astype(np.float)
             .values
