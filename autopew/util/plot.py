@@ -83,7 +83,7 @@ def plot_transform(
     """
     Visualise an affine transfrom.
     """
-    assert not destpoints is None and tfm is None
+    assert not ((destpoints is None) and (tfm is None))
     if destpoints is None:
         destpoints = np.array(tfm(srcpoints))
     else:
@@ -117,14 +117,30 @@ def plot_transform(
     if refpoints is not None:
         s = fig.get_size_inches()[0] * 6.0
         refpoints = np.array(refpoints)
+        trefpoints = tfm(refpoints)
+        for ix in range(refpoints.shape[0]):
+            con = ConnectionPatch(
+                xyA=refpoints[ix],
+                xyB=trefpoints[ix],
+                coordsA="data",
+                coordsB="data",
+                axesA=ax[0],
+                axesB=ax[1],
+                color="k",
+                zorder=5,
+                ls="--",
+                lw=0.5,
+            )
+            ax[0].add_artist(con)
         st = dict(edgecolors="k", facecolors="none", marker="o", s=s)
         ax[0].scatter(*refpoints.T, **st)
-        ax[1].scatter(*tfm(refpoints).T, **st)
+        ax[1].scatter(*trefpoints.T, **st)
 
     if hull:
-        lines = plot_2dhull(
-            srcpoints, ax=ax[0], splines=False, color="k", ls="-", lw=0.5
-        )
+        hullpoints = srcpoints
+        if refpoints is not None:  # incorporate the reference points here too
+            hullpoints = np.vstack([srcpoints, refpoints])
+        lines = plot_2dhull(hullpoints, ax=ax[0], color="k", ls="-", lw=0.5)
         ax[1].plot(*tfm(lines[0].get_path().vertices).T, color="k", ls="-", lw=0.5)
 
     ax[1].yaxis.tick_right()

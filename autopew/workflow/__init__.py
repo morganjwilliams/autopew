@@ -9,7 +9,7 @@ import logging
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
 
-
+"""
 class PointSet(object):
     def __init__(self, points, coordinates=None):
 
@@ -18,11 +18,12 @@ class PointSet(object):
 
     def __repr__(self):
         return self.points.__repr__()
+"""
 
 
-def pick_points(image_path):
+def pick_points(image_path, **kwargs):
     """
     Pick points on an image.
     """
     img = Image(image_path)
-    return image_point_registration(img.image)
+    return image_point_registration(img.image, **kwargs)
