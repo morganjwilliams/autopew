@@ -35,7 +35,9 @@ pixel_reference_coords = pick_points(imagepath)
 
 # %% Laser Reference Points ------------------------------------------------------------
 # Have some laser coordinates ready?
-laser_reference_coords = np.array([[0, 0], [20, 20], [20, 0]])
+laser_reference_coords = np.array(
+    [[45000, 14000], [50000, 25000], [30000, 270000], [32000, 210000]]
+)
 # Want to import them from a .scancsv file?
 # laser_reference_coords = np.array([[,], [,], [,]])
 # Want to import them from a .csv file?
