@@ -12,7 +12,7 @@ class TestGUI(unittest.TestCase):
         plt.close("all")
 
     def test_gui_plot_window(self):
-        ax = gui.image_point_registration(self.img, timeout=10)  # 10 ms timeout
+        ax = gui.windows.image_point_registration(self.img, timeout=10)  # 10 ms timeout
 
 
 if __name__ == "__main__":

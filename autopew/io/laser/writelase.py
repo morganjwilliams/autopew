@@ -31,7 +31,12 @@ def xy2scansv(xy, filename="testfile", z=20800, spotname_prefix="Spot"):
     )
 
     df["Scan Type"] = "Spot"
-    df.Description = ["{}_{:d}".format(spotname_prefix, ix + 1) for ix in range(len(x))]
+    if spotname_prefix:
+        df.Description = [
+            "{}_{:d}".format(spotname_prefix, ix + 1) for ix in range(len(x))
+        ]
+    else:
+        df.Description = ["{:d}".format(ix + 1) for ix in range(len(x))]
     df.Selected = 1
     df["Lock Edit"] = 0
     df["Vertex Count"] = 1
