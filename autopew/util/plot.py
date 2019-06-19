@@ -2,7 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import ConnectionPatch
 from ..transform.affine import affine_from_AB, affine_transform
-from pyrolite.util.plot import plot_2dhull
+import scipy.spatial
+import scipy.interpolate
 import logging
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
@@ -52,6 +53,18 @@ def bin_edges_to_centres(edges):
         steps = (edges[1:, 1:] - edges[:-1, :-1]) / 2
         centres = edges[:-1, :-1] + steps
         return centres
+
+
+def plot_2dhull(data, ax=None, s=0, **plotkwargs):
+    """
+    Plots a 2D convex hull around an array of xy data points.
+    """
+    if ax is None:
+        fig, ax = plt.subplots(1)
+    chull = scipy.spatial.ConvexHull(data, incremental=True)
+    x, y = data[chull.vertices].T
+    lines = ax.plot(np.append(x, [x[0]]), np.append(y, [y[0]]), **plotkwargs)
+    return lines
 
 
 def plot_transform(
