@@ -1,7 +1,7 @@
 from scipy import misc
 import unittest
 import matplotlib.pyplot as plt
-import autopew.gui as gui
+from autopew.gui.windows import image_point_registration
 
 
 class TestGUI(unittest.TestCase):
@@ -12,7 +12,7 @@ class TestGUI(unittest.TestCase):
         plt.close("all")
 
     def test_gui_plot_window(self):
-        ax = gui.windows.image_point_registration(self.img, timeout=10)  # 10 ms timeout
+        ax = image_point_registration(self.img, timeout=10)  # 10 ms timeout
 
 
 if __name__ == "__main__":

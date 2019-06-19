@@ -37,13 +37,7 @@ def image_point_registration(img, timeout=None):
     if hasattr(fig, "timer"):
         fig.canvas.mpl_connect("scroll_event", fig.timer.reset)
 
-    try: # try to incrase window size
-        mng = plt.get_current_fig_manager()
-        size = 0.9 * screensize()
-        offset = 0.05 * size
-        mng.window.setGeometry(*offset, *size)
-    except AttributeError:
-        pass
+    position_figure(fig, size=screensize())
     plt.show(block=True)  # will be alive until close
     plt.ioff()  # turn interactive mode off, other plots won't be kept alive
     if ipython is not None:

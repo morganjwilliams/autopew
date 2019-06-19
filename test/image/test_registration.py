@@ -4,9 +4,13 @@ import matplotlib.pyplot as plt
 from autopew.image import registration as reg
 from autopew.util.plot import maprgb
 
+
 class TestRegisteredImage(unittest.TestCase):
     def setUp(self):
         self.img = misc.face()
+
+    def tearDown(self):
+        plt.close("all")
 
     def test_image_load(self):
         regim = reg.RegisteredImage(self.img)
@@ -25,8 +29,6 @@ class TestRegisteredImage(unittest.TestCase):
         im = plt.pcolormesh(xi.T, yi.T, r, color=c)
         im.set_array(None)
 
-    def tearDown(self):
-        plt.close('all')
 
 if __name__ == "__main__":
     unittest.main()

@@ -26,6 +26,9 @@ class TestAffine(unittest.TestCase):
             )
         )
 
+    def tearDown(self):
+        plt.close("all")
+
     def test_affine_from_AB(self):
         """Check that the affine matrix is generated correctly."""
         A = affine_from_AB(self.p0, self.p1)
@@ -186,7 +189,6 @@ class TestAffine(unittest.TestCase):
         ax[1].scatter(*pmid1.T, color="r", label="Reference Points")
         ax[1].scatter(*T(rp).T, color="0.5", zorder=-1, label="Sample Points")
         ax[1].legend(bbox_to_anchor=(1.0, 1.0), frameon=False, facecolor=None)
-
 
 
 if __name__ == "__main__":

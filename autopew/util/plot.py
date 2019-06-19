@@ -158,5 +158,4 @@ def plot_transform(
         if b:
             f()
     plt.subplots_adjust(hspace=0.1)
-    plt.show()
     return fig

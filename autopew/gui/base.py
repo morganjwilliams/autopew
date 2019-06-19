@@ -1,11 +1,33 @@
 import numpy as np
 import tkinter as tk
+import matplotlib
 from matplotlib.backend_bases import TimerBase
 from ..util.plot import *
 import logging
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
+
+
+def position_figure(fig, pos=None, size=None, scale=0.9, offset=0.05):
+    """
+    Rescale and position a figure window.
+    """
+    backend = matplotlib.get_backend()
+    mgr = fig.canvas.manager
+    if backend == "TkAgg":
+        size = scale * mgr.window.maxsize()
+        pos = pos or offset * size
+        mgr.resize(*size)
+        mgr.window.wm_geometry("+%d+%d" % pos)
+    elif backend == "WXAgg":  # need to find a way to set size
+        # size = scale * mgr.window.maxsize()
+        # pos = pos or offset * size
+        mgr.window.SetPosition(pos)
+    else:  # QT and GTK
+        size = scale * size
+        pos = pos or offset * size
+        mgr.window.setGeometry(*pos, *size)
 
 
 def screensize():
