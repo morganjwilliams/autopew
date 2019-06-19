@@ -1,7 +1,17 @@
 import unittest
 import numpy as np
 import matplotlib.pyplot as plt
-from autopew.transform.affine import affine_from_AB, affine_transform
+
+from autopew.transform.affine import (
+    affine_from_AB,
+    affine_transform,
+    shear,
+    zoom,
+    translate,
+    rotation,
+    _pad,
+    _unpad,
+)
 
 
 class TestAffine(unittest.TestCase):
@@ -148,6 +158,36 @@ class TestAffine(unittest.TestCase):
         self.assertTrue(np.isclose(_p1, self.p1).all())
         self.assertTrue(np.isclose(_p0, self.p0).all())
 
+    def test_affine_rhomboid_bounds_graphical(self):
+        """
+        Graphical test that points bounded by a polygon before transformation
+        remain bounded by the transformed polygon.
+        """
+        start, end = 0, 4
+        p0 = np.array([[start, end, end, start], [end, end, start, start]]).T
+        pmid0 = np.array(
+            [[start, end / 2, end, end / 2], [end / 2, end, end / 2, start]]
+        ).T
+        rp = np.random.rand(100, 2) * end
 
-if __name__ == "__main__":
+        A = zoom(1.0, 1.5) @ rotation(-50) @ shear(0.6, -0.05) @ translate([2, 2])
+
+        tfm = lambda x: _unpad(_pad(x) @ A)
+
+        p1 = tfm(p0)
+        pmid1 = tfm(pmid0)
+        T = affine_transform(affine_from_AB(pmid0, pmid1))
+
+        fig, ax = plt.subplots(1, 2, sharex=True, sharey=True)
+        ax[0].plot(*np.vstack([p0, p0[0]]).T, color="k")
+        ax[0].scatter(*pmid0.T, color="r")
+        ax[0].scatter(*rp.T, color="0.5")
+        ax[1].plot(*np.vstack([p1, p1[0]]).T, color="k", label="Bounds")
+        ax[1].scatter(*pmid1.T, color="r", label="Reference Points")
+        ax[1].scatter(*T(rp).T, color="0.5", zorder=-1, label="Sample Points")
+        ax[1].legend(bbox_to_anchor=(1.0, 1.0), frameon=False, facecolor=None)
+
+
+
+|if __name__ == "__main__":
     unittest.main()
