@@ -64,23 +64,24 @@ laser_reference_coords = np.array(
 # Want to import them from a .scancsv file?
 # laser_reference_coords = np.array([[,], [,], [,]])
 # Want to import them from a .csv file?
-# pixel_reference_coordslaser_reference_coords = np.array([[,], [,], [,]])
+# laser_reference_coords = np.array([[,], [,], [,]])
 
 # %% Calculate Transform ---------------------------------------------------------------
 transform = affine_transform(
     affine_from_AB(pixel_reference_coords, laser_reference_coords)
 )
 
+# these are the magic points we want
 laser_sample_coords = transform(pixel_sample_coords)
 
 # %% Export to .Scancsv file -----------------------------------------------------------
+# lets save them so we can directly impor them
 points_to_scancsv(
     laser_sample_coords, filename=output_filename, spotname_prefix=spotname_prefix
 )
-pixel_reference_coords
 # %% Visualise the Transform
 from autopew.util.plot import plot_transform
-pixel_reference_coords
+
 fig = plot_transform(
     pixel_sample_coords,
     tfm=transform,
