@@ -37,7 +37,7 @@ def image_point_registration(img, timeout=None):
     if hasattr(fig, "timer"):
         fig.canvas.mpl_connect("scroll_event", fig.timer.reset)
 
-    position_figure(fig, size=screensize())
+    position_figure(fig)
     plt.show(block=True)  # will be alive until close
     plt.ioff()  # turn interactive mode off, other plots won't be kept alive
     if ipython is not None:
