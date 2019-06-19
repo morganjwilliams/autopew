@@ -23,7 +23,12 @@ def _unpad(x):
 
 def affine_from_AB(X, Y):
     """
-    Create an affine transform matrix based on two sets of coordinates.
+    Create an affine transforamtion matrix based on two sets of coordinates.
+
+    note
+    -----
+
+        * This is an augmented matrix, and includes the translation component
     """
     assert X.shape == Y.shape
     # least squares X * A = Y
@@ -37,3 +42,43 @@ def affine_transform(A):
     Create an affine transform function based on affine matrix A.
     """
     return lambda x: _unpad(np.dot(_pad(x), A))
+
+
+def translate(xy=[0, 0]):
+    """
+    Generate a 2D affine translation matrix.
+    """
+    T = np.eye(3)
+    T[-1, :-1] = np.array(xy)
+    return T
+
+
+def rotation(theta=0, degrees=True):
+    """
+    Generate a 2D affine rotation matrix.
+    """
+    θ = np.deg2rad(theta)
+    R = np.eye(3)
+    R[[0, 1], [0, 1]] = np.cos(θ)
+    R[[1, 0], [0, 1]] = -np.sin(θ), np.sin(θ)
+    return R
+
+
+def zoom(x=1, y=1):
+    """
+    Generate a 2D affine zoom matrix.
+    """
+    Z = np.eye(3)
+    Z[0, 0] = x
+    Z[1, 1] = y
+    return Z
+
+
+def shear(x=0, y=0):
+    """
+    Generate a 2D affine shear matrix.
+    """
+    S = np.eye(3)
+    S[0, 1] = y
+    S[1, 0] = x
+    return S
