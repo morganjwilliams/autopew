@@ -19,7 +19,7 @@ def position_figure(fig, pos=None, size=None, scale=0.9, offset=0.05):
         size = size or scale * np.array(mgr.window.maxsize())
         pos = pos or offset * size
         mgr.resize(*size)
-        mgr.window.wm_geometry("+{:d}+{:d}".format(*[i for i in pos]))
+        mgr.window.wm_geometry("+{:d}+{:d}".format(*[int(i) for i in pos]))
     elif backend == "WXAgg":  # need to find a way to set size
         # size = scale * mgr.window.maxsize()
         # pos = pos or offset * size
