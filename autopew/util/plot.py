@@ -98,8 +98,8 @@ def plot_transform(
 
     ax[0].set_title(titles[0])
     ax[1].set_title(titles[1])
-    ax[0].scatter(*srcpoints.T, marker="x", c="k", alpha=0.2)
-    ax[1].scatter(*destpoints.T, marker="x", c="r", alpha=0.2)
+    ax[0].scatter(*srcpoints.T, marker="x", c="k", alpha=0.8)
+    ax[1].scatter(*destpoints.T, marker="x", c="r", alpha=0.8)
 
     if refpoints is not None:
         s = fig.get_size_inches()[0] * 6.0
@@ -109,7 +109,9 @@ def plot_transform(
         ax[1].scatter(*tfm(refpoints).T, **st)
 
     if hull:
-        lines = plot_2dhull(srcpoints, ax=ax[0], splines=False, color="k", ls="-", lw=0.5)
+        lines = plot_2dhull(
+            srcpoints, ax=ax[0], splines=False, color="k", ls="-", lw=0.5
+        )
         ax[1].plot(*tfm(lines[0].get_path().vertices).T, color="k", ls="-", lw=0.5)
 
     ax[1].yaxis.tick_right()
