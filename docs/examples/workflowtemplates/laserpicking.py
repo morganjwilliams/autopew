@@ -23,20 +23,43 @@ spotname_prefix = "Spot"
 
 # %% Pixel Sample Points ------------------------------------------------------------
 # Have some pixel coordinates ready?
-pixel_sample_coords = np.array([[3, 8], [5, 2], [1, 0], [9, 8], [9, 9], [4, 3]])
+
+pixel_sample_coords = np.array(
+    [
+        [831, 596],
+        [166, 471],
+        [835, 496],
+        [807, 61],
+        [981, 629],
+        [341, 749],
+        [746, 705],
+        [773, 909],
+        [159, 581],
+        [219, 573],
+        [846, 765],
+        [88, 725],
+        [20, 462],
+        [757, 7],
+        [317, 909],
+        [181, 954],
+        [810, 566],
+        [434, 519],
+    ]
+)
+
 # OR, Want to pick them from an image you have handy?
-pixel_sample_coords = pick_points(imagepath)
+# pixel_sample_coords = pick_points(imagepath)
 
 # %% Pixel Reference Points ------------------------------------------------------------
 # Have some pixel coordinates ready?
-pixel_reference_coords = np.array([[0, 0], [10, 10], [10, 0], [0, 10]])
+# pixel_reference_coords = np.array([[0, 0], [10, 10], [10, 0], [0, 10]])
 # OR, Want to pick them from an image you have handy?
 pixel_reference_coords = pick_points(imagepath)
 
 # %% Laser Reference Points ------------------------------------------------------------
 # Have some laser coordinates ready?
 laser_reference_coords = np.array(
-    [[45000, 14000], [50000, 25000], [30000, 270000], [32000, 210000]]
+    [[15000, 45000], [50000, 13000], [10000, 5000], [32000, 27000]]
 )
 # Want to import them from a .scancsv file?
 # laser_reference_coords = np.array([[,], [,], [,]])
@@ -54,5 +77,14 @@ laser_sample_coords = transform(pixel_sample_coords)
 points_to_scancsv(
     laser_sample_coords, filename=output_filename, spotname_prefix=spotname_prefix
 )
-
-# %% --
+pixel_reference_coords
+# %% Visualise the Transform
+from autopew.util.plot import plot_transform
+pixel_reference_coords
+fig = plot_transform(
+    pixel_sample_coords,
+    tfm=transform,
+    refpoints=pixel_reference_coords,
+    invert0=[False, True],
+    invert1=[False, True],
+)
