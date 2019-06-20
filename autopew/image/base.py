@@ -2,24 +2,32 @@ import numpy as np
 import matplotlib.image
 from pathlib import Path
 import PIL.Image
+from ..transform.affine import affine_from_AB, affine_transform, zoom, translate
 from ..util.plot import bin_edges_to_centres
 
 PIL.Image.MAX_IMAGE_PIXELS = 1900000000
 
 
 class PewImage(object):
-    def __init__(self, img):
-        self.load_imagearray(img)
+    def __init__(self, img, extent=None):
+        self.load_image(img)
         self.shape = self.image.size
+
+        self.extent = extent
+        if self.extent is None:
+            self.extent = np.array([[0, 0], [*self.shape]]).T.flatten()
+        # should update these to use extent
         self.pixelcoords = np.meshgrid(
             *[bin_edges_to_centres(np.arange(s + 1)) for s in self.shape]
         )
         self.pixelbins = np.meshgrid(*[np.arange(s + 1) for s in self.shape])
 
-    def load_imagearray(self, img):
+    def load_image(self, img):
         """Load an image and deal with formatting etc."""
         if isinstance(img, str) or isinstance(img, Path):
-            self.image = PIL.Image.Image(img)  # .transpose(1, 0, 2)
+            self.image = PIL.Image.open(img)  # .transpose(1, 0, 2)
+        elif isinstance(img, PIL.Image.Image):
+            self.image = img
         elif isinstance(img, self.__class__):
             self.image = img.image
         elif isinstance(img, np.ndarray):
