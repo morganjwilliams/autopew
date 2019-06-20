@@ -23,12 +23,7 @@ def read_lasefile(filename, encoding="cp1252"):
 
     Returns
     ---------
-    :class:`dict`
-
-    Todo
-    ------
-
-        * DataFrame return
+    :class:`pandas.DataFrame`
     """
     path = Path(filename)
     if not path.suffix == ".lase":
@@ -45,7 +40,8 @@ def read_lasefile(filename, encoding="cp1252"):
             var, value = re.split("=", l, maxsplit=1)
             data[section][var] = value
 
-    return data
+    df = get_scandata(data["Scans"])
+    return df
 
 
 def get_scandata(scandict):
@@ -102,8 +98,8 @@ def read_scancsv(filename, encoding="cp1252"):
     for ix, l in enumerate(scanfilelines[1:]):
         scanfiledict[ix] = l
 
-    data = get_scandata(scanfiledict)
-    return data
+    df = get_scandata(scanfiledict)
+    return df
 
 
 class ScanData(object):
