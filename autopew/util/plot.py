@@ -18,17 +18,6 @@ def data_to_pixels_transform(ax):
     return lambda x: a2p(d2a(x))
 
 
-def maprgb(img):
-    c = img.reshape(-1, 3) / 255.0
-    r, g, b = c.T
-    r, g, b = (
-        r.flatten().reshape(img.shape[:-1]),
-        g.flatten().reshape(img.shape[:-1]),
-        b.flatten().reshape(img.shape[:-1]),
-    )
-    return r, g, b, c
-
-
 def bin_centres_to_edges(centres):
     """
     Translates point estimates at the centres of bins to equivalent edges,
