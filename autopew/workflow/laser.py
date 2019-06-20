@@ -1,9 +1,8 @@
 import csv
 import pandas as pd
 from pathlib import Path
-import logging
-
 from ..io.laser.writelase import xy2scansv
+import logging
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)

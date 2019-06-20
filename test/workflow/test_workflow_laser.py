@@ -1,6 +1,6 @@
 import unittest
 import matplotlib.pyplot as plt
-from autopew.workflow.laser import *
+from autopew.workflow.laser import points_to_scancsv
 
 
 class TestPoints2Scanscv(unittest.TestCase):

@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from ..image import Image
+from ..image import PewImage
 from ..gui.base import screensize
 from ..gui.windows import image_point_registration
 import logging
@@ -25,5 +25,5 @@ def pick_points(image_path, **kwargs):
     """
     Pick points on an image.
     """
-    img = Image(image_path)
+    img = PewImage(image_path)
     return image_point_registration(img.image, **kwargs)
