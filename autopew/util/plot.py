@@ -61,6 +61,7 @@ def plot_transform(
     dest=None,
     tfm=None,
     ref=None,
+    ax=None,
     sharex=False,
     sharey=False,
     invert0=[False, False],
@@ -73,13 +74,16 @@ def plot_transform(
     Visualise an affine transfrom.
     """
     assert not ((dest is None) and (tfm is None))
+    src = np.array(src)
     if dest is None:
-        dest = np.array(tfm(src))
+        dest = tfm(src)
     else:
         tfm = affine_transform(affine_from_AB(src, dest))
 
-    src = np.array(src)
-    fig, ax = plt.subplots(1, 2, figsize=figsize, sharex=sharex, sharey=sharey)
+    if ax is None:
+        fig, ax = plt.subplots(1, 2, figsize=figsize, sharex=sharex, sharey=sharey)
+    else:
+        fig = ax[0].figure
     for a in ax:
         a.patch.set_alpha(0)
 
