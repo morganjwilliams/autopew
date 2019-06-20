@@ -21,24 +21,18 @@ output_filename = Path("./") / "exportedpoints.scancsv"
 spotname_prefix = "Spot"
 # First we Need Some Coordinates.
 
-# %% Pixel Sample Points ------------------------------------------------------------
+# %% PIXEL SAMPLE POINTS ---------------------------------------------------------------
 # Have some pixel coordinates ready?
-
 pixel_sample_coords = np.array(
     [
         [831, 596],
         [166, 471],
-        [835, 496],
         [807, 61],
         [981, 629],
         [341, 749],
         [746, 705],
         [773, 909],
         [159, 581],
-        [219, 573],
-        [846, 765],
-        [88, 725],
-        [20, 462],
         [757, 7],
         [317, 909],
         [181, 954],
@@ -46,35 +40,39 @@ pixel_sample_coords = np.array(
         [434, 519],
     ]
 )
-
 # OR, Want to pick them from an image you have handy?
 # pixel_sample_coords = pick_points(imagepath)
 
-# %% Pixel Reference Points ------------------------------------------------------------
+# %% PIXEL REFERENCE POINTS ------------------------------------------------------------
 # Have some pixel coordinates ready?
 # pixel_reference_coords = np.array([[0, 0], [10, 10], [10, 0], [0, 10]])
 # OR, Want to pick them from an image you have handy?
 pixel_reference_coords = pick_points(imagepath)
 
-# %% Laser Reference Points ------------------------------------------------------------
-# Have some laser coordinates ready?
-laser_reference_coords = np.array(
-    [[15000, 45000], [50000, 13000], [10000, 5000], [32000, 27000]]
-)
-# Want to import them from a .scancsv file?
-# laser_reference_coords = np.array([[,], [,], [,]])
-# Want to import them from a .csv file?
-# laser_reference_coords = np.array([[,], [,], [,]])
+# %% LASER REFERENCE POINTS ------------------------------------------------------------
 
-# %% Calculate Transform ---------------------------------------------------------------
+# Have some laser coordinates ready?
+# laser_reference_coords = np.array([[15, 45], [50, 13], [10, 5], [32, 27]]) * 1000.0
+
+# Want to import them from a .scancsv file?
+scancsvpath = Path("./../../../autopew/auotpew/data/examples") / "autopew_test.scancsv"
+l = read_scancsv(scancsvpath.resolve()).iloc[:3, 5]
+items = zip(l.index, l.apply(lambda x: x[0][:2]))
+laser_reference_coords = pd.DataFrame.from_items(items).T.astype(float)
+
+# Want to import them from a .csv file?
+# csvpath = Path("./../../../autopew/auotpew/data/examples") / "autopew_test.csv"
+# laser_reference_coords = pd.read_csv(csvpath, sep=',')
+
+# %% CALCULATE TRANSFORM ---------------------------------------------------------------
 transform = affine_transform(
     affine_from_AB(pixel_reference_coords, laser_reference_coords)
 )
-
+# %% TRANSFORM SAMPLE POINTS -----------------------------------------------------------
 # these are the magic points we want
 laser_sample_coords = transform(pixel_sample_coords)
 
-# %% Export to .Scancsv file -----------------------------------------------------------
+# %% EXPORT to .Scancsv file -----------------------------------------------------------
 # lets save them so we can directly impor them
 points_to_scancsv(
     laser_sample_coords, filename=output_filename, spotname_prefix=spotname_prefix
