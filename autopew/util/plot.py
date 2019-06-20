@@ -68,10 +68,10 @@ def plot_2dhull(data, ax=None, s=0, **plotkwargs):
 
 
 def plot_transform(
-    srcpoints,
-    destpoints=None,
+    src,
+    dest=None,
     tfm=None,
-    refpoints=None,
+    ref=None,
     sharex=False,
     sharey=False,
     invert0=[False, False],
@@ -83,21 +83,21 @@ def plot_transform(
     """
     Visualise an affine transfrom.
     """
-    assert not ((destpoints is None) and (tfm is None))
-    if destpoints is None:
-        destpoints = np.array(tfm(srcpoints))
+    assert not ((dest is None) and (tfm is None))
+    if dest is None:
+        dest = np.array(tfm(src))
     else:
-        tfm = affine_transform(affine_from_AB(srcpoints, destpoints))
+        tfm = affine_transform(affine_from_AB(src, dest))
 
-    srcpoints = np.array(srcpoints)
+    src = np.array(src)
     fig, ax = plt.subplots(1, 2, figsize=figsize, sharex=sharex, sharey=sharey)
     for a in ax:
         a.patch.set_alpha(0)
 
-    for ix in range(srcpoints.shape[0]):
+    for ix in range(src.shape[0]):
         con = ConnectionPatch(
-            xyA=srcpoints[ix],
-            xyB=destpoints[ix],
+            xyA=src[ix],
+            xyB=dest[ix],
             coordsA="data",
             coordsB="data",
             axesA=ax[0],
@@ -111,17 +111,17 @@ def plot_transform(
 
     ax[0].set_title(titles[0])
     ax[1].set_title(titles[1])
-    ax[0].scatter(*srcpoints.T, marker="x", c="k", alpha=0.8)
-    ax[1].scatter(*destpoints.T, marker="x", c="r", alpha=0.8)
+    ax[0].scatter(*src.T, marker="x", c="k", alpha=0.8)
+    ax[1].scatter(*dest.T, marker="x", c="r", alpha=0.8)
 
-    if refpoints is not None:
+    if ref is not None:
         s = fig.get_size_inches()[0] * 6.0
-        refpoints = np.array(refpoints)
-        trefpoints = tfm(refpoints)
-        for ix in range(refpoints.shape[0]):
+        ref = np.array(ref)
+        tref = tfm(ref)
+        for ix in range(ref.shape[0]):
             con = ConnectionPatch(
-                xyA=refpoints[ix],
-                xyB=trefpoints[ix],
+                xyA=ref[ix],
+                xyB=tref[ix],
                 coordsA="data",
                 coordsB="data",
                 axesA=ax[0],
@@ -133,14 +133,14 @@ def plot_transform(
             )
             ax[0].add_artist(con)
         st = dict(edgecolors="k", facecolors="none", marker="o", s=s)
-        ax[0].scatter(*refpoints.T, **st)
-        ax[1].scatter(*trefpoints.T, **st)
+        ax[0].scatter(*ref.T, **st)
+        ax[1].scatter(*tref.T, **st)
 
     if hull:
-        hullpoints = srcpoints
-        if refpoints is not None:  # incorporate the reference points here too
-            hullpoints = np.vstack([srcpoints, refpoints])
-        lines = plot_2dhull(hullpoints, ax=ax[0], color="k", ls="-", lw=0.5)
+        _hull = src
+        if ref is not None:  # incorporate the reference points here too
+            _hull = np.vstack([_hull, ref])
+        lines = plot_2dhull(_hull, ax=ax[0], color="k", ls="-", lw=0.5)
         ax[1].plot(*tfm(lines[0].get_path().vertices).T, color="k", ls="-", lw=0.5)
 
     ax[1].yaxis.tick_right()

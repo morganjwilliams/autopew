@@ -14,7 +14,7 @@ class TestPlotTransform(unittest.TestCase):
         plt.close("all")
 
     def test_default(self):
-        fig = plot_transform(self.src, self.dest)
+        fig = plot_transform(self.src, dest=self.dest)
 
 
 if __name__ == "__main__":
