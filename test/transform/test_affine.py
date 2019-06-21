@@ -8,13 +8,29 @@ from autopew.transform.affine import (
     shear,
     zoom,
     translate,
-    rotation,
+    rotate,
     _pad,
     _unpad,
 )
 
 
+class TestAffineComponents(unittest.TestCase):
+    """
+    Test the affine matrix components.
+    """
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+
 class TestAffine(unittest.TestCase):
+    """
+    Test the affine matrix calculation and affine transform function.
+    """
+
     def setUp(self):
         # Two sets of points in 3D
         self.p0 = np.array(((1.0, 1.0, 1.0), (1.0, 2.0, 1.0), (1.0, 1.0, 2.0)))
@@ -173,7 +189,7 @@ class TestAffine(unittest.TestCase):
         ).T
         rp = np.random.rand(100, 2) * end
 
-        A = zoom(1.0, 1.5) @ rotation(-50) @ shear(0.6, -0.05) @ translate([2, 2])
+        A = zoom(1.0, 1.5) @ shear(0.1, -0.5) @ rotate(50) @ translate([2, 2])
 
         tfm = lambda x: _unpad(_pad(x) @ A)
 
