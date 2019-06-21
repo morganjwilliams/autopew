@@ -2,7 +2,7 @@ import unittest
 import numpy as np
 from scipy import misc
 import matplotlib.pyplot as plt
-from autopew.image import PewImage
+from autopew.image.base import PewImage, affine_extent, extent_to_size
 from autopew.transform.affine import zoom, rotate, translate, shear, affine_transform
 import PIL.Image
 
