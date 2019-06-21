@@ -35,17 +35,42 @@ class PewImage(object):
         else:
             raise NotImplementedError
 
-    def transform(self, A, size=None, resample=PIL.Image.NEAREST):
+    def thumb(self, frac=0.1):
+        """
+        Return a thumbnail downsampled version of the image.
+        """
+        size = np.ceil(frac * np.array(self.shape).flatten()).astype(int)
+        return PewImage(
+            self.image.resize(tuple(size), PIL.Image.LANCZOS), extent=self.extent
+        )
+
+    def affine_extent(self, A):
+        """
+        Get the extent of the corners of the image (x0, x1, y0, y1) after an affine
+        transform A.
+        """
+        tfm = affine_transform(A)
+        x0, x1, y0, y1 = self.extent
+        corners = np.array([[x0, y0], [x1, y0], [x1, y0], [x1, y1]])
+        tcorners = tfm(corners)
+        return np.array(
+            [np.min(tcorners, axis=0), np.max(tcorners, axis=0)]
+        ).T.flatten()
+
+    def affine_transform(self, A, resample=PIL.Image.NEAREST):
         """
         Transform the image via an affine transformation matrix using PIL.
         """
-        size = size or self.im.size
-        return self.image.transform(
-            size,
+        Z = zoom(*(1 / A.diagonal()[:-1]).flatten())  #  remove zoom from A
+        M = Z @ A
+        # get the size after affine transform, minus the zoom
+        image = self.image.transform(
+            self.image.size, # need to expand this due to shear/rotation effects
             PIL.Image.AFFINE,
-            data=np.linalg.inv(A)[:-1, :].flatten(),
+            data=np.linalg.inv(M)[:-1, :].flatten(),
             resample=resample,
         )
+        return image
 
     def maprgb(self):
         """
