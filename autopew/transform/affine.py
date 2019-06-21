@@ -14,10 +14,12 @@ __RCOND__ = [-1, None][sys.version_info >= (3, 7)]  # 3.6 will fail with lapack 
 
 
 def _pad(x):
+    x = np.array(x)
     return np.hstack([x, np.ones((x.shape[0], 1))])
 
 
 def _unpad(x):
+    x = np.array(x)
     return x[:, :-1]
 
 
@@ -41,8 +43,13 @@ def affine_from_AB(X, Y):
 def affine_transform(A):
     """
     Create an affine transform function based on affine matrix A.
+
+    Todo
+    -----
+
+        * Could refine this to accept scalars, lists etc
     """
-    return lambda x: _unpad(np.dot(_pad(x), A))
+    return lambda x: _unpad(np.dot(_pad(np.array(x)), A))
 
 
 def translate(xy=[0, 0]):
