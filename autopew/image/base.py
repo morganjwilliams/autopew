@@ -12,6 +12,32 @@ logger = logging.getLogger(__name__)
 PIL.Image.MAX_IMAGE_PIXELS = 1900000000
 
 
+def affine_extent(A, size):
+    """
+    Get the after an affine transform using matrix A from the bounds of the image
+    of a specified size.
+
+    [x0, y0] - [x1, y0]
+       |     X    |
+    [x0, y1] - [x1, y1]
+    """
+    tfm = affine_transform(A)
+    x0, x1, y0, y1 = np.array([[0, 0], [*size]]).T.flatten()
+    corners = np.array([[x0, y0], [x1, y0], [x1, y1], [x0, y1]])
+    tcorners = tfm(corners)
+    extent = np.array([np.min(tcorners, axis=0), np.max(tcorners, axis=0)]).T.flatten()
+    return extent
+
+
+def extent_to_size(extent, type=int):
+    """
+    Calculate the size spanned by a given extent.
+    """
+    x0, x1, y0, y1 = extent
+    size = np.ceil(np.abs([x1 - x0, y1 - y0]))
+    return tuple(size.astype(type))
+
+
 class PewImage(object):
     def __init__(self, img, extent=None):
         self.load_image(img)
@@ -46,33 +72,36 @@ class PewImage(object):
         size = np.ceil(frac * np.array(self.shape).flatten()).astype(int)
         return PewImage(self.image.resize(tuple(size), resample), extent=self.extent)
 
-    def affine_extent(self, A):
-        """
-        Get the extent of the corners of the image (x0, x1, y0, y1) after an affine
-        transform A.
-        """
-        tfm = affine_transform(A)
-        x0, x1, y0, y1 = self.extent
-        corners = np.array([[x0, y0], [x1, y0], [x1, y0], [x1, y1]])
-        tcorners = tfm(corners)
-        return np.array(
-            [np.min(tcorners, axis=0), np.max(tcorners, axis=0)]
-        ).T.flatten()
-
     def affine_transform(self, A, resample=PIL.Image.NEAREST):
         """
         Transform the image via an affine transformation matrix using PIL.
+
+        T1 @ A @ T2
         """
-        Z = zoom(*(1 / A.diagonal()[:-1]).flatten())  #  remove zoom from A
-        M = Z @ A
-        # get the size after affine transform, minus the zoom
+        # translate to the origin
+        toorigin = translate(-np.array(self.image.size) / 2.0)
+        A = toorigin @ A
+        newextent = affine_extent(A, self.image.size)  # should be +/- from the origin
+        newsize = extent_to_size(newextent)
+        logger.info("Centering extent to: {} @ {}".format(newsize, newextent))
+        # translate centre from the origin
+        fromorigin = translate(np.array(newsize) / 2.0)
+        A = A @ fromorigin
+        # where this zoom occurs may be incorrect
+        # Z = zoom(*(1.0 / A.diagonal()[:-1]).flatten())
+        # A = A @ Z
+        newextent = affine_extent(A, self.image.size)
+        newsize = extent_to_size(newextent)
+        logger.info("Offsetting extent to: {} @ {}".format(newsize, newextent))
+
+        logger.info("Creating new image with size: {}".format(newsize))
         image = self.image.transform(
-            self.image.size, # need to expand this due to shear/rotation effects
+            newsize,  # need to expand this due to shear/rotation effects
             PIL.Image.AFFINE,
-            data=np.linalg.inv(M)[:-1, :].flatten(),
-            resample=resample,
+            data=np.linalg.inv(A.T)[:-1, :].flatten(),
+            resample=PIL.Image.BILINEAR,
         )
-        return image
+        return PewImage(image, extent=newextent)
 
     def maprgb(self):
         """

@@ -67,7 +67,7 @@ def rotate(theta=0, degrees=True):
 
     Uses clockwise rotations.
     """
-    θ = np.deg2rad(theta)
+    θ = np.deg2rad(-theta)
     R = np.eye(3)
     R[[0, 1], [0, 1]] = np.cos(θ)
     R[[1, 0], [0, 1]] = -np.sin(θ), np.sin(θ)
