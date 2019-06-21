@@ -19,7 +19,7 @@ class PewImage(object):
 
         self.extent = extent
         if self.extent is None:
-            self.extent = np.array([[0, 0], [*self.shape]]).T.flatten()
+            self.extent = np.array([[0, 0], [*self.image.size]]).T.flatten()
         # should update these to use extent
         self.pixelcoords = np.meshgrid(
             *[bin_edges_to_centres(np.arange(s + 1)) for s in self.shape]
@@ -39,14 +39,12 @@ class PewImage(object):
         else:
             raise NotImplementedError
 
-    def thumb(self, frac=0.1):
+    def thumb(self, frac=0.05, resample=PIL.Image.BILINEAR):
         """
         Return a thumbnail downsampled version of the image.
         """
         size = np.ceil(frac * np.array(self.shape).flatten()).astype(int)
-        return PewImage(
-            self.image.resize(tuple(size), PIL.Image.LANCZOS), extent=self.extent
-        )
+        return PewImage(self.image.resize(tuple(size), resample), extent=self.extent)
 
     def affine_extent(self, A):
         """
