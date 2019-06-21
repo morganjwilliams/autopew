@@ -61,9 +61,11 @@ def translate(xy=[0, 0]):
     return T
 
 
-def rotation(theta=0, degrees=True):
+def rotate(theta=0, degrees=True):
     """
     Generate a 2D affine rotation matrix.
+
+    Uses clockwise rotations.
     """
     θ = np.deg2rad(theta)
     R = np.eye(3)

@@ -4,6 +4,10 @@ from pathlib import Path
 import PIL.Image
 from ..transform.affine import affine_from_AB, affine_transform, zoom, translate
 from ..util.plot import bin_edges_to_centres
+import logging
+
+logging.getLogger(__name__).addHandler(logging.NullHandler())
+logger = logging.getLogger(__name__)
 
 PIL.Image.MAX_IMAGE_PIXELS = 1900000000
 
