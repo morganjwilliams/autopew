@@ -57,7 +57,7 @@ def translate(xy=[0, 0]):
     Generate a 2D affine translation matrix.
     """
     T = np.eye(3)
-    T[-1, :-1] = np.array(xy)
+    T[:-1, -1] = np.array(xy)
     return T
 
 
@@ -67,7 +67,7 @@ def rotate(theta=0, degrees=True):
 
     Uses clockwise rotations.
     """
-    θ = np.deg2rad(-theta)
+    θ = np.deg2rad(theta)
     R = np.eye(3)
     R[[0, 1], [0, 1]] = np.cos(θ)
     R[[1, 0], [0, 1]] = -np.sin(θ), np.sin(θ)
@@ -89,6 +89,6 @@ def shear(x=0, y=0):
     Generate a 2D affine shear matrix.
     """
     S = np.eye(3)
-    S[0, 1] = y
-    S[1, 0] = x
+    S[0, 1] = x
+    S[1, 0] = y
     return S

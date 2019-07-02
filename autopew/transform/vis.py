@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches
 import matplotlib.transforms
+from .affine import affine_transform
 
 
 def vis(A, ax=None):

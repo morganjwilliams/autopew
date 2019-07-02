@@ -54,115 +54,97 @@ class TestAffine(unittest.TestCase):
         """Check function for translations."""
 
         p0 = np.array([[0.0, 0.0], [1.0, 1.0], [0.0, 1.0]])
-        translate = lambda x: x + np.array([1, 1])
-        p1 = translate(p0)
+        T = affine_transform(translate([1, 1]))
+        p1 = T(p0)
         A = affine_from_AB(p0, p1)  # matrix
         tfm = affine_transform(A)
         for src in [np.array([[-1, 1]]), np.array([[-100, 1]]), np.array([[100, 1]])]:
             with self.subTest(src=src):
                 out = tfm(src)
-                expect = translate(src)
+                expect = T(src)
+                print(out, expect)
                 self.assertTrue(np.isclose(out, expect).all())
 
     def test_affine_right_angle_rotate(self):
-        """Check function for translations."""
+        """Check function for 90 degree rotation."""
 
         p0 = np.array([[0.0, 0.0], [1.0, 1.0], [0.0, 1.0]])
-        rotate = lambda x: x[:, ::-1] * np.array([1, -1])  # 90 degree right rotation
-        p1 = rotate(p0)
+        T = affine_transform(rotate(90))
+        p1 = T(p0)
         A = affine_from_AB(p0, p1)  # matrix
         tfm = affine_transform(A)
         for src in [np.array([[-1, 1]]), np.array([[-100, 1]]), np.array([[100, 1]])]:
             with self.subTest(src=src):
                 out = tfm(src)
-                expect = rotate(src)
-                self.assertTrue(np.isclose(out, expect).all())
-
-    def test_affine_xyflip(self):
-        """Check function for translations."""
-
-        p0 = np.array([[0.0, 0.0], [1.0, 1.0], [0.0, 1.0]])
-        rotate = lambda x: x[:, ::-1]
-        p1 = rotate(p0)
-        A = affine_from_AB(p0, p1)  # matrix
-        tfm = affine_transform(A)
-        for src in [np.array([[-1, 1]]), np.array([[-100, 1]]), np.array([[100, 1]])]:
-            with self.subTest(src=src):
-                out = tfm(src)
-                expect = rotate(src)
+                expect = T(src)
                 self.assertTrue(np.isclose(out, expect).all())
 
     def test_affine_shear(self):
-        """Check function for translations."""
+        """Check function for shear."""
 
         p0 = np.array([[0.0, 0.0], [1.0, 1.0], [0.0, 1.0]])
-        shear = lambda x: x + x[:, ::-1] * np.array(
-            [1.5, 0]
-        )  # 90 degree right rotation
-        p1 = shear(p0)
+        T = affine_transform(shear(1.5, 0))
+        p1 = T(p0)
         A = affine_from_AB(p0, p1)  # matrix
         tfm = affine_transform(A)
         for src in [np.array([[-1, 1]]), np.array([[-100, 1]]), np.array([[100, 1]])]:
             with self.subTest(src=src):
                 out = tfm(src)
-                expect = shear(src)
+                expect = T(src)
                 self.assertTrue(np.isclose(out, expect).all())
 
-    def test_affine_homogeneous_scale(self):
-        """Check function for in homegeneous scale."""
+    def test_affine_homogeneous_zoom(self):
+        """Check function for in homegeneous zoom."""
 
         p0 = np.array([[0.0, 0.0], [1.0, 1.0], [0.0, 1.0]])
-        scale = lambda x: x * np.array([2.0, 1.5])  # 150% y stretch
-        p1 = scale(p0)
+        T = affine_transform(zoom(1.5, 1.5))
+        p1 = T(p0)
         A = affine_from_AB(p0, p1)  # matrix
         tfm = affine_transform(A)
         for src in [np.array([[-1, 1]]), np.array([[-100, 1]]), np.array([[100, 1]])]:
             with self.subTest(src=src):
                 out = tfm(src)
-                expect = scale(src)
+                expect = T(src)
                 self.assertTrue(np.isclose(out, expect).all())
 
     def test_affine_negative_homogeneous_scale(self):
         """Check function for in homegeneous scale."""
 
         p0 = np.array([[0.0, 0.0], [1.0, 1.0], [0.0, 1.0]])
-        scale = lambda x: x * np.array([-2.0, -1.5])  # 150% y stretch
-        p1 = scale(p0)
+        T = affine_transform(zoom(-1.5, -1.5))
+        p1 = T(p0)
         A = affine_from_AB(p0, p1)  # matrix
         tfm = affine_transform(A)
         for src in [np.array([[-1, 1]]), np.array([[-100, 1]]), np.array([[100, 1]])]:
             with self.subTest(src=src):
                 out = tfm(src)
-                expect = scale(src)
+                expect = T(src)
                 self.assertTrue(np.isclose(out, expect).all())
 
     def test_affine_inhomogeneous_scaley(self):
         """Check function for inhomegeneous scale."""
 
         p0 = np.array([[0.0, 0.0], [1.0, 1.0], [0.0, 1.0]])
-        scale = lambda x: x * np.array([1, 1.5])  # 150% y stretch
-        p1 = scale(p0)
+        T = affine_transform(zoom(1., 1.5))
+        p1 = T(p0)
         A = affine_from_AB(p0, p1)  # matrix
         tfm = affine_transform(A)
         for src in [np.array([[-1, 1]]), np.array([[-100, 1]]), np.array([[100, 1]])]:
             with self.subTest(src=src):
                 out = tfm(src)
-                expect = scale(src)
+                expect = T(src)
                 self.assertTrue(np.isclose(out, expect).all())
 
     def test_affine_composite_transform(self):
-        scale = lambda x: x * np.array([1, 1.5])  # 150% y stretch
-        rotate = lambda x: x[:, ::-1] * np.array([1, -1])  # 90 degree right rotation
-        translate = lambda x: x + np.array([1, 1])
-
         p0 = np.array([[0.0, 0.0], [1.0, 1.0], [0.0, 1.0]])
-        p1 = rotate(scale(translate(p0)))
+        T = affine_transform(zoom(1, 1.5) @ rotate(90) @ translate([1,1]))
+        p1 = T(p0)
         A = affine_from_AB(p0, p1)  # matrix
         tfm = affine_transform(A)
         for src in [np.array([[-1, 1]]), np.array([[-100, 1]]), np.array([[100, 1]])]:
             with self.subTest(src=src):
                 out = tfm(src)
-                expect = rotate(scale(translate(src)))
+                expect = T(src)
                 self.assertTrue(np.isclose(out, expect).all())
 
     def test_affine_reversibility(self):
