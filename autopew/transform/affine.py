@@ -5,6 +5,7 @@ import sys
 import logging
 import numpy as np
 from matplotlib.transforms import Affine2D
+import scipy.linalg
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
@@ -37,7 +38,7 @@ def affine_from_AB(X, Y):
     # least squares X * A = Y
     A, res, rank, s = np.linalg.lstsq(_pad(X), _pad(Y), rcond=__RCOND__)
     A[np.isclose(A, 0.0)] = 0.0
-    return A
+    return A.T
 
 
 def affine_transform(A):
@@ -49,15 +50,15 @@ def affine_transform(A):
 
         * Could refine this to accept scalars, lists etc
     """
-    return lambda x: _unpad(np.dot(_pad(np.array(x)), A))
+    return lambda x: _unpad(np.dot(_pad(np.array(x)), A.T))
 
 
-def translate(xy=[0, 0]):
+def translate(x=0, y=0):
     """
     Generate a 2D affine translation matrix.
     """
     T = np.eye(3)
-    T[:-1, -1] = np.array(xy)
+    T[:-1, -1] = np.array([x, y])
     return T
 
 
@@ -92,3 +93,46 @@ def shear(x=0, y=0):
     S[0, 1] = x
     S[1, 0] = y
     return S
+
+
+def compose_affine2d(T=translate(0, 0), Z=zoom(1, 1), R=rotate(0)):
+    """
+    Compose an affine transformation matrix based on translation, zoom and rotation
+    components.
+
+    Parameters
+    -----------
+    T, Z, R : :class:`numpy.ndarray`
+        Component affine transfrom matricies for translation, zoom/scaling and rotation.
+
+    Returns
+    ---------
+    A : :class:`numpy.ndarray`
+    """
+    A = T @ Z @ R
+    return A
+
+
+def decompose_affine2d(A):
+    """
+    Decompose an affine transform into components using a polar transform.
+
+    Returns
+    --------
+    T, Z, R : :class:`numpy.ndarray`
+
+    Note
+    -----
+
+        This decomposes the transform into the sequence rotation - zoom - translation.
+
+        To recompose this transform,
+    """
+    T = np.eye(3)
+    T[:-1, -1] = A[:-1, -1]
+    M = A.copy()
+    M[:-1, -1] = 0.0
+    R, Z = scipy.linalg.polar(M, side="left")
+    for arr in [T, Z, R]:
+        arr[np.isclose(arr, 0)] = 0.0
+    return T, Z, R

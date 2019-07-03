@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.image
 from pathlib import Path
 import PIL.Image
+import PIL.ImageOps
 from ..transform.affine import affine_from_AB, affine_transform, zoom, translate
 from ..util.plot import bin_edges_to_centres
 import logging
@@ -13,6 +14,7 @@ PIL.Image.MAX_IMAGE_PIXELS = 1900000000
 
 
 def affine_extent(A, size):
+def affine_extent(A, size, reversey=False):
     """
     Get the after an affine transform using matrix A from the bounds of the image
     of a specified size.
@@ -20,12 +22,16 @@ def affine_extent(A, size):
     [x0, y0] - [x1, y0]
        |     X    |
     [x0, y1] - [x1, y1]
+
+    > [x0, x1, y0, y1]
     """
     tfm = affine_transform(A)
     x0, x1, y0, y1 = np.array([[0, 0], [*size]]).T.flatten()
     corners = np.array([[x0, y0], [x1, y0], [x1, y1], [x0, y1]])
     tcorners = tfm(corners)
     extent = np.array([np.min(tcorners, axis=0), np.max(tcorners, axis=0)]).T.flatten()
+    if reversey:
+        extent = extent[[0, 1, 3, 2]]
     return extent
 
 
@@ -38,8 +44,12 @@ def extent_to_size(extent, type=int):
     return tuple(size.astype(type))
 
 
+def affine_size(A, size, type=int):
+    return extent_to_size(affine_extent(A, size), type=type)
+
+
 class PewImage(object):
-    def __init__(self, img, extent=None):
+    def __init__(self, img, extent=None, transform=None):
         self.load_image(img)
         self.shape = self.image.size
 
@@ -51,6 +61,8 @@ class PewImage(object):
             *[bin_edges_to_centres(np.arange(s + 1)) for s in self.shape]
         )
         self.pixelbins = np.meshgrid(*[np.arange(s + 1) for s in self.shape])
+
+        self.transform = transform
 
     def load_image(self, img):
         """Load an image and deal with formatting etc."""
@@ -101,7 +113,7 @@ class PewImage(object):
             data=np.linalg.inv(A.T)[:-1, :].flatten(),
             resample=PIL.Image.BILINEAR,
         )
-        return PewImage(image, extent=newextent)
+        return PewImage(image, extent=newextent, transform=A)
 
     def maprgb(self):
         """
