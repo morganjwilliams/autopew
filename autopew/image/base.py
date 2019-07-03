@@ -3,7 +3,15 @@ import matplotlib.image
 from pathlib import Path
 import PIL.Image
 import PIL.ImageOps
-from ..transform.affine import affine_from_AB, affine_transform, zoom, translate
+from ..transform.affine import (
+    affine_from_AB,
+    affine_transform,
+    zoom,
+    translate,
+    decompose_affine2d,
+    compose_affine2d,
+    corners,
+)
 from ..util.plot import bin_edges_to_centres
 import logging
 
@@ -39,10 +47,9 @@ def affine_extent(A, size, reversey=False):
     > [x0, x1, y0, y1]
     """
     tfm = affine_transform(A)
-    x0, x1, y0, y1 = np.array([[0, 0], [*size]]).T.flatten()
-    corners = np.array([[x0, y0], [x1, y0], [x1, y1], [x0, y1]])
-    tcorners = tfm(corners)
-    extent = np.array([np.min(tcorners, axis=0), np.max(tcorners, axis=0)]).T.flatten()
+    crns = corners(size)
+    tcrns = tfm(crns)
+    extent = np.array([np.min(tcrns, axis=0), np.max(tcrns, axis=0)]).T.flatten()
     if reversey:
         extent = extent[[0, 1, 3, 2]]
     return extent
@@ -97,40 +104,30 @@ class PewImage(object):
         size = np.ceil(frac * np.array(self.shape).flatten()).astype(int)
         return PewImage(self.image.resize(tuple(size), resample), extent=self.extent)
 
-    def affine_transform(self, A, resample=PIL.Image.NEAREST):
+    def affine_transform(self, A, resample=PIL.Image.NEAREST, reversey=False):
         """
         Transform the image via an affine transformation matrix using PIL.
-
-        T1 @ A @ T2
         """
         im = self.image
-        # translate to the origin
-        # im = pad(im, np.array(im.size) // 2)
-        toorigin = translate(*-np.array(im.size) / 2.0)
-        # pad the image
-        A = toorigin @ A
-        newextent = affine_extent(A, im.size)  # should be +/- from the origin
-        newsize = extent_to_size(newextent)
+        centre = np.array(im.size) / 2
+        cnrs = corners(im.size)
+        C0 = translate(*-centre)  # translate image to origin
+        C1 = translate(  # translate transformed image from origin
+            *-np.min(affine_transform(A @ C0)(cnrs), axis=0)
+        )
+        T, Z, R = decompose_affine2d(A)
+        AP = compose_affine2d(T, Z, R.T)  # rotation in opposite direction for PIL
+        T = C1 @ AP @ C0  # Full affine matrix
 
-        logger.info("Centering extent to: {} @ {}".format(newsize, newextent))
-        # translate centre from the origin
-        fromorigin = translate(*np.array(newsize) / 2.0)
-        A = A @ fromorigin
-        # where this zoom occurs may be incorrect
-        # Z = zoom(*(1.0 / A.diagonal()[:-1]).flatten())
-        # A = A @ Z
-        ##newextent = affine_extent(A, self.image.size)
-        newsize = extent_to_size(newextent)
-        logger.info("Offsetting extent to: {} @ {}".format(newsize, newextent))
-
-        logger.info("Creating new image with size: {}".format(newsize))
+        size = tuple(np.ceil(np.max(affine_transform(T)(cnrs), axis=0)).astype(int) + 1)
+        extent = affine_extent(A, im.size, reversey=reversey)
         image = im.transform(
-            newsize,  # need to expand this due to shear/rotation effects
+            size,  # need to expand this due to shear/rotation effects
             PIL.Image.AFFINE,
-            data=np.linalg.inv(A)[:-1, :].flatten(),
+            data=np.linalg.inv(T)[:-1, :].flatten(),
             resample=PIL.Image.BILINEAR,
         )
-        return PewImage(image, extent=newextent, transform=A)
+        return PewImage(image, extent=extent, transform=A)
 
     def maprgb(self):
         """

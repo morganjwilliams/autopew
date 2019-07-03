@@ -24,6 +24,11 @@ def _unpad(x):
     return x[:, :-1]
 
 
+def corners(size):
+    x0, x1, y0, y1 = np.array([[0, 0], [*size]]).T.flatten()
+    return np.array([[x0, y0], [x1, y0], [x1, y1], [x0, y1]])
+
+
 def affine_from_AB(X, Y):
     """
     Create an affine transforamtion matrix based on two sets of coordinates.
