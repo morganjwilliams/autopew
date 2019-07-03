@@ -54,7 +54,7 @@ class TestAffine(unittest.TestCase):
         """Check function for translations."""
 
         p0 = np.array([[0.0, 0.0], [1.0, 1.0], [0.0, 1.0]])
-        T = affine_transform(translate([1, 1]))
+        T = affine_transform(translate(1, 1))
         p1 = T(p0)
         A = affine_from_AB(p0, p1)  # matrix
         tfm = affine_transform(A)
@@ -137,7 +137,7 @@ class TestAffine(unittest.TestCase):
 
     def test_affine_composite_transform(self):
         p0 = np.array([[0.0, 0.0], [1.0, 1.0], [0.0, 1.0]])
-        T = affine_transform(zoom(1, 1.5) @ rotate(90) @ translate([1,1]))
+        T = affine_transform(zoom(1, 1.5) @ rotate(90) @ translate(1,1))
         p1 = T(p0)
         A = affine_from_AB(p0, p1)  # matrix
         tfm = affine_transform(A)
@@ -171,7 +171,7 @@ class TestAffine(unittest.TestCase):
         ).T
         rp = np.random.rand(100, 2) * end
 
-        A = zoom(1.0, 1.5) @ shear(0.1, -0.5) @ rotate(50) @ translate([2, 2])
+        A = zoom(1.0, 1.5) @ shear(0.1, -0.5) @ rotate(50) @ translate(2, 2)
 
         tfm = lambda x: _unpad(_pad(x) @ A)
 

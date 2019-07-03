@@ -18,11 +18,11 @@ class TestAffineVis(unittest.TestCase):
         ax = ax.flat
         for ix, A in enumerate(
             [
-                translate((0.5, 1.0)),
+                translate(0.5, 1.0),
                 zoom(1.0, 0.5),
                 rotate(30),
                 shear(0.5, 0),
-                translate((0.5, 0)),
+                translate(0.5, 0),
                 zoom(2, 1),
                 rotate(-30),
                 shear(0, 0.5),
