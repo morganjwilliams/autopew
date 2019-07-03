@@ -13,7 +13,20 @@ logger = logging.getLogger(__name__)
 PIL.Image.MAX_IMAGE_PIXELS = 1900000000
 
 
-def affine_extent(A, size):
+def resize(im, size):
+    new_im = PIL.Image.new("RGB", size)
+    new_im.paste(im, (0, 0))
+    return new_im
+
+
+def pad(im, padding):
+    if len(padding) == 1:
+        padding = tuple(list(padding) * 4)
+    if len(padding) == 2:
+        padding = (padding[0], padding[0], padding[1], padding[1])
+    return PIL.ImageOps.expand(im, padding)
+
+
 def affine_extent(A, size, reversey=False):
     """
     Get the after an affine transform using matrix A from the bounds of the image
@@ -90,27 +103,31 @@ class PewImage(object):
 
         T1 @ A @ T2
         """
+        im = self.image
         # translate to the origin
-        toorigin = translate(-np.array(self.image.size) / 2.0)
+        # im = pad(im, np.array(im.size) // 2)
+        toorigin = translate(*-np.array(im.size) / 2.0)
+        # pad the image
         A = toorigin @ A
-        newextent = affine_extent(A, self.image.size)  # should be +/- from the origin
+        newextent = affine_extent(A, im.size)  # should be +/- from the origin
         newsize = extent_to_size(newextent)
+
         logger.info("Centering extent to: {} @ {}".format(newsize, newextent))
         # translate centre from the origin
-        fromorigin = translate(np.array(newsize) / 2.0)
+        fromorigin = translate(*np.array(newsize) / 2.0)
         A = A @ fromorigin
         # where this zoom occurs may be incorrect
         # Z = zoom(*(1.0 / A.diagonal()[:-1]).flatten())
         # A = A @ Z
-        newextent = affine_extent(A, self.image.size)
+        ##newextent = affine_extent(A, self.image.size)
         newsize = extent_to_size(newextent)
         logger.info("Offsetting extent to: {} @ {}".format(newsize, newextent))
 
         logger.info("Creating new image with size: {}".format(newsize))
-        image = self.image.transform(
+        image = im.transform(
             newsize,  # need to expand this due to shear/rotation effects
             PIL.Image.AFFINE,
-            data=np.linalg.inv(A.T)[:-1, :].flatten(),
+            data=np.linalg.inv(A)[:-1, :].flatten(),
             resample=PIL.Image.BILINEAR,
         )
         return PewImage(image, extent=newextent, transform=A)
