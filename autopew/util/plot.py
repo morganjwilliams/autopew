@@ -139,16 +139,12 @@ def plot_transform(
     ax[1].yaxis.tick_right()
     ax[1].yaxis.set_label_position("right")
 
-    for b, f in zip(
+    for b, lims, setr in zip(
         invert0 + invert1,
-        [
-            ax[0].invert_xaxis,
-            ax[0].invert_yaxis,
-            ax[1].invert_xaxis,
-            ax[1].invert_yaxis,
-        ],
+        [ax[0].get_xlim(), ax[0].get_ylim(), ax[1].get_xlim(), ax[1].get_ylim()],
+        [ax[0].set_xlim, ax[0].set_ylim, ax[1].set_xlim, ax[1].set_ylim],
     ):
-        if b:
-            f()
+        if b & (lims[1] > lims[0]):
+            setr(lims[::-1])
     plt.subplots_adjust(hspace=0.1)
     return fig
