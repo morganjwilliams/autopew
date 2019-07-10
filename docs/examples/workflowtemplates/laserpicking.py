@@ -55,7 +55,8 @@ pixel_reference_coords = pick_points(imagepath)
 # laser_reference_coords = np.array([[15, 45], [50, 13], [10, 5], [32, 27]]) * 1000.0
 
 # Want to import them from a .scancsv file?
-scancsvpath = Path("./../../../autopew/auotpew/data/examples") / "autopew_test.scancsv"
+from autopew.io.laser.readlase import read_scancsv
+scancsvpath = Path("./../../../autopew/data/examples") / "autopew_test.scancsv"
 l = read_scancsv(scancsvpath.resolve()).iloc[:3, 5]
 items = zip(l.index, l.apply(lambda x: x[0][:2]))
 laser_reference_coords = pd.DataFrame.from_items(items).T.astype(float)
