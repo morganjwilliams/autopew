@@ -30,7 +30,7 @@ setup(
     author="Morgan Williams",
     author_email="morgan.williams@csiro.au",
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 2 - Pre-Alpha",
         "Intended Audience :: Science/Research",
         "Natural Language :: English",
         "Programming Language :: Python :: 3 :: Only",
@@ -42,12 +42,21 @@ setup(
     ],
     keywords=["laser ablation", "geochemistry"],
     packages=find_packages(exclude=["test*"]),
-    install_requires=["pathlib", "numpy", "scipy", "pandas", "matplotlib", "xlrd"]
+    install_requires=[
+        "pathlib",
+        "pillow",
+        "ipython",
+        "networkx",
+        "numpy",
+        "matplotlib<3.1",
+        "xlrd",
+        "pandas",
+        "scipy"
+    ]
     + gui_require,
     extras_require={"dev": dev_require},
     tests_require=tests_require,
     test_suite="test",
-    package_data={"autopew": ["data/*"]},
     include_package_data=True,
     license="CSIRO Modifed MIT/BSD",
     cmdclass=versioneer.get_cmdclass(),

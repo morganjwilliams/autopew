@@ -5,9 +5,7 @@ omit =
     test/*
     docs/*
     **/data
-    autopew/draft/*
+    _draft/*
 
-    # Omit extensions with extra dependencies
-    
     # Ignore _version.py
     */_version.py
