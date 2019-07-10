@@ -45,4 +45,3 @@ ax.legend(
     ncol=2,
 )
 fig.savefig(Path("../../source/_static/img.jpg"), dpi=300)
-fig
