@@ -57,7 +57,6 @@ setup(
     extras_require={"dev": dev_require},
     tests_require=tests_require,
     test_suite="test",
-    package_data={"autopew": ["data/*"]},
     include_package_data=True,
     license="CSIRO Modifed MIT/BSD",
     cmdclass=versioneer.get_cmdclass(),
