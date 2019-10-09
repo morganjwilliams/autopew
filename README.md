@@ -6,5 +6,5 @@ Automating sample targeting for laser ablation systems.
 
 | **master** | **develop** |
 |:----------:|:-----------:|
-| [![Build Status](https://travis-ci.com/morganjwilliams/autopew.svg?token=9vbXL1LU59cTBFhHiXxw&branch=master)](https://travis-ci.com/morganjwilliams/autopew) | [![Build Status](https://travis-ci.com/morganjwilliams/autopew.svg?token=9vbXL1LU59cTBFhHiXxw&branch=develop)](https://travis-ci.com/morganjwilliams/autopew) |
-| [![codecov](https://codecov.io/gh/morganjwilliams/autopew/branch/master/graph/badge.svg?token=yddjzpXaHL)](https://codecov.io/gh/morganjwilliams/autopew) | [![codecov](https://codecov.io/gh/morganjwilliams/autopew/branch/develop/graph/badge.svg?token=yddjzpXaHL)](https://codecov.io/gh/morganjwilliams/autopew/branch/develop) |
+| [![Build Status](https://travis-ci.org/morganjwilliams/autopew.svg?branch=master)](https://travis-ci.com/morganjwilliams/autopew) | [![Build Status](https://travis-ci.org/morganjwilliams/autopew.svg?branch=develop)](https://travis-ci.com/morganjwilliams/autopew) |
+| [![Coverage Status](https://coveralls.io/repos/github/morganjwilliams/autopew/badge.svg?branch=develop)](https://coveralls.io/github/morganjwilliams/autopew?branch=develop) | [![Coverage Status](https://coveralls.io/repos/github/morganjwilliams/autopew/badge.svg?branch=develop)](https://coveralls.io/github/morganjwilliams/autopew?branch=develop) |
