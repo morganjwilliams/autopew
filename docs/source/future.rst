@@ -31,11 +31,12 @@ Stage 2:
 On The Horizon
 -------------------
 
-  * Activities to optimise instrument usage time:
-    * Sample-standard bracketing using a specific 'reference mount location' (needs to be updated later)
-    * Reordering points based on their positions.
-    * Standard area registration, gridded 'free positions'- auto sample standard bracketing
+* Activities to optimise instrument usage time:
 
-  * Report templates
+  * Sample-standard bracketing using a specific 'reference mount location' (needs to be updated later)
+  * Reordering points based on their positions.
+  * Standard area registration, gridded 'free positions'- auto sample standard bracketing
 
-  * Dealing with larger images (>20 MB - jpg will warn of compression bomb)
+* Report templates
+
+* Dealing with larger images (>20 MB - jpg will warn of compression bomb)

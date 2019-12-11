@@ -56,6 +56,7 @@ pixel_reference_coords = pick_points(imagepath)
 
 # Want to import them from a .scancsv file?
 from autopew.io.laser.readlase import read_scancsv
+
 scancsvpath = Path("./../../../autopew/data/examples") / "autopew_test.scancsv"
 l = read_scancsv(scancsvpath.resolve()).iloc[:3, 5]
 items = zip(l.index, l.apply(lambda x: x[0][:2]))
@@ -74,9 +75,14 @@ transform = affine_transform(
 laser_sample_coords = transform(pixel_sample_coords)
 
 # %% EXPORT to .Scancsv file -----------------------------------------------------------
-# lets save them so we can directly impor them
+# lets save them so we can directly import them
+spotnames = None
+# have some spot names? add them here
+# spotnames = df["Comment"]
 points_to_scancsv(
-    laser_sample_coords, filename=output_filename, spotname_prefix=spotname_prefix
+    laser_sample_coords,
+    filename=output_filename,
+    spotnames=spotnames or spotname_prefix,
 )
 # %% Visualise the Transform
 from autopew.util.plot import plot_transform

@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 def points_to_scancsv(
     points,
     filename=Path("./exportedpoints.scancsv"),
-    spotname_prefix="",
+    spotnames=None,
     encoding="cp1252",
     **kwargs
 ):
@@ -24,14 +24,14 @@ def points_to_scancsv(
         Points to serialise.
     filename : :class:`str` | :class:`pathlib.Path`
         Filename for export.
-    spotname_prefix : :class:`str`
-        Name to prefix spot indicies.
+    spotnames : :class:`str` | :class:`list`
+        Name to prefix spot indicies or a list of spot names.
     encoding : :class:`str`
         Encoding for the output file.
     z : :class:`int`
         Optional specification of default focus value to use.
     """
-    df = xy2scansv(points, spotname_prefix=spotname_prefix, **kwargs)
+    df = xy2scansv(points, spotnames=spotnames, **kwargs)
     with open(Path(filename).with_suffix(".scancsv"), "w", encoding=encoding) as f:
         f.write(",".join(df.columns.tolist()) + "\n")
         str = df.to_csv(
