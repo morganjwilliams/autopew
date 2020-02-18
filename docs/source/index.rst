@@ -31,9 +31,8 @@ The current development plan for **autopew** can be found `here <future.html>`__
    usage/gettingstarted
    usage/examples
    tests
-   docs
+   dev/development
    future
-   dev
    conduct
 
    submodules
