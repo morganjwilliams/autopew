@@ -84,9 +84,9 @@ for each of these are listed below.
 
 **Travis-CI**
 
-  The Travis-CI page for :code:`autopew` can be found at `travis-ci.com/morganjwilliams/autopew <https://travis-ci.com/morganjwilliams/autopew>`__.
+  The Travis-CI page for :code:`autopew` can be found at `travis-ci.org/morganjwilliams/autopew <https://travis-ci.org/morganjwilliams/autopew>`__.
 
 
 **Code Coverage**
 
-  The codecov page for :code:`autopew` can be found at `codecov.io/gh/morganjwilliams/autopew <https://codecov.io/gh/morganjwilliams/autopew>`__.
+  The coveralls page for :code:`autopew` can be found at `coveralls.io/github/morganjwilliams/autopew <https://coveralls.io/github/morganjwilliams/autopew>`__.
