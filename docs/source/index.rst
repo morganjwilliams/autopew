@@ -17,7 +17,7 @@ automated generation of point sets within a relevant format.
 
 
 What is **autopew** not?
-----------------------
+-------------------------
 
 * Not currently capable of 3D affine transforms (i.e. no 'focus' attribute).
 
