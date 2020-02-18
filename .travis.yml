@@ -2,7 +2,7 @@ language: python
 os: linux
 dist: xenial
 
-matrix:
+jobs:
   include:
     - python: 3.5
       env: PYVERSION=35
@@ -10,6 +10,8 @@ matrix:
       env: PYVERSION=36
     - python: 3.7
       env: PYVERSION=37
+    - python: 3.8
+      env: PYVERSION=38
 
 install:
   - pip install -q pytest pytest-runner pytest-cov coverage
