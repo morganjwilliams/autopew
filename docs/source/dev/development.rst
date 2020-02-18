@@ -6,8 +6,21 @@ Development
 collaborator access can be granted to interested parties. If you're new to Git or GitHub,
 there are some useful guides on the `GitHub Website <https://guides.github.com/>`__.
 
+
+Development Installation
+----------------------------
+
+To access and use the development version, you can either
+`clone the repository <https://github.com/morganjwilliams/autopew>`__ or install
+via pip directly from GitHub:
+
+.. code-block:: bash
+
+  pip install git+git://github.com/morganjwilliams/autopew.git@develop#egg=autopew
+
+
 Branches and GitFlow
-~~~~~~~~~~~~~~~~~~~~~~
+---------------------
 
 There are two main git-branches for :code:`autopew`:
 

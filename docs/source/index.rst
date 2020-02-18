@@ -30,12 +30,13 @@ The current development plan for **autopew** can be found `here <future.html>`__
    installation
    usage/gettingstarted
    usage/examples
-   tests
+   submodules
    dev/development
+   dev/changelog
    future
    conduct
-
-   submodules
+   dev/contributing
+   dev/contributors
 
 
 .. note:: This documentation is a work in progress and is updated regularly. Contact
