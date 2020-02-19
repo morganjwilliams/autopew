@@ -4,6 +4,10 @@ Image to Stage
 This is a simple workflow example involving converting points registered on an image
 to coordinates for a specific stage.
 
+e.g we have been using this method to extract phases from reflected light
+imagery or X-ray fluorescence mapping and assign numbers to grains to give
+spatial context to the multiple different micro-geochemical analysis. 
+
 
 Step 1: Acquire an Image and Register Points
 ---------------------------------------------
