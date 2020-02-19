@@ -10,6 +10,7 @@ using these examples, please visit the installation and getting started pages.
   `Getting Started <gettingstarted.html>`__
 
 
+
 Use Cases
 --------------
 
@@ -22,6 +23,7 @@ Here we outline some use cases as well as what is required for use.
    usecases
 
 
+
 Workflows
 -----------------
 
@@ -32,6 +34,7 @@ Here we outline the workflows for use of **autopew**
    :maxdepth: 1
 
    workflows/*
+
 
 Outputs
 --------

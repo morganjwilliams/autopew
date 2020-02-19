@@ -11,17 +11,17 @@ There are a number of use cases that autopew is suited for:
 
 
 Two Sets of Points
--------------------
+--------------------
 
-* E.g. coordinates from stages
+E.g. coordinates from stages
 This case is for transfer between various stage coordinate system (e.g. electron
 probe and laser ablation) which can allow for measurement of the same grain with
 different techniques.
 
 What you need:
 
-* X,Y coordinates of the points you wish to analyse
-* at least 3 points in the new coordinate system
+  * X,Y coordinates of the points you wish to analyse
+  * at least 3 points in the new coordinate system
 
 .. image:: ../_static/coordinatetransform.png
   :alt: image of coordinate transform between two sets of points
@@ -41,8 +41,8 @@ analytical time locating and programming the coordinates of the phases.
 
 What you need:
 
-* an image of high enough resolution to identify the target phases
-* 3 points in the new coordinate system that you can recognise on the image
+  * an image of high enough resolution to identify the target phases
+  * 3 points in the new coordinate system that you can recognise on the image
 
 
 Two Images
@@ -54,5 +54,5 @@ images such as an x-ray fluorescence image over a reflected light images
 
 What you need:
 
-* two images you wish to overlay
-* 3 features you can recognise on both images
+  * two images you wish to overlay
+  * 3 features you can recognise on both images
