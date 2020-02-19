@@ -6,10 +6,11 @@ systems using affine transforms and human-in-the-loop workflows.
 
 This is applied to integrating coordinate systems across analytical instrumentation,
 with each instrument typically having its own individual coordinate systems based on
-imagery and/or a sample stage.
-
-**autopew** also includes functions for importing and exporting .lase files, for
-automated generation of point sets within a relevant format.
+imagery and/or a sample stage. **autopew** also includes functions for importing and
+exporting files, for automated generation of point sets within a relevant format for
+each piece of analytical instrumentation. **autopew** `outputs <usage/outputs.html>`__
+currently included a .scancsv file which can be directly imported into `Chromium <http://www.teledynecetac.com/support/software>`__
+laser ablation navigation software.
 
 .. image:: _static/transform_concept.png
    :align: center
