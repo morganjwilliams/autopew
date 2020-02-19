@@ -11,8 +11,8 @@ Step 1: Acquire an Image and Register Points
   * Aquire an image of your sample
   * add points to your image
 
-Once an image is acquired, points can be added (either via ImageJ [*]_ , or through
-**autopew** extensions). Optionally, add calibration points specifically for
+Once an image is acquired, points can be added (either via `ImageJ or Fiji <https://imagej.net/Welcome>`__ [*]_
+, or through **autopew** extensions). Optionally, add calibration points specifically for
 calibrating the image-stage coordinate transform later on (3 points minimum, preferably
 5-6 to average out inconsistencies and provide an accurate transform).
 
@@ -65,9 +65,9 @@ Imported images can be realigned to the stage coordinate system for easier
 recognition of sample features and more accurate visual determination of new point
 location.
 
-.. seealso::
 
-  .. [*] Schneider, C. A.; Rasband, W. S. & Eliceiri, K. W. (2012), "NIH Image to
-    ImageJ: 25 years of image analysis", Nature methods 9(7): 671-675, PMID 22930834
+References
+~~~~~~~~~~~
 
-    'ImageJ or Fiji are available here <https://imagej.net/Welcome>'__
+  .. [*] Schneider, C. A.; Rasband, W. S. & Eliceiri, K. W. (2012), "NIH Image
+    to ImageJ: 25 years of image analysis", Nature methods 9(7): 671-675, PMID 22930834
