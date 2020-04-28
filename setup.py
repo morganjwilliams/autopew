@@ -48,7 +48,7 @@ setup(
         "ipython",
         "networkx",
         "numpy",
-        "matplotlib<3.1",
+        "matplotlib",
         "xlrd",
         "pandas",
         "scipy"
