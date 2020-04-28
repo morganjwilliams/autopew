@@ -1,6 +1,9 @@
 """
-Write a set of x-y coords to a .scancsv file.
+Submodule for writing x-y coordinates to a .scancsv file.
+Compatible with Chromium software from a Teledyne/Photonmachines laser ablation
+system.
 """
+
 from pathlib import Path
 import numpy as np
 import pandas as pd
