@@ -9,25 +9,27 @@ using these examples, please visit the installation and getting started pages.
   `Installation <../installation.html>`__ ,
   `Getting Started <gettingstarted.html>`__
 
-
-
 Use Cases
 --------------
 
-autopew is designed for easy referencing between analytical equipment and/or images.
-Here we outline some use cases as well as what is required for use.
+Here we outline some common use cases as well as what is required for use. This
+includes translating from pixel coordinates on images to analytical stages and
+translating between analytical stages directly.
 
 .. toctree::
    :maxdepth: 1
 
    usecases
 
+.. image:: ../_static/transform_concept.png
+  :align: center
+  :width: 50%
 
 
 Workflows
 -----------------
 
-Here we outline the workflows for use of **autopew**
+This set of pages walks you through how to use **autopew** for each use case.
 
 .. toctree::
    :glob:

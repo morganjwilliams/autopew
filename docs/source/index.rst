@@ -12,9 +12,27 @@ each piece of analytical instrumentation. **autopew** `outputs <usage/outputs.ht
 currently included a .scancsv file which can be directly imported into `Chromium <http://www.teledynecetac.com/support/software>`__
 laser ablation navigation software.
 
-.. image:: _static/transform_concept.png
-   :align: center
-   :width: 70%
+
+Why use **autopew**
+----------------------
+**autopew** is designed for easy referencing between analytical equipment and/or images.
+This allows the time spend on analytical equipment to be more effectively used for
+data collection rather than spending valuable time locating the areas of interest.
+
+This software also allows for tracking of the context of in-situ microanalysis by
+allowing reference to large images and areas which will allow for new insights into
+what effects chemistry of given particles with reference to their location and
+micro-environment. We can then track the analysis between different analytical
+equipment and make inferences on  macroscale processes from well characterised
+in-situ microanalysis [1].
+
+Although primarily designed for use of laser ablation analysis on geological material
+this software can be used for any microanalytical technique, from electron
+microprobe analysis, x-ray fluorescence mapping, and any scanning electron microscopy work.
+
+.. seealso::
+
+  For outlined examples of how autopew is used, see `Examples <usage/examples.html>`__
 
 
 What is **autopew** not?
@@ -42,3 +60,11 @@ The current development plan for **autopew** can be found `here <future.html>`__
 
 .. note:: This documentation is a work in progress and is updated regularly. Contact
           the maintainers with any specific questions/requests.
+
+
+References
+-------------
+[1] Pearce, M. A., Godel, B. M., Fisher, L. A., Schoneveld, L. E.,
+Cleverly, J. S., Oliver, N. H. S., and  Nugus, M., 2017, Microscale data to
+macroscale processes: a review of microcharacterization applied to mineral
+systems: Geological Society, London, Special Publications,, v. 453
