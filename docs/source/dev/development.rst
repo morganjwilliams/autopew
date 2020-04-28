@@ -34,11 +34,12 @@ where releases are branched from :code:`develop` prior to being integrated into
 Documentation
 ---------------
 
-Documentation is not currently live, but can be built and viewed locally using
-instructions below. The documentation is built using
-`sphinx <http://www.sphinx-doc.org>`__, and most pages are written as
-`reStructuredText <http://docutils.sourceforge.net/rst.html>`__. A quick reference
-can be found `here <http://docutils.sourceforge.net/docs/user/rst/quickref.html>`__.
+Documentation is currently live on `ReadtheDocs.org <https://autopew.readthedocs.io>`__`
+, but can also be built and viewed locally using instructions below.
+The documentation is built using `sphinx <http://www.sphinx-doc.org>`__, and most pages
+are written in `reStructuredText <http://docutils.sourceforge.net/rst.html>`__.
+A quick reference can be found
+`here <http://docutils.sourceforge.net/docs/user/rst/quickref.html>`__.
 
 Documentation for :mod:`autopew` is in the :code:`docs` directory. From this directory,
 documentation can be built as follows:
@@ -77,15 +78,21 @@ directory after installation:
 Continuous Integration
 -----------------------
 
+.. image:: https://travis-ci.org/morganjwilliams/autopew.svg?branch=develop
+    :target: https://travis-ci.org/morganjwilliams/autopew
+    :alt: Test Status
+
+.. image:: https://coveralls.io/repos/github/morganjwilliams/autopew/badge.svg?branch=develop
+    :target: https://coveralls.io/github/morganjwilliams/autopew?branch=develop
+    :alt: Test Coverage
+
 There are also some active continuous integration tools for :code:`autopew`, including
 automated unit-testing on Travis-CI and test coverage analysis on Codecov. The details
 for each of these are listed below.
 
-
 **Travis-CI**
 
   The Travis-CI page for :code:`autopew` can be found at `travis-ci.org/morganjwilliams/autopew <https://travis-ci.org/morganjwilliams/autopew>`__.
-
 
 **Code Coverage**
 
