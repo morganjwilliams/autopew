@@ -9,7 +9,8 @@ with each instrument typically having its own individual coordinate systems base
 imagery and/or a sample stage. **autopew** also includes functions for importing and
 exporting files, for automated generation of point sets within a relevant format for
 each piece of analytical instrumentation. **autopew** `outputs <usage/outputs.html>`__
-currently included a .scancsv file which can be directly imported into `Chromium <http://www.teledynecetac.com/support/software>`__
+currently included a .scancsv file which can be directly imported into
+`Chromium <http://www.teledynecetac.com/support/software>`__
 laser ablation navigation software.
 
 
@@ -23,12 +24,13 @@ This software also allows for tracking of the context of in-situ microanalysis b
 allowing reference to large images and areas which will allow for new insights into
 what effects chemistry of given particles with reference to their location and
 micro-environment. We can then track the analysis between different analytical
-equipment and make inferences on  macroscale processes from well characterised
-in-situ microanalysis [1].
+equipment and make inferences on macroscale processes from well characterised
+in-situ microanalysis [1]_.
 
 Although primarily designed for use of laser ablation analysis on geological material
-this software can be used for any microanalytical technique, from electron
-microprobe analysis, x-ray fluorescence mapping, and any scanning electron microscopy work.
+this software can be used for any microanalytical technique, including electron
+microprobe analysis, x-ray fluorescence mapping, scanning electron
+microscopy and ion beam analysis.
 
 .. seealso::
 
@@ -64,7 +66,8 @@ The current development plan for **autopew** can be found `here <future.html>`__
 
 References
 -------------
-[1] Pearce, M. A., Godel, B. M., Fisher, L. A., Schoneveld, L. E.,
-Cleverly, J. S., Oliver, N. H. S., and  Nugus, M., 2017, Microscale data to
-macroscale processes: a review of microcharacterization applied to mineral
-systems: Geological Society, London, Special Publications,, v. 453
+
+.. [1] Pearce, M. A., Godel, B. M., Fisher, L. A., Schoneveld, L. E., Cleverly, J. S., Oliver, N. H. S., and  Nugus, M. (2017).
+    Microscale data to macroscale processes: a review of microcharacterization applied to mineral
+    systems: Geological Society, London, Special Publications,, v. 453
+    `doi: 10.1144/SP453.3 <https://doi.org/10.1144/SP453.3>`__.
