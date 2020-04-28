@@ -3,7 +3,7 @@ import versioneer
 
 tests_require = ["pytest", "pytest-runner", "pytest-cov", "coverage", "codecov"]
 
-gui_require = ["sip", "PyQt5", "PyQt5-sip"]
+gui_require = [] #["sip", "PyQt5", "PyQt5-sip"]
 dev_require = [
     "pytest",
     "versioneer",
@@ -48,7 +48,7 @@ setup(
         "ipython",
         "networkx",
         "numpy",
-        "matplotlib<3.1",
+        "matplotlib",
         "xlrd",
         "pandas",
         "scipy"

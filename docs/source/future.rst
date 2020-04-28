@@ -9,19 +9,22 @@ significantly further away (or in some cases may not make it to release).
 Initial development focuses on work relevant to LA-ICP-MS workflows, and the project
 may later generalise some of these workflows.
 
+
+Current Release
+-------------------
+
+  * Able to register points on one image
+  * Able to calibrate these points to the laser stage coordinates
+  * Able to output the image with points on it
+  * Able to output a .scancsv file to import into the laser software
+  * Able to import point names
+
 Under Development
 -------------------
 
-Stage 1:
-
-  * Be able to register points on one image
-  * Be able to calibrate these points to the laser stage coordinates
-  * Be able to output the image with points on it
-  * Be able to output a dummy file to import into the laser software
-
-Stage 2:
-
-  * Be able to set spotsizes, point names
+  * Be able to set spotsizes
+  * Be able to read and set z position
+  * Be able to recognise when point is positioned outside stage limits
   * Be able to transform maps with points on them so correspondence is easier to see
   * Should be able to work from multiple maps --> need multiple registered images
   * Overlay images (see post `here <https://stackabuse.com/affine-image-transformations-in-python-with-numpy-pillow-and-opencv/>`__)
