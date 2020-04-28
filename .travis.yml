@@ -1,6 +1,6 @@
 language: python
 os: linux
-dist: xenial
+dist: bionic
 
 jobs:
   include:
@@ -14,7 +14,7 @@ jobs:
       env: PYVERSION=38
 
 install:
-  #- pip install --upgrade pip # might help fix pyqt5 issue
+  - pip install --upgrade pip # might help fix pyqt5 issue
   - pip install -q pytest pytest-runner pytest-cov coverage
   - pip install coveralls
   - pip install -e .
