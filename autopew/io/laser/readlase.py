@@ -1,3 +1,8 @@
+"""
+Submodule for reading the native `.lase` and `.scancsv` files from the Chromium software
+from a Teledyne/Photonmachines laser ablation system.
+"""
+
 import re
 import numpy as np
 import pandas as pd
@@ -8,49 +13,39 @@ def split_config(s):
     """
     Splits a config-formatted string.
 
+    Parameters
+    ----------
+    s : :class:`str`
+
     Returns
     ---------
-    :class:`str`
+    :class:`dict`
+
+    See Also
+    ---------
+    :func:`get_scandata`
     """
     x = re.split(r";", s)
     d = {k: v for (k, v) in [i.split("=") for i in x]}
     return d
 
 
-def read_lasefile(filename, encoding="cp1252"):
-    """
-    Read a .lase formatted file.
-
-    Returns
-    ---------
-    :class:`pandas.DataFrame`
-    """
-    path = Path(filename)
-    if not path.suffix == ".lase":
-        path = path.with_suffix(".lase")
-    file = open(str(path), encoding=encoding).read()
-    lines = [i for i in re.split("[\n\r]", file) if i]
-
-    data = {}
-    for l in lines:
-        if re.match(r"^\[.*\]$", l):
-            section = l.replace("[", "").replace("]", "")
-            data[section] = {}
-        else:
-            var, value = re.split("=", l, maxsplit=1)
-            data[section][var] = value
-
-    df = get_scandata(data["Scans"])
-    return df
-
-
 def get_scandata(scandict):
     """
-    Process a dictionary of scan information into a Pandas DataFrame.
+    Process a dictionary of scan information into a :class:`~pandas.DataFrame`.
+
+    Parameters
+    ----------
+    scandict : :class:`dict`
+        Dictionary of scan data.
 
     Returns
     ---------
     :class:`pandas.DataFrame`
+
+    See Also
+    ---------
+    :class:`ScanData`
     """
     headers = scandict["Header"].split(",")
     scannames = [i for i in scandict.keys() if not i == "Header"]
@@ -78,14 +73,97 @@ def get_scandata(scandict):
     df["Data"] = df["Data"].apply(split_config)
     return df
 
-
-def read_scancsv(filename, encoding="cp1252"):
+def read_lasefile(filepath, encoding="cp1252"):
     """
-    Read a .scancsv formatted file.
+    Read a .lase formatted file into a dictonary (one item per scan), and
+    return this in the form of a :class:`~pandas.DataFrame`.
+
+    Parameters
+    ----------
+    filepath : :class:`str`, :class:`pathlib.Path`
+        Path to the .lase file to import.
+    encoding : :class:`str`
+        File encoding of the .lase file.
 
     Returns
     ---------
-    :class:`pandas.DataFrame`
+    :class:`~pandas.DataFrame`
+
+    Notes
+    -------
+
+    `.lase` files have all spot information as well as gas flows and all control options
+    of laser operation. These are configuration files structured by blocks demarkated
+    with square brackets, along the lines of::
+
+        [Scans]
+        Header=Scan Type,Description, ...
+        Scan0=Spot,"Spot 1", ...
+        [<other control blocks>]
+        ...
+
+    Some of the values in this table are string-encoded tuples
+    (e.g. `"57950.00,37530.00,20734.50"`) and dictionaries
+    (e.g. `"Dosage=1;DwellTime=1.00;LineSpacing=100.00;Laser.Output=10.00;..."`).
+
+    See Also
+    ---------
+    :class:`ScanData`
+    :func:`get_scandata`
+    """
+    path = Path(filepath)
+    if not path.suffix == ".lase":
+        path = path.with_suffix(".lase")
+    file = open(str(path), encoding=encoding).read()
+    lines = [i for i in re.split("[\n\r]", file) if i]
+
+    data = {}
+    for l in lines:
+        if re.match(r"^\[.*\]$", l):
+            section = l.replace("[", "").replace("]", "")
+            data[section] = {}
+        else:
+            var, value = re.split("=", l, maxsplit=1)
+            data[section][var] = value
+
+    df = get_scandata(data["Scans"])
+    return df
+
+
+def read_scancsv(filename, encoding="cp1252"):
+    """
+    Read a .scancsv into a dictonary (one item per scan), and
+    return this in the form of a :class:`~pandas.DataFrame`.
+
+    Parameters
+    ----------
+    filepath : :class:`str`, :class:`pathlib.Path`
+        Path to the .scancsv file to import.
+    encoding : :class:`str`
+        File encoding of the .scancsv file.
+
+    Returns
+    ---------
+    :class:`~pandas.DataFrame`
+
+    Notes
+    --------
+
+    `.scancsv` files only contain spot information and do not edit the laser and gas
+    conditions. These are essentially comma-separated values files, with a structure
+    along the lines of::
+
+        Scan Type,Description, ...
+        Spot,"Spot 1", ...
+
+    Some of the values in this table are string-encoded tuples
+    (e.g. `"57950.00,37530.00,20734.50"`) and dictionaries
+    (e.g. `"Dosage=1;DwellTime=1.00;LineSpacing=100.00;Laser.Output=10.00;..."`).
+
+    See Also
+    ---------
+    :class:`ScanData`
+    :func:`get_scandata`
     """
     path = Path(filename)
     if not path.suffix == ".scancsv":
@@ -102,12 +180,31 @@ def read_scancsv(filename, encoding="cp1252"):
     return df
 
 
+
 class ScanData(object):
+
     def __init__(self, datapath):
+        """
+        Object for holding information about a set of scans.
+
+        Parameters
+        ----------
+        datapath : :class:`str`, :class:`pathlib.Path`
+            Path to the data file to import (`.lase` or `.scancsv`).
+        """
         self.default_z = 20800
         self.load_data(datapath)
 
     def load_data(self, datapath):
+        """
+        Load scan data from the laser file. Handles the different methods
+        for the different filetypes.
+
+        Parameters
+        ----------
+        datapath : :class:`str`, :class:`pathlib.Path`
+            Path to the data file to import (`.lase` or `.scancsv`).
+        """
         data = Path(datapath)
         if "lase" in data.suffix:
             self.df = read_lasefile(datapath)
@@ -115,6 +212,13 @@ class ScanData(object):
             self.df = read_scancsv(datapath)
 
     def get_verticies(self):
+        """
+        Get the point verticies (`x`, `y`, `z`) from the scan data.
+
+        Returns
+        --------
+        :class:`~pandas.DataFrame`
+        """
         verts = (
             np.vstack(self.df["Vertex List"].map(np.array).values)
             .reshape(self.df.index.size, -1)
@@ -123,4 +227,7 @@ class ScanData(object):
         return pd.DataFrame(verts, index=self.df.Description, columns=["x", "y", "z"])
 
     def __repr__(self):
+        """
+        Get a string representation of the scan data (here taking the datafame info).
+        """
         return self.df.__repr__()
