@@ -28,7 +28,7 @@ import autopew
 # -- Project information -----------------------------------------------------
 
 project = "autopew"
-copyright = "2019, Morgan Williams & Louise Schoneveld"
+copyright = "2019-%s, Morgan Williams & Louise Schoneveld" % date.today().year
 author = "Morgan Williams & Louise Schoneveld"
 
 version = re.findall(r"^[\d]*.[\d]*.[\d]*", autopew.__version__)[0]
