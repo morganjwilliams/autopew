@@ -1,3 +1,8 @@
+"""
+Submodule for reading the native `.lase` and `.scancsv` files from the Chromium software
+from a Teledyne/Photonmachines laser ablation system.
+"""
+
 import re
 import numpy as np
 import pandas as pd
@@ -8,24 +13,60 @@ def split_config(s):
     """
     Splits a config-formatted string.
 
+    Parameters
+    ----------
+    s : :class:`str`
+
     Returns
     ---------
-    :class:`str`
+    :class:`dict`
+
+    See Also
+    ---------
+    :func:`get_scandata`
     """
     x = re.split(r";", s)
     d = {k: v for (k, v) in [i.split("=") for i in x]}
     return d
 
 
-def read_lasefile(filename, encoding="cp1252"):
+def read_lasefile(filepath, encoding="cp1252"):
     """
-    Read a .lase formatted file.
+    Read a .lase formatted file into a :class:`~pandas.DataFrame`.
+
+    Parameters
+    ----------
+    filepath : :class:`str`, :class:`pathlib.Path`
+        Path to the .lase file to import.
+    encoding : :class:`str`
+        File encoding of the .lase file.
 
     Returns
     ---------
-    :class:`pandas.DataFrame`
+    :class:`~pandas.DataFrame`
+
+    Notes
+    -------
+
+    `.lase` files have all spot information as well as gas flows and all control options
+    of laser operation. These are configuration files structured by blocks demarkated
+    with square brackets, along the lines of::
+
+        [Scans]
+        Header=Scan Type,Description, ...
+        Scan0=Spot,"Spot 1", ...
+        [<other control blocks>]
+        ...
+
+    Some of the values in this table are string-encoded tuples
+    (e.g. :code:`"57950.00,37530.00,20734.50"`) and dictionaries
+    (e.g. :code:`"Dosage=1;DwellTime=1.00;LineSpacing=100.00;Laser.Output=10.00;..."`).
+
+    See Also
+    ---------
+    :class:`ScanData`
     """
-    path = Path(filename)
+    path = Path(filepath)
     if not path.suffix == ".lase":
         path = path.with_suffix(".lase")
     file = open(str(path), encoding=encoding).read()
@@ -44,13 +85,70 @@ def read_lasefile(filename, encoding="cp1252"):
     return df
 
 
-def get_scandata(scandict):
+def read_scancsv(filename, encoding="cp1252"):
     """
-    Process a dictionary of scan information into a Pandas DataFrame.
+    Read a .scancsv formatted file.
+
+    Parameters
+    ----------
+    filepath : :class:`str`, :class:`pathlib.Path`
+        Path to the .scancsv file to import.
+    encoding : :class:`str`
+        File encoding of the .scancsv file.
 
     Returns
     ---------
     :class:`pandas.DataFrame`
+
+    Notes
+    --------
+
+    `.scancsv` files only contain spot information and do not edit the laser and gas
+    conditions. These are essentially comma-separated values files, with a structure
+    along the lines of::
+
+        Scan Type,Description, ...
+        Spot,"Spot 1", ...
+
+    Some of the values in this table are string-encoded tuples
+    (e.g. :code:`"57950.00,37530.00,20734.50"`) and dictionaries
+    (e.g. :code:`"Dosage=1;DwellTime=1.00;LineSpacing=100.00;Laser.Output=10.00;..."`).
+
+    See Also
+    ---------
+    :class:`ScanData`
+    """
+    path = Path(filename)
+    if not path.suffix == ".scancsv":
+        path = path.with_suffix(".scancsv")
+    scanfile = open(str(path), encoding=encoding).read()  # .readlines()
+    scanfilelines = [i for i in re.split("[\n\r]", scanfile) if i]
+
+    scanfiledict = {}
+    scanfiledict["Header"] = scanfilelines[0]
+    for ix, l in enumerate(scanfilelines[1:]):
+        scanfiledict[ix] = l
+
+    df = get_scandata(scanfiledict)
+    return df
+
+
+def get_scandata(scandict):
+    """
+    Process a dictionary of scan information into a :class:`~pandas.DataFrame`.
+
+    Parameters
+    ----------
+    scandict : :class:`dict`
+        Dictionary of scan data.
+
+    Returns
+    ---------
+    :class:`pandas.DataFrame`
+
+    See Also
+    ---------
+    :class:`ScanData`
     """
     headers = scandict["Header"].split(",")
     scannames = [i for i in scandict.keys() if not i == "Header"]
@@ -76,29 +174,6 @@ def get_scandata(scandict):
     df["Preablation Settings"] = df["Preablation Settings"].apply(split_config)
     df["Ablation Settings"] = df["Ablation Settings"].apply(split_config)
     df["Data"] = df["Data"].apply(split_config)
-    return df
-
-
-def read_scancsv(filename, encoding="cp1252"):
-    """
-    Read a .scancsv formatted file.
-
-    Returns
-    ---------
-    :class:`pandas.DataFrame`
-    """
-    path = Path(filename)
-    if not path.suffix == ".scancsv":
-        path = path.with_suffix(".scancsv")
-    scanfile = open(str(path), encoding=encoding).read()  # .readlines()
-    scanfilelines = [i for i in re.split("[\n\r]", scanfile) if i]
-
-    scanfiledict = {}
-    scanfiledict["Header"] = scanfilelines[0]
-    for ix, l in enumerate(scanfilelines[1:]):
-        scanfiledict[ix] = l
-
-    df = get_scandata(scanfiledict)
     return df
 
 
