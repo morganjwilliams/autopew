@@ -49,7 +49,7 @@ The current development plan for **autopew** can be found `here <future.html>`__
    installation
    usage/gettingstarted
    usage/examples
-   submodules
+   API
    dev/development
    dev/changelog
    future
