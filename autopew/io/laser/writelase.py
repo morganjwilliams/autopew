@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 
 
-def xy2scansv(xy, filename="testfile", spotnames="Spot", z=20800):
+def xy2scansv(xy, spotnames="Spot", z=20800):
     """
     Write x-y coordinates to a laser.scancsv file.
 
@@ -17,8 +17,6 @@ def xy2scansv(xy, filename="testfile", spotnames="Spot", z=20800):
     ------------
     xy : :class:`numpy.ndarray`
         Points to serialise.
-    filename : :class:`str` | :class:`pathlib.Path`
-        Filename for export.
     spotnames : :class:`str` | :class:`list`
         Name to prefix spot indicies or a list of spot names.
     z : :class:`int`
@@ -47,14 +45,14 @@ def xy2scansv(xy, filename="testfile", spotnames="Spot", z=20800):
     df["Scan Type"] = "Spot"
     if spotnames is not None:
         if isinstance(spotnames, str):
-            df.Description = [
+            df['Description'] = [
                 "{}_{:d}".format(spotnames, ix + 1) for ix in range(len(x))
             ]
         else:
             assert len(spotnames) == df.index.size
-            df.Description = spotnames
+            df['Description'] = list(spotnames)
     else:
-        df.Description = ["{:d}".format(ix + 1) for ix in range(len(x))]
+        df[]'Description'] = ["{:d}".format(ix + 1) for ix in range(len(x))]
     df.Selected = 1
     df["Lock Edit"] = 0
     df["Vertex Count"] = 1
