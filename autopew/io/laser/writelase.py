@@ -52,7 +52,7 @@ def xy2scansv(xy, spotnames="Spot", z=20800):
             assert len(spotnames) == df.index.size
             df['Description'] = list(spotnames)
     else:
-        df[]'Description'] = ["{:d}".format(ix + 1) for ix in range(len(x))]
+        df['Description'] = ["{:d}".format(ix + 1) for ix in range(len(x))]
     df.Selected = 1
     df["Lock Edit"] = 0
     df["Vertex Count"] = 1
