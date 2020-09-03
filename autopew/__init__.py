@@ -8,6 +8,6 @@ del get_versions
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logging.captureWarnings(True)
 
-from . import transform, image, gui, graph, io
+from . import transform, image, gui, graph, io, workflow
 
-__all__ = ["transform", "image", "gui", "graph", "io"]
+__all__ = ["transform", "image", "gui", "graph", "io", "workflow"]
