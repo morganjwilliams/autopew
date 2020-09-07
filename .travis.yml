@@ -3,12 +3,12 @@ dist: bionic
 os: linux
 cache: pip
 
-before_install:
-  - sudo apt-get install jq curl
+# before_install:
+# - sudo apt-get install jq curl # for codacy, when added
 
 install:
   - pip install --upgrade pip # might help fix pyqt5 issue
-  - pip install -q pytest pytest-runner pytest-cov coverage  codacy-coverage
+  - pip install -q pytest pytest-runner pytest-cov coverage # codacy-coverage
   - pip install coveralls
   - pip install .
 
