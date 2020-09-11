@@ -57,8 +57,9 @@ The current development plan for **autopew** can be found `here <future.html>`__
     :hidden:
     :caption: Getting Started
 
-    installation
     usage/gettingstarted
+    installation
+
 
 .. raw:: latex
 
