@@ -7,7 +7,6 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
 
 from . import laser
-from ..workflow.laser import points_to_scancsv
 
 __all__ = ["laser"]
 
@@ -39,13 +38,13 @@ class PewSCANCSV(PewIOSpecification):
 
     @classmethod
     def read(self, filepath):
-        df = laser.read_scancsv(filepath)
+        df = laser.chromium.read_scancsv(filepath)
         return df
 
     @classmethod
     def write(self, df, filepath, **kwargs):
-        return points_to_scancsv(
-            df[["x", "y"]], filepath.with_suffix(self.extension), **kwargs
+        return laser.chromium.write_scancsv(
+            df, filepath.with_suffix(self.extension), **kwargs
         )
 
 
