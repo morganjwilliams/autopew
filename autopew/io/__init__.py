@@ -21,6 +21,16 @@ class PewIOSpecification(object):
         pass
 
 
+class PewCSV(PewIOSpecification):
+    extension = ".csv"
+
+    def read(self, filepath, **kwargs):
+        df = pd.read_csv(filepath, **kwargs)
+        return df
+
+    def write(self, df, filepath, **kwargs):
+        return df.to_csv(filepath.with_suffix(self.extension), **kwargs)
+
 
 class PewSCANCSV(PewIOSpecification):
     extension = ".scancsv"
