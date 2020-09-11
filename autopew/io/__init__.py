@@ -19,9 +19,38 @@ class PewIOSpecification(object):
     def __init__(self, *args, **kwargs):
         pass
 
+    def validate_input(self, df):
+        """
+        Validate the output of a file reader against the minimum requirements
+        for autopew.
+
+        Parameters
+        ----------
+        df : :class:`pandas.DataFrame`
+            Dataframe to validate.
+        """
+
+        try:  # check input type
+            assert isinstance(df, pd.DataFrame)
+        except AssertionError as e:
+            msg = "File reader needs to provide a pandas DataFrame."
+            logger.warning(msg)
+            raise e
+
+        try:  # check columns
+            for c in ["name", "x", "y"]:
+                assert c in df.columns
+        except AssertionError as e:
+            msg = "Input dataframe missing required column {}.".format(c)
+            logger.warning(msg)
+            raise e
+
 
 class PewCSV(PewIOSpecification):
     extension = ".csv"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
     @classmethod
     def read(self, filepath, **kwargs):
@@ -35,6 +64,9 @@ class PewCSV(PewIOSpecification):
 
 class PewSCANCSV(PewIOSpecification):
     extension = ".scancsv"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
     @classmethod
     def read(self, filepath):
@@ -69,13 +101,13 @@ def registered_extensions():
     }
 
 
-def get_filehandler(file=None, name=None):
+def get_filehandler(filepath=None, name=None):
     """
     Get a registered file handler for autopew.
 
     Parameters
     ----------
-    file : :class:`str` | :class:`pathlib.Path`
+    filepath : :class:`str` | :class:`pathlib.Path`
         Filename or path to the file you want to read/write.
     name : :class:`str`
         Name of the file handler to use (subclass of :class:`PewIOSpecification`).
@@ -84,7 +116,7 @@ def get_filehandler(file=None, name=None):
     -------
     handler : :class:`PewIOSpecification`
     """
-    if file is None and name is None:
+    if filepath is None and name is None:
         msg = "Please specify either a filename, handler name or both."
         raise NotImplementedError(msg)
 
@@ -93,9 +125,11 @@ def get_filehandler(file=None, name=None):
         # lookup by file only
 
         # get file extension
-        ext = Path(file).suffix
+        ext = Path(filepath).suffix
         if ext in [None, ""]:
-            raise NotImplementedError("No extension found for file {}.".format(file))
+            raise NotImplementedError(
+                "No extension found for file {}.".format(filepath)
+            )
 
         count = list(exts.values()).count(ext.lower())
         if not count:
