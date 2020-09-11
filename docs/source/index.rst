@@ -1,3 +1,7 @@
+.. raw:: latex
+
+   \chapter{Introduction}
+
 autopew
 ========
 
@@ -44,20 +48,48 @@ What is **autopew** not?
 
 The current development plan for **autopew** can be found `here <future.html>`__.
 
+.. raw:: latex
+
+   \chapter{Getting Started}
+
+.. toctree::
+    :maxdepth: 1
+    :hidden:
+    :caption: Getting Started
+
+    installation
+    usage/gettingstarted
+
+.. raw:: latex
+
+  \chapter{Examples}
+
 .. toctree::
    :maxdepth: 1
    :hidden:
+   :caption: Examples
 
-   installation
-   usage/gettingstarted
+   usage/usecases
    usage/examples
-   API
-   dev/development
-   dev/changelog
-   future
-   conduct
-   dev/contributing
-   dev/contributors
+   usage/outputs
+
+
+.. raw:: latex
+
+ \chapter{Development}
+
+.. toctree::
+  :maxdepth: 1
+  :hidden:
+  :caption: Development
+
+  API
+  dev/development
+  dev/changelog
+  future
+  conduct
+  dev/contributing
+  dev/contributors
 
 
 .. note:: This documentation is a work in progress and is updated regularly. Contact

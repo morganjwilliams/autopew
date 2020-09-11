@@ -6,12 +6,10 @@ system to display on a large image. This helps to visualise where the analysis
 were collected and gives context to the anaysis.
 
 INPUT:
------------
   * .csv - a list of X,Y coordinates with spotnames + more than 3 reference points
   * large image with locations of more than 3 reference points
 
 OUTPUT:
---------
   * image with points labelled
 
 e.g. We have been using the workflow to visualise the microanalysis points from
@@ -56,8 +54,6 @@ minor inaccuracies in adding points.
   # %% INPUT STAGE ALL POINTS ---------------------------------------------------------------
   #import the coordinate from the source stage
   df = pd.read_csv('Analysis_Points.csv')
-  #drop any blank rows
-  df = df.dropna(how='all', axis='index')
   #add the names of the points
   spotnames=df["ID"]
   #tell the code what the X,Y columns are named

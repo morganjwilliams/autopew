@@ -1,11 +1,16 @@
 Use Cases
 ============
 
+
 autopew is designed for easy referencing between analytical equipment and/or images.
 This allows users to easily transfer between techniques such as electron probe,
 laser ablation, scanning electron microscope or other imaging techniques.
 autopew will allow consistent measurements of the same grains via different
 techniques and give spatial context to chemical data.
+
+.. image:: ../_static/transform_concept.png
+  :align: center
+  :width: 35%
 
 There are a number of use cases that autopew is suited for:
 
@@ -28,6 +33,11 @@ What you need:
 
 autopew can translate points with rotation, and shear.
 
+.. seealso::
+
+  `stage2stage workflow <workflows/stage2stage.html>`__
+
+
 
 Image and Set of Points
 -------------------------
@@ -39,10 +49,18 @@ chosen points to the new stage coordinates.
 This allows you to quickly pick phases for analysis without the need to waste
 analytical time locating and programming the coordinates of the phases.
 
+You can also mark analytical locations on a large image to give context
+information to the microanalysis by converting stage coordinates to pixel coordinates.
+
 What you need:
 
   * an image of high enough resolution to identify the target phases
   * 3 points in the new coordinate system that you can recognise on the image
+
+  .. seealso::
+
+    `image to stage workflow <workflows/image2laser.html>`__,
+    `stage to image workflow <workflows/stage2image.html>`__
 
 
 Two Images
