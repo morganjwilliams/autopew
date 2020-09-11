@@ -36,7 +36,7 @@ def registered_extensions():
     }
 
 
-def get_handler(file=None, name=None):
+def get_filehandler(file=None, name=None):
     """
     Get a registered file handler for autopew.
 

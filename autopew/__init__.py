@@ -11,3 +11,5 @@ logging.captureWarnings(True)
 from . import transform, image, gui, graph, io, workflow
 
 __all__ = ["transform", "image", "gui", "graph", "io", "workflow"]
+
+from autopew.io import get_filehandler
