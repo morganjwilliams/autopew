@@ -48,10 +48,10 @@ class Pew(object):
     def _write(self, obj, filepath, handler=None, **kwargs):
         filepath = pathlib.Path(filepath)
         if isinstance(filepath, (str, pathlib.Path)):
-            handler = get_filehandler(filepath, name=handler, **kwargs)
+            handler = get_filehandler(filepath, name=handler)
         else:
             raise NotImplementedError("Invalid export filepath.")
-        return handler.write(obj)
+        return handler.write(obj, filepath, **kwargs)
 
     def calibrate(self, src, dest, handler=None):
         """
@@ -81,6 +81,7 @@ class Pew(object):
             self._read(handler=handlers[0]),
         )
         self._transform = affine_transform(affine_from_AB(self.src, self.dest))
+        return self
 
     def load(self, filepath, handler=None):
         """
@@ -95,7 +96,7 @@ class Pew(object):
         :class:`pandas.DataFrame`
         """
         self.samples = self._read(filepath, handler=handler)
-        return self.samples  # return imported coordinates?
+        return self
 
     def transform(self, limits=None):
         """
@@ -112,22 +113,27 @@ class Pew(object):
         if self._transform is None:
             raise NotCalibratedError("Transform hasn't yet been calibrated.")
         self.transformed = self._transform(self.samples)  # apply to dataframe or array?
-        return (
-            self.transformed
-        )  # return values so that quick queries can be made without exporting
+        # return values so that quick queries can be made without exporting
+        return self
 
-    def export(self, filepath):
+    def export(self, filepath, enforce_transform=True):
         """
         Export a set of coordinates.
 
         Parameters
         -------------
         filepath: :class:`str` | :class:`pathlib.Path`
+            Desired export filepath.
+        enforce_transform : :class:`bool`
+            Whether to enforce transformation before export.
         """
         # make sure the sample inputs have been transformed
-        if self.transformed is None:
+        if enforce_transform and (self.transformed is None):
             self.transform()
-        self._write(self.transformed, filepath)
+            self._write(self.transformed, filepath)
+        else:
+            self._write(self.samples, filepath)
+        return self
 
     def archive(self, filepath):
         """
@@ -154,6 +160,7 @@ class Pew(object):
 
         # store info as JSON
         json.dump(data, fp)
+        return self
 
     def _load_from_archive(self, filepath):
         """

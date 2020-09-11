@@ -181,7 +181,8 @@ def read_scancsv(filepath, encoding="cp1252"):
         scanfiledict[ix] = l
 
     df = get_scandata(scanfiledict)
-    verts = (
+    df = df.reindex(columns=["name", "x", "y", "z"] + df.columns.tolist())
+    df[["x", "y", "z"]] = (
         np.vstack(df["Vertex List"].map(np.array).values)
         .reshape(df.index.size, -1)
         .astype(np.float)
