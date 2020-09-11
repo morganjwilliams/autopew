@@ -1,6 +1,9 @@
 import sys
+import json
 import logging
 import pathlib
+import pandas as pd
+import numpy as np
 from ._version import get_versions
 
 __version__ = get_versions()["version"]
@@ -19,20 +22,20 @@ from autopew.io import get_filehandler
 
 
 class Pew(object):
-    def __init__(self, *args, **kwargs):
-        self._transform = None
+    def __init__(self, *args, transform=None, archive=None, **kwargs):
+        self._transform = transform
         self.transformed = None
 
-        if args:
-            if len(args) == 2:  # calibrate using src-dest
-                self.calibrate(*args)
-            elif len(args) == 1:  # pre-defined transform?
-                # check that object is a transform or transform matrix
-                self._transform = args[0]
-            else:
-                raise NotImplementedError(
-                    "Unrecognised initialization arguments supplied."
-                )
+        if self.archive is not None:
+            self._load_from_archive(archive)
+        else:
+            if args:
+                if len(args) == 2:  # calibrate using src-dest
+                    self.calibrate(*args)
+                else:
+                    raise NotImplementedError(
+                        "Unrecognised initialization arguments supplied."
+                    )
 
     def _read(self, filepath, handler=None, **kwargs):
 
@@ -125,3 +128,55 @@ class Pew(object):
         if self.transformed is None:
             self.transform()
         self._write(self.transformed, filepath)
+
+    def archive(self, filepath):
+        """
+        Archive the coordinate mapping and calibration for later loading.
+
+        Parameters
+        ----------
+        filepath: :class:`str` | :class:`pathlib.Path`
+        """
+        fp = Path(filepath)
+        if fp.suffix not in [".pew", ".json"]:
+            msg = (
+                "Archive filepath has an invalid extension; "
+                "please use either '.pew' or '.json'."
+            )
+            raise AssertionError(msg)
+
+        data = {}
+        # get calibration coordinates
+
+        # get sample points
+
+        # get affine transform array
+
+        # store info as JSON
+        json.dump(data, fp)
+
+    def _load_from_archive(self, filepath):
+        """
+        Load the Pew map from an archived file.
+
+        Parameters
+        ----------
+        filepath: :class:`str` | :class:`pathlib.Path`
+        """
+        fp = Path(filepath)
+        if fp.suffix not in [".pew", ".json"]:
+            msg = (
+                "Archive filepath has an invalid extension; "
+                "please use either '.pew' or '.json'."
+            )
+            raise AssertionError(msg)
+        # load from JSON
+        with open(fp, 'r') as f:
+            data = json.loads(f.read())
+        # add calibration coordinates
+
+        # get affine transform array
+
+        # verify integrity between calibration and transform array
+
+        # get sample points
