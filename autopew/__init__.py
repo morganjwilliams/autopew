@@ -21,13 +21,13 @@ class Pew(object):
         self._transform = None
         self.transformed = None
 
-    if len(args) == 2:  # calibrate using src-dest
-        self.calibrate(*args)
-    elif len(args) == 1:  # pre-defined transform?
-        # check that object is a transform or transform matrix
-        self._transform = args[0]
-    else:
-        raise NotImplementedError("Unrecognised initialization arguments supplied.")
+        if len(args) == 2:  # calibrate using src-dest
+            self.calibrate(*args)
+        elif len(args) == 1:  # pre-defined transform?
+            # check that object is a transform or transform matrix
+            self._transform = args[0]
+        else:
+            raise NotImplementedError("Unrecognised initialization arguments supplied.")
 
     def _read(self, filepath, handler=None, **kwargs):
 

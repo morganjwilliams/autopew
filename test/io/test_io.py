@@ -7,5 +7,5 @@ class TestGetHandler(unittest.TestCase):
         pass
 
     def test_get_filehandler(self):
-        handler = get_handler("mylasercoords.scancsv")
+        handler = get_filehandler("mylasercoords.scancsv")
         self.assertIsInstance(get_filehandler, PewIOSpecification)
