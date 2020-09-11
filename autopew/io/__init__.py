@@ -61,8 +61,8 @@ def get_filehandler(file=None, name=None):
 
         # get file extension
         ext = Path(file).suffix
-        if ext in [None, '']:
-            raise NotImplementedError('No extension found for file {}.'.format(file))
+        if ext in [None, ""]:
+            raise NotImplementedError("No extension found for file {}.".format(file))
 
         count = list(exts.values()).count(ext.lower())
         if not count:
