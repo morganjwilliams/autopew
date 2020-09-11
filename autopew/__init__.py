@@ -26,7 +26,7 @@ class Pew(object):
         self._transform = transform
         self.transformed = None
 
-        if self.archive is not None:
+        if archive is not None:
             self._load_from_archive(archive)
         else:
             if args:
@@ -38,7 +38,7 @@ class Pew(object):
                     )
 
     def _read(self, filepath, handler=None, **kwargs):
-
+        filepath = pathlib.Path(filepath)
         if isinstance(filepath, (np.ndarray, pd.DataFrame, list)):
             return pd.DataFrame(filepath)
         elif isinstance(filepath, (str, pathlib.Path)):
@@ -46,7 +46,7 @@ class Pew(object):
         return handler.read(filepath)
 
     def _write(self, obj, filepath, handler=None, **kwargs):
-
+        filepath = pathlib.Path(filepath)
         if isinstance(filepath, (str, pathlib.Path)):
             handler = get_filehandler(filepath, name=handler, **kwargs)
         else:
@@ -137,7 +137,7 @@ class Pew(object):
         ----------
         filepath: :class:`str` | :class:`pathlib.Path`
         """
-        fp = Path(filepath)
+        fp = pathlib.Path(filepath)
         if fp.suffix not in [".pew", ".json"]:
             msg = (
                 "Archive filepath has an invalid extension; "
@@ -163,7 +163,7 @@ class Pew(object):
         ----------
         filepath: :class:`str` | :class:`pathlib.Path`
         """
-        fp = Path(filepath)
+        fp = pathlib.Path(filepath)
         if fp.suffix not in [".pew", ".json"]:
             msg = (
                 "Archive filepath has an invalid extension; "
@@ -171,7 +171,7 @@ class Pew(object):
             )
             raise AssertionError(msg)
         # load from JSON
-        with open(fp, 'r') as f:
+        with open(fp, "r") as f:
             data = json.loads(f.read())
         # add calibration coordinates
 
