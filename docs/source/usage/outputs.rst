@@ -17,4 +17,27 @@ need to be changed manually after import into the laser.
 TESCAN SEM
 -------------
 **work in progress**
-The TESCAN SEM allows the import of X,Y coordinates via .csv files. 
+
+Use of the TESCAN SEM system allows input and output of .XML format coordinates.
+Currently only allows export and import of a single .xml file per sample.
+Multiple samples in a single .xml file is in development.
+
+This export type does not include labels for points.
+
+Focus is set per sample and needs to be manually adjusted for each analysis location.
+
+JOEL EPMA
+-----------
+**work in progress**
+
+autopew allows import and export of coordinates in .POS files. Compatible with
+some JOEL EPMA devices.
+
+Focus is set per sample and needs to be manually adjusted for each analysis location.
+
+custom input and outputs
+-----------------------------
+autopew is designed for easy incorporation of your specific output file needs.
+converting from a pandas dataframe containing X,Y and label, any output type can
+be developed. Please see `the contributions page <../dev/contributing.html>`__.
+for more information.
