@@ -3,11 +3,17 @@ Stage to Stage
 
 This is a simple workflow example involving converting points from one stage coordinate
 system to another. This workflow also works for importing .csv files of pixel x,y
-coordinates from software such as imageJ.
+coordinates.
+
+For this example we use:
 
 INPUT: .csv - a list of X,Y coordinates with spotnames + more than 3 reference points
 
 OUTPUT: scancsv file in laser coordinate system with corresponding spotnames
+
+Input and output can be easily changed for your purposes see
+`the contributions page <../../dev/contributing.html>`__ for more information on
+how to contribute.
 
 e.g. We have been using the workflow to ensure measurement of the
 same grain on both scanning electron microscope and the laser ablation system.

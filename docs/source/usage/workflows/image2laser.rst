@@ -58,6 +58,7 @@ the optimal transformation, such that adding more calibration points can help av
 minor inaccuracies in adding points.
 
 .. code-block:: bash
+
   # pick reference coordinates on image
   pixel_reference_coords = pick_points(imagepath)
 
