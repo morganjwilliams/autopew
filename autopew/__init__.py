@@ -15,6 +15,8 @@ __all__ = ["transform", "image", "gui", "graph", "io", "workflow"]
 
 from autopew.io import get_filehandler
 
+# pandas dataframe accessor for verifying dataframe structure and accessing coordinates?
+
 
 class Pew(object):
     def __init__(self, *args, **kwargs):
