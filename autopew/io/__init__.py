@@ -38,6 +38,10 @@ class PewSCANCSV(PewIOSpecification):
 def registered_extensions():
     """
     Get a dictionary of registered extensions mapping the relevant IO specifications.
+
+    Returns
+    -------
+    :class:`dict`
     """
     specs = inspect.getmembers(
         sys.modules[__name__],
@@ -45,7 +49,7 @@ def registered_extensions():
         if inspect.isclass(cls)
         else False,
     )
-    return {  # needs to be this way around to have duplicate extensions
+    return {  # needs to be this way around to allow duplicate extensions in values
         cls: cls.extension
         for (name, cls) in specs
         if cls.extension is not None  # ignore PewIOSpecification with extension=None
