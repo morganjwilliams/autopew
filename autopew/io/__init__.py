@@ -24,10 +24,12 @@ class PewIOSpecification(object):
 class PewCSV(PewIOSpecification):
     extension = ".csv"
 
+    @classmethod
     def read(self, filepath, **kwargs):
         df = pd.read_csv(filepath, **kwargs)
         return df
 
+    @classmethod
     def write(self, df, filepath, **kwargs):
         return df.to_csv(filepath.with_suffix(self.extension), **kwargs)
 
@@ -35,10 +37,12 @@ class PewCSV(PewIOSpecification):
 class PewSCANCSV(PewIOSpecification):
     extension = ".scancsv"
 
+    @classmethod
     def read(self, filepath):
         df = laser.read_scancsv(filepath)
         return df
 
+    @classmethod
     def write(self, df, filepath, **kwargs):
         return points_to_scancsv(
             df[["x", "y"]], filepath.with_suffix(self.extension), **kwargs
