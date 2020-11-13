@@ -4,16 +4,29 @@ from autopew.util.meta import autopew_datafolder
 from autopew import Pew
 from pathlib import Path
 import unittest
-from pyrolite.util.general import temp_path, remove_tempdir
+from autopew.util.general import temp_path, remove_tempdir
 from autopew.transform.affine import affine_transform, compose_affine2d, rotate
-from pyrolite.util.text import int_to_alpha
 
-# from pyrolite.util.meta import stream_log
-# stream_log("autopew.io")
 from itertools import product
 
-list(product(["A", "B", "C"], ["C", "D", "E"]))
-np.array([[0], [1]]).tolist()
+def int_to_alpha(num):
+    """
+    Encode an integer (0-26) into alpha characters, useful for sequences of
+    axes/figures.
+
+    Parameters
+    ----------
+    int : :class:`int`
+        Integer to encode.
+
+    Returns
+    -------
+    :class:`str`
+        Alpha-encoding of a small integer.
+
+    """
+    alphas = [chr(i).lower() for i in range(65, 65 + 26)]
+    return alphas[num]
 
 
 class TestPew(unittest.TestCase):

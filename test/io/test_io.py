@@ -10,7 +10,7 @@ from autopew.io import (
     PewCSV,
     PewSCANCSV,
 )
-from pyrolite.util.general import temp_path, remove_tempdir
+from autopew.util.general import temp_path, remove_tempdir
 
 
 class TestGetRegisteredExtensions(unittest.TestCase):
