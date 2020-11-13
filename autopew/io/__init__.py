@@ -44,7 +44,7 @@ class PewIOSpecification(object):
             logger.warning(msg)
             raise e
 
-          # check columns
+        # check columns
         required = ["name", "x", "y"]
         absent = [c for c in required if c not in df.columns]
         if absent:
@@ -91,6 +91,18 @@ class PewSCANCSV(PewIOSpecification):
         return laser.chromium.write_scancsv(
             df, filepath.with_suffix(self.extension), **kwargs
         )
+
+
+class PewJEOLpos(PewIOSpecification):
+    extension = ".pos"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    @classmethod
+    def write(self, df, filepath, **kwargs):
+        self.validate_dataframe(df)
+        return EPMA.JEOL.write_pos(df, filepath.with_suffix(self.extension), **kwargs)
 
 
 def registered_extensions():

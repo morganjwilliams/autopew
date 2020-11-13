@@ -4,7 +4,7 @@ import pandas as pd
 from pathlib import Path
 from autopew.util.general import temp_path, remove_tempdir
 from autopew.util.meta import autopew_datafolder
-from autopew.io.EMPA import JEOL
+from autopew.io.EPMA import JEOL
 
 
 class TestWritePOS(unittest.TestCase):
