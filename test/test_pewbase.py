@@ -9,6 +9,7 @@ from autopew.transform.affine import affine_transform, compose_affine2d, rotate
 
 from itertools import product
 
+
 def int_to_alpha(num):
     """
     Encode an integer (0-26) into alpha characters, useful for sequences of
@@ -93,6 +94,7 @@ class TestPew(unittest.TestCase):
 
     def tearDown(self):
         remove_tempdir(self.temp)
+
 
 # map = Pew().load_samples(infile).export_samples(outfile, enforce_transform=False)
 
