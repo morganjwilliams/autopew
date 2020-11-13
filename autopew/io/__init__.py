@@ -12,6 +12,13 @@ __all__ = ["laser"]
 
 
 class PewIOSpecification(object):
+    """
+    Template for input and output file handlers for autopew.
+
+    These handers specify functions to import files to pandas DataFrames and the
+    export of these filetypes from pandas DataFrames.
+    """
+
     extension = None
     type = None  # type handlers for np.array, pd.DataFrame?
 
@@ -19,7 +26,8 @@ class PewIOSpecification(object):
     def __init__(self, *args, **kwargs):
         pass
 
-    def validate_input(self, df):
+    @classmethod
+    def validate_dataframe(cls, df):
         """
         Validate the output of a file reader against the minimum requirements
         for autopew.
@@ -29,7 +37,6 @@ class PewIOSpecification(object):
         df : :class:`pandas.DataFrame`
             Dataframe to validate.
         """
-
         try:  # check input type
             assert isinstance(df, pd.DataFrame)
         except AssertionError as e:
@@ -37,13 +44,15 @@ class PewIOSpecification(object):
             logger.warning(msg)
             raise e
 
-        try:  # check columns
-            for c in ["name", "x", "y"]:
-                assert c in df.columns
-        except AssertionError as e:
-            msg = "Input dataframe missing required column {}.".format(c)
+          # check columns
+        required = ["name", "x", "y"]
+        absent = [c for c in required if c not in df.columns]
+        if absent:
+            msg = "Input dataframe missing required column(s): {}.".format(
+                ", ".join(absent)
+            )
             logger.warning(msg)
-            raise e
+            raise AssertionError(msg)
 
 
 class PewCSV(PewIOSpecification):
@@ -55,10 +64,12 @@ class PewCSV(PewIOSpecification):
     @classmethod
     def read(self, filepath, **kwargs):
         df = pd.read_csv(filepath, **kwargs)
+        self.validate_dataframe(df)
         return df
 
     @classmethod
     def write(self, df, filepath, **kwargs):
+        self.validate_dataframe(df)
         return df.to_csv(filepath.with_suffix(self.extension), **kwargs)
 
 
@@ -71,10 +82,12 @@ class PewSCANCSV(PewIOSpecification):
     @classmethod
     def read(self, filepath):
         df = laser.chromium.read_scancsv(filepath)
+        self.validate_dataframe(df)
         return df
 
     @classmethod
     def write(self, df, filepath, **kwargs):
+        self.validate_dataframe(df)
         return laser.chromium.write_scancsv(
             df, filepath.with_suffix(self.extension), **kwargs
         )

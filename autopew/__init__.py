@@ -1,3 +1,11 @@
+"""
+Base module for autopew containing the core object oriented API.
+
+Todo
+----
+* Implement pandas dataframe accessor for quick export of dataframes to specific
+    filetypes (e.g. `df.pew.to_scancsv()`; with dataframe validators).
+"""
 import sys
 import json
 import logging
@@ -16,13 +24,18 @@ from . import transform, image, gui, graph, io, workflow
 
 __all__ = ["transform", "image", "gui", "graph", "io", "workflow"]
 
-from autopew.io import get_filehandler
+from .io import get_filehandler
+from .transform.affine import affine_transform, affine_from_AB
 
 # pandas dataframe accessor for verifying dataframe structure and accessing coordinates?
 
 
 class Pew(object):
     def __init__(self, *args, transform=None, archive=None, **kwargs):
+        """
+        Pew transformer which implements various file handlers for import and export of
+        sample coordinates.
+        """
         self._transform = transform
         self.transformed = None
 
@@ -37,13 +50,29 @@ class Pew(object):
                         "Unrecognised initialization arguments supplied."
                     )
 
-    def _read(self, filepath, handler=None, **kwargs):
-        filepath = pathlib.Path(filepath)
-        if isinstance(filepath, (np.ndarray, pd.DataFrame, list)):
-            return pd.DataFrame(filepath)
-        elif isinstance(filepath, (str, pathlib.Path)):
+    def _read(self, src, handler=None, **kwargs):
+        if isinstance(src, (np.ndarray, pd.DataFrame, list)):
+            shape = np.array(src).shape
+            if shape[1] == 2:
+                df = pd.DataFrame(src)
+                df.columns = ["x", "y"]
+                return df
+            elif shape[1] == 3:
+                df = pd.DataFrame(src)
+                df.columns = ["name", "x", "y"]
+                return df
+            else:
+                msg = "Unknown form for datasource with shape: {}.".format(
+                    ",".join(shape)
+                )
+                msg += " Source should have columns (x,y) or (name,x,y)."
+                return NotImplementedError
+        elif isinstance(src, (str, pathlib.Path)):
+            filepath = pathlib.Path(src)
             handler = get_filehandler(filepath, name=handler, **kwargs)
-        return handler.read(filepath)
+            return handler.read(filepath)
+        else:
+            raise NotImplementedError()
 
     def _write(self, obj, filepath, handler=None, **kwargs):
         filepath = pathlib.Path(filepath)
@@ -78,12 +107,14 @@ class Pew(object):
 
         self.src, self.dest = (
             self._read(src, handler=handlers[0]),
-            self._read(handler=handlers[0]),
+            self._read(dest, handler=handlers[1]),
         )
-        self._transform = affine_transform(affine_from_AB(self.src, self.dest))
+        self._transform = affine_transform(
+            affine_from_AB(self.src[["x", "y"]].values, self.dest[["x", "y"]].values)
+        )
         return self
 
-    def load(self, filepath, handler=None):
+    def load_samples(self, filepath, handler=None):
         """
         Import a set of sample coordinates.
 
@@ -98,9 +129,9 @@ class Pew(object):
         self.samples = self._read(filepath, handler=handler)
         return self
 
-    def transform(self, limits=None):
+    def transform_samples(self, samples=None, limits=None):
         """
-        Transform source coordinates to the destination coordinate system.
+        Transform sample coordinates to the destination coordinate system.
 
         Parameters
         ----------
@@ -112,11 +143,13 @@ class Pew(object):
         """
         if self._transform is None:
             raise NotCalibratedError("Transform hasn't yet been calibrated.")
-        self.transformed = self._transform(self.samples)  # apply to dataframe or array?
+        if samples is None:
+            samples = self.samples
+        self.transformed = self._transform(samples)  # apply to dataframe or array?
         # return values so that quick queries can be made without exporting
         return self
 
-    def export(self, filepath, enforce_transform=True):
+    def export_samples(self, filepath, enforce_transform=True):
         """
         Export a set of coordinates.
 
@@ -135,7 +168,7 @@ class Pew(object):
             self._write(self.samples, filepath)
         return self
 
-    def archive(self, filepath):
+    def to_archive(self, filepath):
         """
         Archive the coordinate mapping and calibration for later loading.
 

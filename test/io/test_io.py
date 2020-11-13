@@ -72,7 +72,7 @@ class TestGetHandler(unittest.TestCase):
 class TestPewIOSpec(unittest.TestCase):
     def test_validate_input(self):
         handler = PewIOSpecification()
-        handler.validate_input(pd.DataFrame(columns=["x", "y", "name"]))
+        handler.validate_dataframe(pd.DataFrame(columns=["x", "y", "name"]))
 
 
 class TestPewCSV(unittest.TestCase):
