@@ -25,5 +25,5 @@ For more information, see the documentation's [installation page](https://autope
 
 | **master** | **develop** |
 |:----------:|:-----------:|
-| [![Build Status](https://travis-ci.org/morganjwilliams/autopew.svg?branch=master)](https://travis-ci.org/morganjwilliams/autopew) | [![Build Status](https://travis-ci.org/morganjwilliams/autopew.svg?branch=develop)](https://travis-ci.org/morganjwilliams/autopew) |
+| [![Build Status](https://travis-ci.com/morganjwilliams/autopew.svg?branch=master)](https://travis-ci.com/morganjwilliams/autopew) | [![Build Status](https://travis-ci.com/morganjwilliams/autopew.svg?branch=develop)](https://travis-ci.com/morganjwilliams/autopew) |
 | [![Coverage Status](https://coveralls.io/repos/github/morganjwilliams/autopew/badge.svg?branch=master)](https://coveralls.io/github/morganjwilliams/autopew?branch=master) | [![Coverage Status](https://coveralls.io/repos/github/morganjwilliams/autopew/badge.svg?branch=develop)](https://coveralls.io/github/morganjwilliams/autopew?branch=develop) |
