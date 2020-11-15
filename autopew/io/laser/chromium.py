@@ -263,8 +263,8 @@ def write_scancsv(
         str(output_filepath), "w", encoding=encoding
     ) as f:  # str for Python 3.5 compatibility
         f.write(",".join(scancsv.columns.tolist()) + "\n")
-        str = scancsv.to_csv(
+        buffer = scancsv.to_csv(
             header=False, index=False, encoding=encoding, quoting=csv.QUOTE_NONNUMERIC
         )
-        f.write(str)
+        f.write(buffer)
     return scancsv
