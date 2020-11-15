@@ -15,9 +15,8 @@ class TestWritePOS(unittest.TestCase):
         self.temp = temp_path()
         self.fp = self.temp / "exportedpoints.pos"
 
-    def test_write_scancsv(self):
+    def test_write_pos(self):
         df = JEOL.write_pos(self.df, filepath=self.fp, z=10.78)
-        print(open(self.fp).read())
         assert self.fp.exists()
 
     def tearDown(self):
