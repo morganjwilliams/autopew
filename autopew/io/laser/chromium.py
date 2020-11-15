@@ -258,7 +258,10 @@ def write_scancsv(
     scancsv["Data"] = "ExpectedLaseTime=28.9;ScanLength=0.0"
     scancsv["Preablation Settings"] = preablate
     scancsv["Ablation Settings"] = ablate
-    with open(Path(filepath).with_suffix(".scancsv"), "w", encoding=encoding) as f:
+    output_filepath = Path(filepath).with_suffix(".scancsv")
+    with open(
+        str(output_filepath), "w", encoding=encoding
+    ) as f:  # str for Python 3.5 compatibility
         f.write(",".join(scancsv.columns.tolist()) + "\n")
         str = scancsv.to_csv(
             header=False, index=False, encoding=encoding, quoting=csv.QUOTE_NONNUMERIC

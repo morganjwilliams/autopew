@@ -70,7 +70,9 @@ class PewCSV(PewIOSpecification):
     @classmethod
     def write(self, df, filepath, **kwargs):
         self.validate_dataframe(df)
-        return df.to_csv(filepath.with_suffix(self.extension), **kwargs)
+        return df.to_csv(
+            str(filepath.with_suffix(self.extension)), **kwargs
+        )  # str for  # compatibility for Python 3.5
 
 
 class PewSCANCSV(PewIOSpecification):
@@ -101,6 +103,7 @@ class PewJEOLpos(PewIOSpecification):
 
     @classmethod
     def write(self, df, filepath, **kwargs):
+        filepath = str(filepath)  # compatibility for Python 3.5
         self.validate_dataframe(df)
         return EPMA.JEOL.write_pos(df, filepath.with_suffix(self.extension), **kwargs)
 

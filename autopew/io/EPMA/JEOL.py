@@ -65,5 +65,5 @@ def write_pos(
     s = pos.to_csv(None, quoting=csv.QUOTE_NONE, index=False, header=False)
     s = s.replace("\r\n", "\n")
     s = "0,0,0,0\n0,0,0,0\n0,0,0,0\n" + s
-    with open(filepath, "w") as f:
+    with open(str(filepath), "w") as f: # str for Python 3.5 compatibility
         f.write(s[:-1])
