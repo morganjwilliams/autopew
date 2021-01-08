@@ -33,7 +33,6 @@ setup(
     keywords=["laser ablation", "geochemistry"],
     packages=find_packages(exclude=["test*"]),
     install_requires=[
-        "pathlib",
         "pillow",
         "ipython",
         "networkx",

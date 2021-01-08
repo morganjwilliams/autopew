@@ -1,0 +1,49 @@
+name: autopew
+
+channels:
+  - conda-forge # get things from conda-forge first
+  - defaults
+
+dependencies:
+  - python=3.7
+  # pandas and scientific python
+  - numpy
+  - pandas>=1.0
+  - xlrd
+  - openpyxl
+  - psutil
+  - matplotlib
+  - pillow
+  - scipy
+  # Tools
+  - jupyter
+  - jupyterlab
+  - ipykernel
+  - pip
+  - black
+  - jedi<0.18.0 # for use on atom/ipython
+  - pip:
+    - pytest
+    - pytest-runner
+    - pytest-cov
+    - coverage
+    - codecov
+    - sphinx_rtd_theme
+    - sphinx-autodoc-annotation
+    - recommonmark
+    - versioneer
+    - twine
+    - -e . # install the local autopew package
+
+# conda env create -f environment.yml
+# python -m ipykernel install --user --name autopew
+
+# conda activate autopew
+
+# install autopew from here
+
+# conda deactivate autopew
+# conda env remove -n autopew
+# jupyter kernelspec uninstall autopew
+
+# make sure to launch Jupyter, atom etc from the command line after activating
