@@ -163,7 +163,7 @@ class Pew(object):
         """
         # make sure the sample inputs have been transformed
         if enforce_transform and (self.transformed is None):
-            self.transform()
+            self.transform_samples()
             self._write(self.transformed, filepath)
         else:
             self._write(self.samples, filepath)
