@@ -83,7 +83,7 @@ class Pew(object):
             raise NotImplementedError("Invalid export filepath.")
         return handler.write(obj, filepath, **kwargs)
 
-    def calibrate(self, src, dest, handler=None):
+    def calibrate(self, src, dest, handler=None, **kwargs):
         """
         Calibrate the transformation between two planar coordinate systems given
         two sets of corresponding points.
@@ -107,15 +107,15 @@ class Pew(object):
             handlers = [None, None]
 
         self.src, self.dest = (
-            self._read(src, handler=handlers[0]),
-            self._read(dest, handler=handlers[1]),
+            self._read(src, handler=handlers[0], **kwargs),
+            self._read(dest, handler=handlers[1], **kwargs),
         )
         self._transform = affine_transform(
             affine_from_AB(self.src[["x", "y"]].values, self.dest[["x", "y"]].values)
         )
         return self
 
-    def load_samples(self, filepath, handler=None):
+    def load_samples(self, filepath, handler=None, **kwargs):
         """
         Import a set of sample coordinates.
 
@@ -127,7 +127,7 @@ class Pew(object):
         -------
         :class:`pandas.DataFrame`
         """
-        self.samples = self._read(filepath, handler=handler)
+        self.samples = self._read(filepath, handler=handler, **kwargs)
         return self
 
     def transform_samples(self, samples=None, limits=None):
@@ -152,7 +152,7 @@ class Pew(object):
         # return values so that quick queries can be made without exporting
         return self
 
-    def export_samples(self, filepath, enforce_transform=True):
+    def export_samples(self, filepath, enforce_transform=True, **kwargs):
         """
         Export a set of coordinates.
 
@@ -166,9 +166,9 @@ class Pew(object):
         # make sure the sample inputs have been transformed
         if enforce_transform and (self.transformed is None):
             self.transform_samples()
-            self._write(self.transformed, filepath)
+            self._write(self.transformed, filepath, **kwargs)
         else:
-            self._write(self.samples, filepath)
+            self._write(self.samples, filepath, **kwargs)
         return self
 
     def to_archive(self, filepath):
