@@ -68,11 +68,29 @@ class TestGetHandler(unittest.TestCase):
                 with self.assertRaises(IndexError):
                     handler = get_filehandler(name=name)
 
+    @unittest.expectedFailure
+    def test_no_file_no_name(self):
+        name = None
+        filepath = None
+        handler = get_filehandler(name=name, filepath=filepath)
+
+
 
 class TestPewIOSpec(unittest.TestCase):
     def test_validate_input(self):
         handler = PewIOSpecification()
         handler.validate_dataframe(pd.DataFrame(columns=["x", "y", "name"]))
+
+    def test_invalid_input(self):
+        handler = PewIOSpecification()
+
+        for input in [
+            pd.DataFrame(columns=["not_x", "not_y", "not_a_name"]),
+            np.array([[0, 1, 2]]),
+        ]:
+            with self.subTest(input=input):
+                with self.assertRaises(AssertionError):
+                    handler.validate_dataframe(input)
 
 
 class TestPewCSV(unittest.TestCase):
@@ -98,6 +116,13 @@ class TestPewSCANSCV(unittest.TestCase):
         handler = PewSCANCSV()
         self.assertTrue(isinstance(handler, PewIOSpecification))
 
+class TestPewJEOLpos(unittest.TestCase):
+    def setUp(self):
+        self.tempdir = temp_path()
+
+    def test_init(self):
+        handler = PewCSV()
+        self.assertTrue(isinstance(handler, PewIOSpecification))
     def tearDown(self):
         try:
             remove_tempdir(self.fp)
