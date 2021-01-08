@@ -75,7 +75,6 @@ class TestGetHandler(unittest.TestCase):
         handler = get_filehandler(name=name, filepath=filepath)
 
 
-
 class TestPewIOSpec(unittest.TestCase):
     def test_validate_input(self):
         handler = PewIOSpecification()
@@ -111,10 +110,30 @@ class TestPewCSV(unittest.TestCase):
 class TestPewSCANSCV(unittest.TestCase):
     def setUp(self):
         self.tempdir = temp_path()
+        self.out_filename = "out_{}.scancsv"
+        self.pewdf = pd.DataFrame(
+            [["a", 0, 1], ["c", 1, 2], ["b", 3, 4]],
+            columns=["name", "x", "y"],
+        )
 
     def test_init(self):
         handler = PewSCANCSV()
         self.assertTrue(isinstance(handler, PewIOSpecification))
+
+    def test_write(self):
+        handler = PewSCANCSV()
+        for ix, spotnames in enumerate([None, "Spot", ["A", "B", "C"]]):
+            with self.subTest(spotnames=spotnames):
+                target = self.tempdir / self.out_filename.format(ix)
+                handler.write(self.pewdf, target, spotnames=spotnames)
+                self.assertTrue(target.exists())
+
+    def tearDown(self):
+        try:
+            remove_tempdir(self.tempdir)
+        except:
+            pass
+
 
 class TestPewJEOLpos(unittest.TestCase):
     def setUp(self):
@@ -125,6 +144,6 @@ class TestPewJEOLpos(unittest.TestCase):
         self.assertTrue(isinstance(handler, PewIOSpecification))
     def tearDown(self):
         try:
-            remove_tempdir(self.fp)
+            remove_tempdir(self.tempdir)
         except:
             pass
