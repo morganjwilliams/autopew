@@ -24,7 +24,7 @@ from . import transform, image, gui, graph, io, workflow
 
 __all__ = ["transform", "image", "gui", "graph", "io", "workflow"]
 
-from .io import get_filehandler
+from .io import get_filehandler, PewIOSpecification
 from .transform.affine import affine_transform, affine_from_AB
 
 # pandas dataframe accessor for verifying dataframe structure and accessing coordinates?
@@ -69,7 +69,8 @@ class Pew(object):
                 return NotImplementedError
         elif isinstance(src, (str, pathlib.Path)):
             filepath = pathlib.Path(src)
-            handler = get_filehandler(filepath, name=handler, **kwargs)
+            if not isinstance(handler, PewIOSpecification):
+                handler = get_filehandler(filepath, name=handler, **kwargs)
             return handler.read(filepath)
         else:
             raise NotImplementedError()
