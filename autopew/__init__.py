@@ -146,7 +146,9 @@ class Pew(object):
             raise NotCalibratedError("Transform hasn't yet been calibrated.")
         if samples is None:
             samples = self.samples
-        self.transformed = self._transform(samples)  # apply to dataframe or array?
+        self.transformed = self.samples.copy()
+        # apply to dataframe or array?
+        self.transformed[["x", "y"]] = self._transform(samples[["x", "y"]])
         # return values so that quick queries can be made without exporting
         return self
 
