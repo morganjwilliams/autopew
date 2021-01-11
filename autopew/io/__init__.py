@@ -7,6 +7,7 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
 
 from . import laser
+from . import EPMA
 
 __all__ = ["laser"]
 
