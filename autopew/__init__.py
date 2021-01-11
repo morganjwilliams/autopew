@@ -58,7 +58,7 @@ class Pew(object):
                 df.columns = ["x", "y"]
                 df["name"] = np.arange(df.index.size)
                 df["name"] = df["name"].astype("str")
-                df = df.loc[:, ["name", " x", "y"]]
+                df = df.loc[:, ["name", "x", "y"]]
                 return df
             elif shape[1] == 3:  # (n, 3) array with names
                 df = pd.DataFrame(src)
@@ -122,7 +122,7 @@ class Pew(object):
                 self.dest[["x", "y"]].astype(float).values,
             )
         )
-        if self.samples is not None: # automatically transform loaded samples
+        if self.samples is not None:  # automatically transform loaded samples
             self.transform_samples()
         return self
 
@@ -139,7 +139,7 @@ class Pew(object):
         :class:`pandas.DataFrame`
         """
         self.samples = self._read(filepath, handler=handler, **kwargs)
-        if self._transform is not None: # automatically transform loaded samples
+        if self._transform is not None:  # automatically transform loaded samples
             self.transform_samples(**kwargs)
         return self
 
