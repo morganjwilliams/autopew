@@ -1,5 +1,5 @@
-autopew\.image\.registration
+autopew\.image
 --------------------------------
-  .. automodule:: autopew.image.registration
+  .. automodule:: autopew.image
       :members:
       :undoc-members:
