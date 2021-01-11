@@ -9,6 +9,7 @@ from autopew.io import (
     PewIOSpecification,
     PewCSV,
     PewSCANCSV,
+    PewJEOLpos
 )
 from autopew.util.general import temp_path, remove_tempdir
 
@@ -95,10 +96,23 @@ class TestPewIOSpec(unittest.TestCase):
 class TestPewCSV(unittest.TestCase):
     def setUp(self):
         self.tempdir = temp_path()
+        self.pewdf = pd.DataFrame(
+            [["a", 0, 1], ["c", 1, 2], ["b", 3, 4]],
+            columns=["name", "x", "y"],
+        )
 
     def test_init(self):
         handler = PewCSV()
         self.assertTrue(isinstance(handler, PewIOSpecification))
+
+    def test_read(self):
+        pass
+
+    def test_write(self):
+        target = self.tempdir / "pewCSVtest.csv"
+        handler = PewCSV()
+        handler.write(self.pewdf, target)
+        self.assertTrue(target.exists())
 
     def tearDown(self):
         try:
@@ -120,6 +134,9 @@ class TestPewSCANSCV(unittest.TestCase):
         handler = PewSCANCSV()
         self.assertTrue(isinstance(handler, PewIOSpecification))
 
+    def test_read(self):
+        pass
+
     def test_write(self):
         handler = PewSCANCSV()
         for ix, spotnames in enumerate([None, "Spot", ["A", "B", "C"]]):
@@ -138,10 +155,21 @@ class TestPewSCANSCV(unittest.TestCase):
 class TestPewJEOLpos(unittest.TestCase):
     def setUp(self):
         self.tempdir = temp_path()
+        self.pewdf = pd.DataFrame(
+            [["a", 0, 1], ["c", 1, 2], ["b", 3, 4]],
+            columns=["name", "x", "y"],
+        )
 
     def test_init(self):
-        handler = PewCSV()
+        handler = PewJEOLpos()
         self.assertTrue(isinstance(handler, PewIOSpecification))
+
+    def test_write(self):
+        target = self.tempdir / "pewJEOLtest.pos"
+        handler = PewJEOLpos()
+        handler.write(self.pewdf, target)
+        self.assertTrue(target.exists())
+
     def tearDown(self):
         try:
             remove_tempdir(self.tempdir)

@@ -104,7 +104,6 @@ class PewJEOLpos(PewIOSpecification):
 
     @classmethod
     def write(self, df, filepath, **kwargs):
-        filepath = str(filepath)  # compatibility for Python 3.5
         self.validate_dataframe(df)
         return EPMA.JEOL.write_pos(df, filepath.with_suffix(self.extension), **kwargs)
 
