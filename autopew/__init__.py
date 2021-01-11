@@ -53,11 +53,13 @@ class Pew(object):
     def _read(self, src, handler=None, **kwargs):
         if isinstance(src, (np.ndarray, pd.DataFrame, list)):
             shape = np.array(src).shape
-            if shape[1] == 2:
+            if shape[1] == 2:  # (n, 2) array without names
                 df = pd.DataFrame(src)
                 df.columns = ["x", "y"]
+                df["name"] = np.arange(df.index.size)
+                df["name"] = df["name"].astype("str")
                 return df
-            elif shape[1] == 3:
+            elif shape[1] == 3:  # (n, 3) array with names
                 df = pd.DataFrame(src)
                 df.columns = ["name", "x", "y"]
                 return df
