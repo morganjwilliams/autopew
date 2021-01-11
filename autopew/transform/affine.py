@@ -39,6 +39,13 @@ def affine_from_AB(X, Y):
         * This is an augmented matrix, and includes the translation component
     """
     X, Y = np.array(X), np.array(Y)
+    if np.isclose(X, Y).all():
+        return compose_affine2d()
+
+    if not np.isfinite(X).all() and np.isfinite(Y).all():
+        msg = "Inputs contain missing values; cannot construct affine matrix."
+        raise AssertionError(msg)
+
     assert X.shape == Y.shape
     # least squares X * A = Y
     A, res, rank, s = np.linalg.lstsq(_pad(X), _pad(Y), rcond=__RCOND__)

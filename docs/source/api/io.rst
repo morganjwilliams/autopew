@@ -2,14 +2,18 @@
     :members:
     :undoc-members:
 
-autopew\.io\.laser\.readlase
+autopew\.io\.laser\.chromium
 --------------------------------
-  .. automodule:: autopew.io.laser.readlase
+  .. automodule:: autopew.io.laser.chromium
       :members:
       :undoc-members:
 
-autopew\.io\.laser\.writelase
+.. automodule:: autopew.io.EPMA
+    :members:
+    :undoc-members:
+
+autopew\.io\.EPMA
 --------------------------------
-  .. automodule:: autopew.io.laser.writelase
+  .. automodule:: autopew.io.EPMA.JEOL
       :members:
       :undoc-members:

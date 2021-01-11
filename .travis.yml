@@ -1,8 +1,29 @@
 language: python
-os: linux
 dist: bionic
+os: linux
+cache: pip
+
+# before_install:
+# - sudo apt-get install jq curl # for codacy, when added
+
+install:
+  - pip install --upgrade pip # might help fix pyqt5 issue
+  - pip install -q pytest pytest-runner pytest-cov coverage # codacy-coverage
+  - pip install coveralls
+  - pip install .
+
+script:
+  - xvfb-run python setup.py test
+
+after_success:
+  - "ls -lr htmlcov"
+  - coveralls
+  # - python-codacy-coverage -r coverage.xml
 
 jobs:
+  allow_failures:
+    - os: osx
+
   include:
     - python: 3.5
       env: PYVERSION=35
@@ -12,16 +33,23 @@ jobs:
       env: PYVERSION=37
     - python: 3.8
       env: PYVERSION=38
-
-install:
-  - pip install --upgrade pip # might help fix pyqt5 issue
-  - pip install -q pytest pytest-runner pytest-cov coverage
-  - pip install coveralls
-  - pip install -e .
-
-script:
-  - xvfb-run python setup.py test
-
-after_success:
-  - "ls -lr htmlcov"
-  - coveralls
+    - os: osx
+      language: sh
+      osx_image: xcode11.2  # Python 3.7.4 running on macOS 10.14.4
+      env:
+        - HOMEBREW_NO_INSTALL_CLEANUP=1
+        - HOMEBREW_NO_ANALYTICS=1
+        - PYVERSION=37
+      before_cache:
+        # - brew cleanup
+        - rm -f "$HOME/Library/Caches/pip/log/debug.log"
+      cache:
+        directories:
+          # - "$HOME/Library/Caches/Homebrew"
+          - "$HOME/Library/Caches/pip"
+      before_install:
+        - python3 -m pip install --upgrade virtualenv
+        - virtualenv -p python3 --system-site-packages "$HOME/venv"
+        - source "$HOME/venv/bin/activate"
+      script:
+        - python3 setup.py test

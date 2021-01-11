@@ -3,19 +3,9 @@ import versioneer
 
 tests_require = ["pytest", "pytest-runner", "pytest-cov", "coverage", "codecov"]
 
-gui_require = [] #["sip", "PyQt5", "PyQt5-sip"]
-dev_require = [
-    "pytest",
-    "versioneer",
-    "black",
-    "nbstripout",
-    "nbdime",
-    "twine",
-    "sphinx_rtd_theme",
-    "sphinx-autodoc-annotation",
-    "recommonmark",
-] + tests_require
-
+gui_require = []  # ["sip", "PyQt5", "PyQt5-sip"]
+docs_require = ["sphinx_rtd_theme", "sphinx-autodoc-annotation", "recommonmark"]
+dev_require = ["pytest", "versioneer", "black", "twine"] + tests_require + docs_require
 
 with open("README.md", "r") as src:
     LONG_DESCRIPTION = src.read()
@@ -43,7 +33,6 @@ setup(
     keywords=["laser ablation", "geochemistry"],
     packages=find_packages(exclude=["test*"]),
     install_requires=[
-        "pathlib",
         "pillow",
         "ipython",
         "networkx",
@@ -51,10 +40,10 @@ setup(
         "matplotlib",
         "xlrd",
         "pandas",
-        "scipy"
+        "scipy",
     ]
     + gui_require,
-    extras_require={"dev": dev_require},
+    extras_require={"dev": dev_require, "docs": docs_require},
     tests_require=tests_require,
     test_suite="test",
     include_package_data=True,
