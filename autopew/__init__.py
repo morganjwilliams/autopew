@@ -122,6 +122,8 @@ class Pew(object):
                 self.dest[["x", "y"]].astype(float).values,
             )
         )
+        if self.samples is not None: # automatically transform loaded samples
+            self.transform_samples()
         return self
 
     def load_samples(self, filepath, handler=None, **kwargs):
@@ -137,9 +139,11 @@ class Pew(object):
         :class:`pandas.DataFrame`
         """
         self.samples = self._read(filepath, handler=handler, **kwargs)
+        if self._transform is not None: # automatically transform loaded samples
+            self.transform_samples(**kwargs)
         return self
 
-    def transform_samples(self, samples=None, limits=None):
+    def transform_samples(self, samples=None, limits=None, **kwargs):
         """
         Transform sample coordinates to the destination coordinate system.
 
