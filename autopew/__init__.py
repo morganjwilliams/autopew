@@ -38,6 +38,7 @@ class Pew(object):
         """
         self._transform = transform
         self.transformed = None
+        self.samples = None
 
         if archive is not None:
             self._load_from_archive(archive)
@@ -159,6 +160,8 @@ class Pew(object):
             raise NotCalibratedError("Transform hasn't yet been calibrated.")
         if samples is None:
             samples = self.samples
+        if samples is None:
+            raise IndexError("No samples have been loaded or provided.")
         self.transformed = self.samples.copy()
         # apply to dataframe or array?
         self.transformed[["x", "y"]] = self._transform(samples[["x", "y"]])
