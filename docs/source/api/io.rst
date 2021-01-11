@@ -12,7 +12,7 @@ autopew\.io\.laser\.chromium
     :members:
     :undoc-members:
 
-autopew\.io\.laser\.EPMA
+autopew\.io\.EPMA
 --------------------------------
   .. automodule:: autopew.io.EPMA.JEOL
       :members:
