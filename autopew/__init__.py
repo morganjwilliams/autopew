@@ -113,7 +113,10 @@ class Pew(object):
             self._read(dest, handler=handlers[1], **kwargs),
         )
         self._transform = affine_transform(
-            affine_from_AB(self.src[["x", "y"]].values, self.dest[["x", "y"]].values)
+            affine_from_AB(
+                self.src[["x", "y"]].astype(float).values,
+                self.dest[["x", "y"]].astype(float).values,
+            )
         )
         return self
 
