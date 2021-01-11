@@ -58,10 +58,14 @@ class Pew(object):
                 df.columns = ["x", "y"]
                 df["name"] = np.arange(df.index.size)
                 df["name"] = df["name"].astype("str")
+                df = df.loc[:, ["name", " x", "y"]]
                 return df
             elif shape[1] == 3:  # (n, 3) array with names
                 df = pd.DataFrame(src)
-                df.columns = ["name", "x", "y"]
+                try:
+                    PewIOSpecification.validate_dataframe(df)
+                except:
+                    df.columns = ["name", "x", y]
                 return df
             else:
                 msg = "Unknown form for datasource with shape: {}.".format(
