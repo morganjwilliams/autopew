@@ -15,6 +15,10 @@ OUTPUT:
 e.g. We have been using the workflow to visualise the microanalysis points from
 SEM on large reflected light images
 
+Input and output can be easily changed for your purposes see
+`the contributions page <../../dev/contributing.html>`__ for more information on
+how to contribute.
+
 .. image:: ../../_static/stage2image_concept.png
   :align: center
   :width: 50%
@@ -31,7 +35,7 @@ Step 2: Calibrate and Transform the points between the the image and the stage
 --------------------------------------------------------------------------------
 
   * Import your CSV file with analysed points
-  * specify your >3 reference coordinates using the **autopew** interacitve interface
+  * specify your >3 reference coordinates using the **autopew** interactive interface
   * specify the stage Coordinates of these reference points
   * Use **autopew** to transform all stage coordinates. See the example code below:
 
@@ -41,43 +45,31 @@ minor inaccuracies in adding points.
 
 .. code-block:: bash
 
-  import numpy as np
-  import pandas as pd
-  from pathlib import Path
-  from autopew.workflow import pick_points
-  from autopew.workflow.laser import points_to_scancsv
-  from autopew.transform.affine import affine_transform, affine_from_AB
 
-  # let the code know what folder we are working in:
-  start_here = Path("./../../source/_static/")
+    from pathlib import Path
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from PIL import Image
+    from autopew import Pew
+    from autopew.workflow import pick_points
 
-  # %% INPUT STAGE ALL POINTS ---------------------------------------------------------------
-  #import the coordinate from the source stage
-  df = pd.read_csv('Analysis_Points.csv')
-  #add the names of the points
-  spotnames=df["ID"]
-  #tell the code what the X,Y columns are named
-  stage_sample_coords = np.array([df["X"],df["Y"]]).T
+    imagepath = Path("./../../source/_static/") / "SEM_RefPoints.png"
 
-  # %% INPUT REFERENCE POINTS ------------------------------------------------------------
-  # Pick reference points from the displayed image
-  imagepath = start_here / "img.jpg"
-  pixel_reference_coords = pick_points(imagepath)
+    # %% REFERENCE POINTS ------------------------------------------------------------
+    #these are the known locations of the reference points in the laser coordinate system
+    laser_reference_coords =np.array([[45633,9098],  #R1-ccp55
+                                      [56683,17876], #R2-ccp33
+                                      [43301,16082], #R3-ccp38
+                                      [42096,5137]]) #R4-pn25
 
-  # %% STAGE REFERENCE POINTS ------------------------------------------------------------
-  #Enter the coordinates for the reference points you chose
-  stage_reference_coords = np.array([[-1300,-6120],  #R1
-                                     [-8460,-1410], #R2
-                                     [-1960,-1420], #R3
-                                     [-6770,-6240]]) #R4
+    #pick the reference points on the image
+    img_reference_coords = pick_points(imagepath)
 
-  # %% CALCULATE TRANSFORM ---------------------------------------------------------------
-  transform = affine_transform(
-    affine_from_AB(stage_reference_coords, pixel_reference_coords)
-  )
-  # %% TRANSFORM SAMPLE POINTS -----------------------------------------------------------
-  # these are the magic points we want
-  pixel_sample_coords = transform(stage_sample_coords)
+    # %% TRANSFORM laser to pixels ---------------------------------------------------------------
+    points = (Pew(laser_reference_coords,
+                  img_reference_coords)
+                  .load_samples('Samples.csv'))
+
 
 Step 4: Overlay the image and the points
 ------------------------------------------------------
@@ -86,40 +78,28 @@ Step 4: Overlay the image and the points
 
 .. code-block:: bash
 
-  # %% GIVE NAMES TO THE NEW POINTS -----------------------------------------------------------
-  new_coords=pd.DataFrame(data=pixel_sample_coords[0:,0:], columns=['x','y'])
-  new_coords["ID"]=spotnames
+    # FIND THE PIXEL SIZE OF THE IMAGE
+    img = Image.open(imagepath)
+    # get the image's width and height in pixels
+    width, height = img.size
 
-  # %% FIND THE PIXEL SIZE OF THE IMAGE---------------------------------------------------------
-  from PIL import Image
+    fig, ax = plt.subplots()
+    ax.scatter(points.transformed['x'], points.transformed['y'],facecolors='none', edgecolors='y', marker="o",zorder=1,s=6,linewidth=.3)
 
-  img = Image.open(imagepath)
-  # get the image's width and height in pixels
-  width, height = img.size
-
-  # %% PLOT THE POINTS ON THE IMAGE---------------------------------------------------------
-  import matplotlib.pyplot as plt
-
-  X=new_coords['x']
-  Y=new_coords['y']
-  label=new_coords['ID']
-
-  fig, ax = plt.subplots()
-  ax.scatter(X, Y,color='yellow', marker="+",zorder=1,s=6,linewidth=.3)
-
-  for i, df in enumerate(label):
-      ax.annotate(df, (X[i], Y[i]),
+    for i, df in enumerate(points.transformed['name']):
+      ax.annotate(df, (points.transformed.x[i], points.transformed.y[i]),
                   xytext=(2, 0), textcoords='offset points',
                   horizontalalignment='left', verticalalignment='center',
-                  size=2, color='yellow',
+                  size=4, color='yellow',
                   zorder=1)
-  ax.set(xlim=(0, width), ylim=(0, height))
+    ax.set(xlim=(0, width), ylim=(0, height))
 
-  plt.imshow(img, zorder=0)
-  ax.invert_yaxis()#image invert so it is the same up direction as import.
+    plt.imshow(img, zorder=0)
+    ax.invert_yaxis()#image invert so it is the same up direction as import.
 
-  plt.show()
-  #fig.savefig('temp.png', transparent=True, dpi=800) #Optional Image Export
+    plt.tight_layout()
+    plt.show()
+    #fig.savefig('Export_image.png', transparent=True, dpi=800)
 
 
 .. seealso::

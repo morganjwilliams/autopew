@@ -11,8 +11,14 @@ running on `Chromium <http://www.teledynecetac.com/support/software>`__.
 This allows for rapid input of X,Y coordinates into the laser system with spot
 labels either read from the source file, or numbered sequentially.
 
-Currently all other settings; including focus (z), spot size and laser conditions
+Currently all other settings; including fine focus (z), spot size and laser conditions
 need to be changed manually after import into the laser.
+
+JEOL EPMA
+---------------
+The .pos files for the JEOL field-emission gun electron probe microanalyser (EPMA)
+using "probe for EPMA" software. A default z value can be assigned for each export
+however fine focus will need to be changed manually.
 
 TESCAN SEM
 -------------
@@ -25,19 +31,3 @@ Multiple samples in a single .xml file is in development.
 This export type does not include labels for points.
 
 Focus is set per sample and needs to be manually adjusted for each analysis location.
-
-JOEL EPMA
------------
-**work in progress**
-
-autopew allows import and export of coordinates in .POS files. Compatible with
-some JOEL EPMA devices.
-
-Focus is set per sample and needs to be manually adjusted for each analysis location.
-
-custom input and outputs
------------------------------
-autopew is designed for easy incorporation of your specific output file needs.
-converting from a pandas dataframe containing X,Y and label, any output type can
-be developed. Please see `the contributions page <../dev/contributing.html>`__.
-for more information.
