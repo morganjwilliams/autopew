@@ -14,7 +14,26 @@
 
 Automating sample targeting for geological microanalysis systems.
 
-For more information, see the documentation's [installation page](https://autopew.readthedocs.io/en/develop/installation.html), and the [Getting Started Guide](https://autopew.readthedocs.io/en/develop/gettingstarted.html).
+## Install
+
+[![PyPI](https://img.shields.io/pypi/v/autopew.svg?style=flat)](https://pypi.python.org/pypi/autopew)
+[![Compatible Python Versions](https://img.shields.io/pypi/pyversions/autopew.svg?style=flat)](https://pypi.python.org/pypi/autopew/)
+[![autopew downloads](https://img.shields.io/pypi/dm/autopew.svg?style=flat)](https://pypistats.org/packages/autopew)
+
+```bash
+pip install autopew
+```
+
+If you want the most up to date *development* version, you can instead install directly from the GitHub repo. Note that breaking changes occur on this branch, and is not guaranteed to remain stable (check the [Development and Build Status](#development--build-status) below). If you still want to try out the most recent bugfixes and yet-to-be-released features, you can install this version with:
+
+```bash
+pip install git+git://github.com/morganjwilliams/autopew.git@develop#egg=autopew
+```
+
+For more information, see the documentation's
+[installation page](https://autopew.readthedocs.io/en/develop/installation.html), and
+the [Getting Started Guide](https://autopew.readthedocs.io/en/develop/usage/gettingstarted.html).
+
 
 ## Development & Build Status
 <p align='left'>
