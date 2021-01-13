@@ -87,7 +87,7 @@ def plot_transform(
 
     for a in ax:
         a.patch.set_alpha(0)
-        ax.set_aspect('equal')
+        a.set_aspect('equal')
 
     for ix in range(src.shape[0]):
         con = ConnectionPatch(
