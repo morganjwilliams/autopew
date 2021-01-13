@@ -64,8 +64,8 @@ def plot_transform(
     ax=None,
     sharex=False,
     sharey=False,
-    invert0=[False, False],
-    invert1=[False, False],
+    invert0=[False, True],
+    invert1=[False, True],
     figsize=(10, 5),
     titles=["Source Coordinates", "Destination Coordinates"],
     hull=True,
@@ -84,8 +84,10 @@ def plot_transform(
         fig, ax = plt.subplots(1, 2, figsize=figsize, sharex=sharex, sharey=sharey)
     else:
         fig = ax[0].figure
+
     for a in ax:
         a.patch.set_alpha(0)
+        ax.set_aspect('equal')
 
     for ix in range(src.shape[0]):
         con = ConnectionPatch(
@@ -140,11 +142,12 @@ def plot_transform(
     ax[1].yaxis.set_label_position("right")
 
     for b, lims, setr in zip(
-        invert0 + invert1,
+        list(invert0) + list(invert1),
         [ax[0].get_xlim(), ax[0].get_ylim(), ax[1].get_xlim(), ax[1].get_ylim()],
         [ax[0].set_xlim, ax[0].set_ylim, ax[1].set_xlim, ax[1].set_ylim],
     ):
         if b & (lims[1] > lims[0]):
             setr(lims[::-1])
+
     plt.subplots_adjust(hspace=0.1)
     return fig
