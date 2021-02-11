@@ -180,11 +180,13 @@ class Pew(object):
             Whether to enforce transformation before export.
         """
         # make sure the sample inputs have been transformed
-        if enforce_transform and (self.transformed is None):
-            self.transform_samples()
-            self._write(self.transformed, filepath, **kwargs)
-        else:
+        if not enforce_transform and self.transformed is None:
             self._write(self.samples, filepath, **kwargs)
+        else:
+            if enforce_transform:
+                self.transform_samples()
+            self._write(self.transformed, filepath, **kwargs)
+
         return self
 
     def to_archive(self, filepath):
