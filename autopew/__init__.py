@@ -66,11 +66,11 @@ class Pew(object):
                 try:
                     PewIOSpecification.validate_dataframe(df)
                 except:
-                    df.columns = ["name", "x", y]
+                    df.columns = ["name", "x", "y"]
                 return df
             else:
                 msg = "Unknown form for datasource with shape: {}.".format(
-                    ",".join(shape)
+                    ",".join([str(i) for i in shape])
                 )
                 msg += " Source should have columns (x,y) or (name,x,y)."
                 return NotImplementedError
