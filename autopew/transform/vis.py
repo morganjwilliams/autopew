@@ -29,7 +29,7 @@ def vis(A, ax=None):
         (0.5, 0.5), 1, 1, facecolor="None", edgecolor="k", alpha=0.5
     )
 
-    ax.plot(*p.T, color="K", marker="s")
+    ax.plot(*p.T, color="k", marker="s")
     ax.add_patch(c)
     ax.set_aspect("equal")
 
