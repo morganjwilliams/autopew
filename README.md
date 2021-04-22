@@ -42,7 +42,8 @@ the [Getting Started Guide](https://autopew.readthedocs.io/en/develop/usage/gett
          alt="Code Style: Black"></a>
 </p>
 
-| **master** | **develop** |
-|:----------:|:-----------:|
-| [![Build Status](https://travis-ci.com/morganjwilliams/autopew.svg?branch=master)](https://travis-ci.com/morganjwilliams/autopew) | [![Build Status](https://travis-ci.com/morganjwilliams/autopew.svg?branch=develop)](https://travis-ci.com/morganjwilliams/autopew) |
-| [![Coverage Status](https://coveralls.io/repos/github/morganjwilliams/autopew/badge.svg?branch=master)](https://coveralls.io/github/morganjwilliams/autopew?branch=master) | [![Coverage Status](https://coveralls.io/repos/github/morganjwilliams/autopew/badge.svg?branch=develop)](https://coveralls.io/github/morganjwilliams/autopew?branch=develop) |
+
+|                                                                                                 **master**                                                                                                 |                                                                                                  **develop**                                                                                                  |
+|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| [![Unit Tests on Master](https://github.com/morganjwilliams/autopew/workflows/Unittest/badge.svg?branch=master)](https://github.com/morganjwilliams/autopew/actions?query=workflow:Unittest+branch:master) | [![Unit Tests on Develop](https://github.com/morganjwilliams/autopew/workflows/Unittest/badge.svg?branch=develop)](https://github.com/morganjwilliams/autopew/actions?query=workflow:Unittest+branch:develop) |
+|                 [![Coverage Status](https://coveralls.io/repos/github/morganjwilliams/autopew/badge.svg?branch=master)](https://coveralls.io/github/morganjwilliams/autopew?branch=master)                 |                 [![Coverage Status](https://coveralls.io/repos/github/morganjwilliams/autopew/badge.svg?branch=develop)](https://coveralls.io/github/morganjwilliams/autopew?branch=develop)                  |
