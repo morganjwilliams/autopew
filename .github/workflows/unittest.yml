@@ -17,9 +17,8 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: [3.6, 3.7, 3.8]
         exclude:
-        # excludes py38 on macOS, which seems to stall currently
+        # excludes macOS, until a fix can be found for process failure (#134)
         - os: macos-latest
-          python-version: 3.8
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
