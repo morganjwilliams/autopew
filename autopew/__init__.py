@@ -36,6 +36,7 @@ class Pew(object):
         Pew transformer which implements various file handlers for import and export of
         sample coordinates.
         """
+        self._affine = np.eye(3)
         self._transform = transform
         self.transformed = None
         self.samples = None
@@ -117,12 +118,11 @@ class Pew(object):
             self._read(src, handler=handlers[0], **kwargs),
             self._read(dest, handler=handlers[1], **kwargs),
         )
-        self._transform = affine_transform(
-            affine_from_AB(
-                self.src[["x", "y"]].astype(float).values,
-                self.dest[["x", "y"]].astype(float).values,
-            )
+        self._affine = affine_from_AB(
+            self.src[["x", "y"]].astype(float).values,
+            self.dest[["x", "y"]].astype(float).values,
         )
+        self._transform = affine_transform(self._affine)
         if self.samples is not None:  # automatically transform loaded samples
             self.transform_samples()
         return self
@@ -162,7 +162,7 @@ class Pew(object):
             samples = self.samples
         if samples is None:
             raise IndexError("No samples have been loaded or provided.")
-        self.transformed = self.samples.copy()
+        self.transformed = samples.copy()
         # apply to dataframe or array?
         self.transformed[["x", "y"]] = self._transform(samples[["x", "y"]])
         # return values so that quick queries can be made without exporting
