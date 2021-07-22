@@ -116,21 +116,30 @@ class PewImage(object):
 
         centre = np.array(im.size) / 2
         cnrs = corners(im.size)
+        ########################################################################
         C0 = translate(*-centre)  # translate image to origin
-        C1 = translate(  # translate transformed image from origin
-            *-np.min(affine_transform(A @ C0)(cnrs), axis=0)
-        )
         T, Z, R = decompose_affine2d(A)
-        AP = compose_affine2d(
-            T, Z, R if not reverserotation else R.T
-        )  # rotation in opposite direction for PIL
-        T = C1 @ AP @ C0  # Full affine matrix
+        # rotation in opposite direction for PIL
+        AP = compose_affine2d(T, Z, R if reverserotation else R.T)
+        # translate transformed image from origin
+        C1 = translate(*-np.min(affine_transform(A @ C0)(cnrs), axis=0))
 
-        size = tuple(np.ceil(np.max(affine_transform(T)(cnrs), axis=0)).astype(int) + 1)
+        T = C1 @ AP @ C0  # Full affine matrix
+        ########################################################################
+        size = tuple(
+            np.ceil(
+                np.max(
+                    affine_transform(T)(cnrs),
+                    axis=0,
+                )
+            ).astype(int)
+            + 1
+        )
 
         image = im.transform(
             size,  # need to expand this due to shear/rotation effects
             PIL.Image.AFFINE,
+            # inverse 6-component affine matrix
             data=np.linalg.inv(T)[:-1, :].flatten(),
             resample=PIL.Image.BILINEAR,
         )
