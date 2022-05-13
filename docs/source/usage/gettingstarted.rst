@@ -5,11 +5,11 @@ Getting Started
 
   This page is under construction. Feel free to send through suggestions or questions.
 
-Set up
+Setup
 -------
-To use this software you need in install Python. `Anaconda <https://www.anaconda.com/>`__
-is a great way to install python and included popular software for editing and interacting
-with python script such as `Spyder <https://www.spyder-ide.org/>`__ and
+To use this software you need to install Python. `Anaconda <https://www.anaconda.com/>`__
+is a great way to install python and includes some software for editing and interacting
+with Python scripts/Notebooks such as `Spyder <https://www.spyder-ide.org/>`__ and
 `Jupyter <https://jupyter.org/>`__.
 
 Installation
@@ -19,8 +19,8 @@ Installation
   `Installation <../installation.html>`__
 
 For in depth installation processes see the page above. For most purposes you
-should be able to install **autopew** by typing the following in a terminal ("Anaconda Prompt"
-application on your computer if you're using Anaconda)
+should be able to install **autopew** by typing the following in a terminal
+("Anaconda Prompt" application on your computer if you're using Anaconda).
 
 .. code-block:: bash
 

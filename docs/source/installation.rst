@@ -24,7 +24,7 @@ on `PyPi <https://pypi.org/project/autopew/>`_ using the :code:`--upgrade` flag:
 
 
 Development Installation
-===========================
+--------------------
 
 **autopew** is a work in progress. The development version is in a public
 repository on `GitHub <https://github.com/morganjwilliams/autopew>`_.
