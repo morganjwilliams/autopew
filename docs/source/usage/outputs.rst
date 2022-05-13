@@ -22,7 +22,8 @@ however fine focus will need to be changed manually.
 
 TESCAN SEM
 -------------
-**work in progress**
+
+**Work in Progress**
 
 Use of the TESCAN SEM system allows input and output of .XML format coordinates.
 Currently only allows export and import of a single .xml file per sample.
@@ -31,3 +32,13 @@ Multiple samples in a single .xml file is in development.
 This export type does not include labels for points.
 
 Focus is set per sample and needs to be manually adjusted for each analysis location.
+
+Adding New IO Functionality
+---------------------------
+
+New file types can be configured around the :class:`autopew.io.PewIOSpecification`
+interface, as have been done for the above instruments. These will be automatically
+registered as file handlers where the file extension is unique.
+For example, see the soure code specification for :class:`autopew.io.PewSCANCSV`
+which includes a function for reading `.scancsv` files into a consistent format
+and outputting data from that format into `.scancsv` files.

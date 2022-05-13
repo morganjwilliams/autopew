@@ -15,7 +15,15 @@ logger = logging.getLogger(__name__)
 
 from . import EPMA, laser
 
-__all__ = ["laser", "PewIOSpecification", "EPMA"]
+__all__ = [
+    "laser",
+    "EPMA",
+    "PewIOSpecification",
+    "PewCSV",
+    "PewSCANCSV",
+    "PewJEOLpos",
+    "registered_extensions",
+]
 
 
 class PewIOSpecification(object):
