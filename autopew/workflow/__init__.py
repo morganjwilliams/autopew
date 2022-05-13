@@ -1,10 +1,12 @@
+import logging
+
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-from ..image import PewImage
+
 from ..gui.base import screensize
 from ..gui.windows import image_point_registration
-import logging
+from ..image import PewImage
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)

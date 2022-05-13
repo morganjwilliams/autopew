@@ -1,9 +1,12 @@
 import unittest
+
+import matplotlib.pyplot as plt
 import numpy as np
 from scipy import misc
-import matplotlib.pyplot as plt
+
 from autopew.image.base import PewImage, affine_extent, extent_to_size
-from autopew.transform.affine import zoom, rotate, translate, shear, affine_transform
+from autopew.transform.affine import affine_transform, rotate, shear, translate, zoom
+
 
 class TestPewImage(unittest.TestCase):
     def setUp(self):
@@ -67,7 +70,7 @@ class TestPewImage(unittest.TestCase):
         im = PewImage(self.img)
         xi, yi = im.pixelcoords  # centres of pixels
         r, g, b, c = im.maprgb()
-        im = plt.pcolormesh(xi, yi, r, color=c)
+        im = plt.pcolormesh(xi, yi, r, color=c, shading="auto")
         im.set_array(None)
 
     def test_transforms_graphical(self):

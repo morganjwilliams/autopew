@@ -1,6 +1,8 @@
-from scipy import misc
 import unittest
+
 import matplotlib.pyplot as plt
+from scipy import misc
+
 from autopew.gui.windows import image_point_registration
 
 

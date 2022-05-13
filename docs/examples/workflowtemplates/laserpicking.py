@@ -6,12 +6,14 @@ your i) sample points and ii) your reference points (ideally, have 3-5 dedicated
 reference points at the outer edges of your sample selection area). Note that adding
 more reference points will help average out any positioning inaccuracy.
 """
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
-from pathlib import Path
+
+from autopew.transform.affine import affine_from_AB, affine_transform
 from autopew.workflow import pick_points
 from autopew.workflow.laser import points_to_scancsv
-from autopew.transform.affine import affine_transform, affine_from_AB
 
 # have an image you wish to use?
 imagepath = Path("./../../source/_static/") / "img.jpg"

@@ -1,13 +1,14 @@
+import unittest
+from itertools import product
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
-from autopew.util.meta import autopew_datafolder
-from autopew import Pew
-from pathlib import Path
-import unittest
-from autopew.util.general import temp_path, remove_tempdir
-from autopew.transform.affine import affine_transform, compose_affine2d, rotate
 
-from itertools import product
+from autopew import Pew
+from autopew.transform.affine import affine_transform, compose_affine2d, rotate
+from autopew.util.general import remove_tempdir, temp_path
+from autopew.util.meta import autopew_datafolder
 
 
 def int_to_alpha(num):

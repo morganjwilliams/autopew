@@ -1,7 +1,9 @@
 import unittest
+
 import matplotlib.pyplot as plt
-from autopew.util.plot import *
+
 from autopew.transform.affine import affine_from_AB, affine_transform
+from autopew.util.plot import *
 
 
 class TestPlotTransform(unittest.TestCase):

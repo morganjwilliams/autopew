@@ -1,19 +1,21 @@
-import numpy as np
-import matplotlib.image
+import logging
 from pathlib import Path
+
+import matplotlib.image
+import numpy as np
 import PIL.Image
 import PIL.ImageOps
+
 from ..transform.affine import (
     affine_from_AB,
     affine_transform,
-    zoom,
-    translate,
-    decompose_affine2d,
     compose_affine2d,
     corners,
+    decompose_affine2d,
+    translate,
+    zoom,
 )
 from ..util.plot import bin_edges_to_centres
-import logging
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
@@ -104,26 +106,42 @@ class PewImage(object):
         size = np.ceil(frac * np.array(self.shape).flatten()).astype(int)
         return PewImage(self.image.resize(tuple(size), resample), extent=self.extent)
 
-    def affine_transform(self, A, resample=PIL.Image.NEAREST, reversey=False):
+    def affine_transform(
+        self, A, resample=PIL.Image.NEAREST, reversey=True, reverserotation=False
+    ):
         """
         Transform the image via an affine transformation matrix using PIL.
         """
         im = self.image
+        # extent of core image after transformation, excluding background
+        extent = affine_extent(A, im.size, reversey=reversey)
+
         centre = np.array(im.size) / 2
         cnrs = corners(im.size)
+        ########################################################################
         C0 = translate(*-centre)  # translate image to origin
-        C1 = translate(  # translate transformed image from origin
-            *-np.min(affine_transform(A @ C0)(cnrs), axis=0)
-        )
         T, Z, R = decompose_affine2d(A)
-        AP = compose_affine2d(T, Z, R.T)  # rotation in opposite direction for PIL
-        T = C1 @ AP @ C0  # Full affine matrix
+        # rotation in opposite direction for PIL
+        AP = compose_affine2d(T, Z, R if reverserotation else R.T)
+        # translate transformed image from origin
+        C1 = translate(*-np.min(affine_transform(A @ C0)(cnrs), axis=0))
 
-        size = tuple(np.ceil(np.max(affine_transform(T)(cnrs), axis=0)).astype(int) + 1)
-        extent = affine_extent(A, im.size, reversey=reversey)
+        T = C1 @ AP @ C0  # Full affine matrix
+        ########################################################################
+        size = tuple(
+            np.ceil(
+                np.max(
+                    affine_transform(T)(cnrs),
+                    axis=0,
+                )
+            ).astype(int)
+            + 1
+        )
+
         image = im.transform(
             size,  # need to expand this due to shear/rotation effects
             PIL.Image.AFFINE,
+            # inverse 6-component affine matrix
             data=np.linalg.inv(T)[:-1, :].flatten(),
             resample=PIL.Image.BILINEAR,
         )

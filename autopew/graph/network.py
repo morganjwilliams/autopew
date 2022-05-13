@@ -1,10 +1,11 @@
-import pandas as pd
-import numpy as np
-import networkx
-import matplotlib.pyplot as plt
-from ..util.meta import chain
 import logging
 
+import matplotlib.pyplot as plt
+import networkx
+import numpy as np
+import pandas as pd
+
+from ..util.meta import chain
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
@@ -42,8 +43,7 @@ class Net(object):
         return self.graph.edges
 
     def update(self, name, obj, **kwargs):
-        """
-        """
+        """ """
         self.components = {**self.components, name: obj}
         self.graph.add_node(name, **kwargs)
         try:  # store a reference on the object, if possible

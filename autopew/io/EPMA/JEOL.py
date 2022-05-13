@@ -3,9 +3,10 @@ Export function for the JEOL field-emission gun electron probe microanalyser (EP
 using "probe for EPMA".
 """
 import csv
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
-from pathlib import Path
 
 
 def write_pos(
@@ -65,5 +66,5 @@ def write_pos(
     s = pos.to_csv(None, quoting=csv.QUOTE_NONE, index=False, header=False)
     s = s.replace("\r\n", "\n")
     s = "0,0,0,0\n0,0,0,0\n0,0,0,0\n" + s
-    with open(str(filepath), "w") as f: # str for Python 3.5 compatibility
+    with open(str(filepath), "w") as f:  # str for Python 3.5 compatibility
         f.write(s[:-1])

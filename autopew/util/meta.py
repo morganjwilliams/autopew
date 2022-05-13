@@ -1,7 +1,7 @@
-import sys
-from pathlib import Path
-from functools import partial, reduce
 import logging
+import sys
+from functools import partial, reduce
+from pathlib import Path
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)

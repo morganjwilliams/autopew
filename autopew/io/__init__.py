@@ -1,15 +1,29 @@
-import sys, inspect
-from pathlib import Path
-import pandas as pd
+"""
+File operations for autopew. Contains a class to provide an generalized
+interface to a series of file types/instruments which can be built upon
+to add and register new IO capability.
+"""
+import inspect
 import logging
+import sys
+from pathlib import Path
+
+import pandas as pd
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
 
-from . import laser
-from . import EPMA
+from . import EPMA, laser
 
-__all__ = ["laser"]
+__all__ = [
+    "laser",
+    "EPMA",
+    "PewIOSpecification",
+    "PewCSV",
+    "PewSCANCSV",
+    "PewJEOLpos",
+    "registered_extensions",
+]
 
 
 class PewIOSpecification(object):

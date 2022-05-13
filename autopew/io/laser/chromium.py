@@ -1,11 +1,12 @@
 """
 Import and export functions for the Chromium Laser Ablation Navigation Software.
 """
-import re
 import csv
+import re
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
-from pathlib import Path
 
 
 def split_config(s):
@@ -185,7 +186,7 @@ def read_scancsv(filepath, encoding="cp1252"):
     df[["x", "y", "z"]] = (
         np.vstack(df["Vertex List"].map(np.array).values)
         .reshape(df.index.size, -1)
-        .astype(np.float)
+        .astype(float)
     )
     # pd.DataFrame(verts, index=df.Description, columns=["x", "y", "z"])
     return df

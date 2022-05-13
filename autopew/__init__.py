@@ -6,12 +6,14 @@ Todo
 * Implement pandas dataframe accessor for quick export of dataframes to specific
     filetypes (e.g. `df.pew.to_scancsv()`; with dataframe validators).
 """
-import sys
 import json
 import logging
 import pathlib
-import pandas as pd
+import sys
+
 import numpy as np
+import pandas as pd
+
 from ._version import get_versions
 
 __version__ = get_versions()["version"]
@@ -20,12 +22,12 @@ del get_versions
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logging.captureWarnings(True)
 
-from . import transform, image, gui, graph, io, workflow
+from . import graph, gui, image, io, transform, workflow
 
-__all__ = ["transform", "image", "gui", "graph", "io", "workflow"]
+__all__ = ["transform", "image", "gui", "graph", "io", "workflow", "Pew"]
 
-from .io import get_filehandler, PewIOSpecification
-from .transform.affine import affine_transform, affine_from_AB
+from .io import PewIOSpecification, get_filehandler
+from .transform.affine import affine_from_AB, affine_transform
 
 # pandas dataframe accessor for verifying dataframe structure and accessing coordinates?
 
@@ -36,6 +38,7 @@ class Pew(object):
         Pew transformer which implements various file handlers for import and export of
         sample coordinates.
         """
+        self._affine = np.eye(3)
         self._transform = transform
         self.transformed = None
         self.samples = None
@@ -66,11 +69,11 @@ class Pew(object):
                 try:
                     PewIOSpecification.validate_dataframe(df)
                 except:
-                    df.columns = ["name", "x", y]
+                    df.columns = ["name", "x", "y"]
                 return df
             else:
                 msg = "Unknown form for datasource with shape: {}.".format(
-                    ",".join(shape)
+                    ",".join([str(i) for i in shape])
                 )
                 msg += " Source should have columns (x,y) or (name,x,y)."
                 return NotImplementedError
@@ -117,12 +120,11 @@ class Pew(object):
             self._read(src, handler=handlers[0], **kwargs),
             self._read(dest, handler=handlers[1], **kwargs),
         )
-        self._transform = affine_transform(
-            affine_from_AB(
-                self.src[["x", "y"]].astype(float).values,
-                self.dest[["x", "y"]].astype(float).values,
-            )
+        self._affine = affine_from_AB(
+            self.src[["x", "y"]].astype(float).values,
+            self.dest[["x", "y"]].astype(float).values,
         )
+        self._transform = affine_transform(self._affine)
         if self.samples is not None:  # automatically transform loaded samples
             self.transform_samples()
         return self
@@ -162,7 +164,7 @@ class Pew(object):
             samples = self.samples
         if samples is None:
             raise IndexError("No samples have been loaded or provided.")
-        self.transformed = self.samples.copy()
+        self.transformed = samples.copy()
         # apply to dataframe or array?
         self.transformed[["x", "y"]] = self._transform(samples[["x", "y"]])
         # return values so that quick queries can be made without exporting
@@ -180,11 +182,13 @@ class Pew(object):
             Whether to enforce transformation before export.
         """
         # make sure the sample inputs have been transformed
-        if enforce_transform and (self.transformed is None):
-            self.transform_samples()
-            self._write(self.transformed, filepath, **kwargs)
-        else:
+        if not enforce_transform and self.transformed is None:
             self._write(self.samples, filepath, **kwargs)
+        else:
+            if enforce_transform:
+                self.transform_samples()
+            self._write(self.transformed, filepath, **kwargs)
+
         return self
 
     def to_archive(self, filepath):
