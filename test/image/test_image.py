@@ -67,7 +67,7 @@ class TestPewImage(unittest.TestCase):
         im = PewImage(self.img)
         xi, yi = im.pixelcoords  # centres of pixels
         r, g, b, c = im.maprgb()
-        im = plt.pcolormesh(xi, yi, r, color=c)
+        im = plt.pcolormesh(xi, yi, r, color=c, shading="auto")
         im.set_array(None)
 
     def test_transforms_graphical(self):

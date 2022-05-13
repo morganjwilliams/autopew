@@ -185,7 +185,7 @@ def read_scancsv(filepath, encoding="cp1252"):
     df[["x", "y", "z"]] = (
         np.vstack(df["Vertex List"].map(np.array).values)
         .reshape(df.index.size, -1)
-        .astype(np.float)
+        .astype(float)
     )
     # pd.DataFrame(verts, index=df.Description, columns=["x", "y", "z"])
     return df
