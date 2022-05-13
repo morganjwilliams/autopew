@@ -24,7 +24,7 @@ logging.captureWarnings(True)
 
 from . import graph, gui, image, io, transform, workflow
 
-__all__ = ["transform", "image", "gui", "graph", "io", "workflow"]
+__all__ = ["transform", "image", "gui", "graph", "io", "workflow", "Pew"]
 
 from .io import PewIOSpecification, get_filehandler
 from .transform.affine import affine_from_AB, affine_transform

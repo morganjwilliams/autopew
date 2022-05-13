@@ -1,3 +1,8 @@
+"""
+File operations for autopew. Contains a class to provide an generalized
+interface to a series of file types/instruments which can be built upon
+to add and register new IO capability.
+"""
 import inspect
 import logging
 import sys
@@ -10,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 from . import EPMA, laser
 
-__all__ = ["laser"]
+__all__ = ["laser", "PewIOSpecification", "EPMA"]
 
 
 class PewIOSpecification(object):

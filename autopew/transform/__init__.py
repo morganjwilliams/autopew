@@ -1,5 +1,6 @@
 """
-Submodule for calculating affine transforms between planar coordinate systems.
+Submodule for calculating and visualising affine transforms between planar
+coordinate systems.
 """
 
 import itertools

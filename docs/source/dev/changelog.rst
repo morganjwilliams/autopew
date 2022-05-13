@@ -66,8 +66,8 @@ All notable changes to this project will be documented here.
   :meth:`~autopew.session.Session.reorder_analyses`,
   :meth:`~autopew.session.Session.standard_bracket` (neither implemented
   in this version).
-  * Added an automated workflow for export of coordinates from a CSV, image
-    and stage coordinates in :meth:`~autopew.session.Session.autoflow`.
+* Added an automated workflow for export of coordinates from a CSV, image
+  and stage coordinates in :meth:`~autopew.session.Session.autoflow`.
 
 :mod:`autopew.transform`
 ~~~~~~~~~~~~~~~~~~~~~~~~
