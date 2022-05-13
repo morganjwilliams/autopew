@@ -1,7 +1,7 @@
-import pandas as pd
-import numpy as np
-import networkx as nx
 import matplotlib.pyplot as plt
+import networkx as nx
+import numpy as np
+import pandas as pd
 
 DG = nx.DiGraph()
 
@@ -16,13 +16,13 @@ edges = [
     ("SIMS\nStage", "EMPA\nImage", {}),
     # do Laser
     ("Optical\nImage", "Laser\nStage", {"color": "red"}),
-    ("Laser\nStage", "Optical\nImage", {})
-    ]
+    ("Laser\nStage", "Optical\nImage", {}),
+]
 DG.add_edges_from(edges)
 df = pd.DataFrame(edges, columns=["A", "B", "attrs"])
 df = df.set_index(df.A + "-" + df.B)
 
-df= df.loc[['-'.join(e) for e in list(DG.edges)], :]
+df = df.loc[["-".join(e) for e in list(DG.edges)], :]
 
 ec = df.attrs.apply(lambda x: x.get("color", "k"))
 
@@ -48,4 +48,4 @@ ax.axis(np.array(ax.axis()) * 1.1)  # 110% range, as the axis is about 0, 0
 # %% --
 from pyrolite.util.plot import save_figure
 
-save_figure(fig, save_at = '../source/_static/', name='transform_concept')
+save_figure(fig, save_at="../source/_static/", name="transform_concept")

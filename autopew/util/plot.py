@@ -1,10 +1,12 @@
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.patches import ConnectionPatch
-from ..transform.affine import affine_from_AB, affine_transform
-import scipy.spatial
-import scipy.interpolate
 import logging
+
+import matplotlib.pyplot as plt
+import numpy as np
+import scipy.interpolate
+import scipy.spatial
+from matplotlib.patches import ConnectionPatch
+
+from ..transform.affine import affine_from_AB, affine_transform
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
@@ -87,7 +89,7 @@ def plot_transform(
 
     for a in ax:
         a.patch.set_alpha(0)
-        a.set_aspect('equal')
+        a.set_aspect("equal")
 
     for ix in range(src.shape[0]):
         con = ConnectionPatch(

@@ -1,17 +1,19 @@
-import unittest
-import pathlib
-import pandas as pd
-import numpy as np
 import inspect
+import pathlib
+import unittest
+
+import numpy as np
+import pandas as pd
+
 from autopew.io import (
+    PewCSV,
+    PewIOSpecification,
+    PewJEOLpos,
+    PewSCANCSV,
     get_filehandler,
     registered_extensions,
-    PewIOSpecification,
-    PewCSV,
-    PewSCANCSV,
-    PewJEOLpos
 )
-from autopew.util.general import temp_path, remove_tempdir
+from autopew.util.general import remove_tempdir, temp_path
 
 
 class TestGetRegisteredExtensions(unittest.TestCase):

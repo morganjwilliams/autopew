@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from IPython import get_ipython
+
 from .base import *
 
 

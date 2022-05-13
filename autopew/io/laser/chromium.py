@@ -1,11 +1,12 @@
 """
 Import and export functions for the Chromium Laser Ablation Navigation Software.
 """
-import re
 import csv
+import re
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
-from pathlib import Path
 
 
 def split_config(s):

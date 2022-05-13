@@ -1,9 +1,11 @@
-import numpy as np
-import tkinter as tk
-import matplotlib
-from matplotlib.backend_bases import TimerBase
-from ..util.plot import *
 import logging
+import tkinter as tk
+
+import matplotlib
+import numpy as np
+from matplotlib.backend_bases import TimerBase
+
+from ..util.plot import *
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)

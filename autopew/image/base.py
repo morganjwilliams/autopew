@@ -1,19 +1,21 @@
-import numpy as np
-import matplotlib.image
+import logging
 from pathlib import Path
+
+import matplotlib.image
+import numpy as np
 import PIL.Image
 import PIL.ImageOps
+
 from ..transform.affine import (
     affine_from_AB,
     affine_transform,
-    zoom,
-    translate,
-    decompose_affine2d,
     compose_affine2d,
     corners,
+    decompose_affine2d,
+    translate,
+    zoom,
 )
 from ..util.plot import bin_edges_to_centres
-import logging
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)

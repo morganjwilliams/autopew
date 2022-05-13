@@ -1,10 +1,12 @@
 import unittest
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
-from pathlib import Path
-from autopew.util.general import temp_path, remove_tempdir
-from autopew.util.meta import autopew_datafolder
+
 from autopew.io.laser import chromium
+from autopew.util.general import remove_tempdir, temp_path
+from autopew.util.meta import autopew_datafolder
 
 test_lase = autopew_datafolder("examples") / "autopew_test.lase"
 test_scancsv = autopew_datafolder("examples") / "autopew_test.scancsv"

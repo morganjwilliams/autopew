@@ -1,7 +1,8 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import matplotlib.patches
+import matplotlib.pyplot as plt
 import matplotlib.transforms
+import numpy as np
+
 from .affine import affine_transform
 
 

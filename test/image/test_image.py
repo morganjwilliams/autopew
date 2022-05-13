@@ -1,9 +1,12 @@
 import unittest
+
+import matplotlib.pyplot as plt
 import numpy as np
 from scipy import misc
-import matplotlib.pyplot as plt
+
 from autopew.image.base import PewImage, affine_extent, extent_to_size
-from autopew.transform.affine import zoom, rotate, translate, shear, affine_transform
+from autopew.transform.affine import affine_transform, rotate, shear, translate, zoom
+
 
 class TestPewImage(unittest.TestCase):
     def setUp(self):

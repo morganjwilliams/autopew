@@ -1,7 +1,9 @@
 import unittest
+
 import matplotlib.pyplot as plt
-from autopew.workflow import pick_points
 from scipy import misc
+
+from autopew.workflow import pick_points
 
 
 class TestPickPoints(unittest.TestCase):

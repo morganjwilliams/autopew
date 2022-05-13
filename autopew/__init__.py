@@ -6,12 +6,14 @@ Todo
 * Implement pandas dataframe accessor for quick export of dataframes to specific
     filetypes (e.g. `df.pew.to_scancsv()`; with dataframe validators).
 """
-import sys
 import json
 import logging
 import pathlib
-import pandas as pd
+import sys
+
 import numpy as np
+import pandas as pd
+
 from ._version import get_versions
 
 __version__ = get_versions()["version"]
@@ -20,12 +22,12 @@ del get_versions
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logging.captureWarnings(True)
 
-from . import transform, image, gui, graph, io, workflow
+from . import graph, gui, image, io, transform, workflow
 
 __all__ = ["transform", "image", "gui", "graph", "io", "workflow"]
 
-from .io import get_filehandler, PewIOSpecification
-from .transform.affine import affine_transform, affine_from_AB
+from .io import PewIOSpecification, get_filehandler
+from .transform.affine import affine_from_AB, affine_transform
 
 # pandas dataframe accessor for verifying dataframe structure and accessing coordinates?
 

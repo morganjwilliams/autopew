@@ -1,11 +1,12 @@
 """
 Submodule for calculating affine transforms between planar coordinate systems.
 """
-import sys
 import logging
+import sys
+
 import numpy as np
-from matplotlib.transforms import Affine2D
 import scipy.linalg
+from matplotlib.transforms import Affine2D
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)

@@ -1,6 +1,8 @@
 import unittest
+
 import matplotlib.pyplot as plt
-from autopew.transform.affine import affine_transform, shear, translate, zoom, rotate
+
+from autopew.transform.affine import affine_transform, rotate, shear, translate, zoom
 from autopew.transform.vis import vis
 
 

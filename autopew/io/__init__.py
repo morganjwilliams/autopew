@@ -1,13 +1,14 @@
-import sys, inspect
-from pathlib import Path
-import pandas as pd
+import inspect
 import logging
+import sys
+from pathlib import Path
+
+import pandas as pd
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
 
-from . import laser
-from . import EPMA
+from . import EPMA, laser
 
 __all__ = ["laser"]
 

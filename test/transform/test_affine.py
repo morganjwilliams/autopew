@@ -1,16 +1,17 @@
 import unittest
-import numpy as np
+
 import matplotlib.pyplot as plt
+import numpy as np
 
 from autopew.transform.affine import (
-    affine_from_AB,
-    affine_transform,
-    shear,
-    zoom,
-    translate,
-    rotate,
     _pad,
     _unpad,
+    affine_from_AB,
+    affine_transform,
+    rotate,
+    shear,
+    translate,
+    zoom,
 )
 
 
@@ -125,7 +126,7 @@ class TestAffine(unittest.TestCase):
         """Check function for inhomegeneous scale."""
 
         p0 = np.array([[0.0, 0.0], [1.0, 1.0], [0.0, 1.0]])
-        T = affine_transform(zoom(1., 1.5))
+        T = affine_transform(zoom(1.0, 1.5))
         p1 = T(p0)
         A = affine_from_AB(p0, p1)  # matrix
         tfm = affine_transform(A)
@@ -137,7 +138,7 @@ class TestAffine(unittest.TestCase):
 
     def test_affine_composite_transform(self):
         p0 = np.array([[0.0, 0.0], [1.0, 1.0], [0.0, 1.0]])
-        T = affine_transform(zoom(1, 1.5) @ rotate(90) @ translate(1,1))
+        T = affine_transform(zoom(1, 1.5) @ rotate(90) @ translate(1, 1))
         p1 = T(p0)
         A = affine_from_AB(p0, p1)  # matrix
         tfm = affine_transform(A)

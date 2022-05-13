@@ -1,7 +1,8 @@
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy import misc
-from pathlib import Path
 
 np.random.seed(82)
 fig, ax = plt.subplots(1)
