@@ -26,9 +26,9 @@ on `PyPi <https://pypi.org/project/autopew/>`_ using the :code:`--upgrade` flag:
 Development Installation
 ===========================
 
-**autopew**  is a work in progress. The development version is within a private repo on `GitHub <https://github.com/morganjwilliams/autopew>`_.
-If you have access on GitHub, you can install it with pip (you may be prompted
-for user-password):
+**autopew** is a work in progress. The development version is in a public
+repository on `GitHub <https://github.com/morganjwilliams/autopew>`_.
+You can install it using pip directly from there:
 
 .. code-block:: bash
 
@@ -40,6 +40,17 @@ Alternatively, you can also clone it locally and install with pip:
 
 .. code-block:: bash
 
-  pip install <repo-directory>
-  # e.g if you navigate to the directory, this is then:
+  git clone https://github.com/morganjwilliams/autopew.git
+  cd autopew
+  # e.g if you navigate to the directory
   pip install .
+
+If you want to contribute to autopew, you might want to use an editable
+installation locally to debug:
+
+.. code-block:: bash
+
+  git clone https://github.com/morganjwilliams/autopew.git
+  cd autopew
+  # e.g if you navigate to the directory
+  pip install -e .[dev]
