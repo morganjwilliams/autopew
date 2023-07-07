@@ -4,7 +4,7 @@
 <a href="https://autopew.readthedocs.io/">
    <img src="https://readthedocs.org/projects/autopew/badge/?version=develop" alt="Docs"/></a>
 
-<a href="https://github.com/morganjwilliams/autopew/blob/master/LICENSE" >
+<a href="https://github.com/morganjwilliams/autopew/blob/main/LICENSE" >
   <img src="https://img.shields.io/badge/License-CSIRO_BSD/MIT_License-blue.svg"
        alt="License: CSIRO Modified BSD/MIT License"></a>
 <a href="https://gitter.im/pyrolite/autopew" >
@@ -43,7 +43,7 @@ the [Getting Started Guide](https://autopew.readthedocs.io/en/develop/usage/gett
 </p>
 
 
-|                                                                                                 **master**                                                                                                 |                                                                                                  **develop**                                                                                                  |
+|                                                                                                 **main**                                                                                                 |                                                                                                  **develop**                                                                                                  |
 |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| [![Unit Tests on Master](https://github.com/morganjwilliams/autopew/workflows/Unittest/badge.svg?branch=master)](https://github.com/morganjwilliams/autopew/actions?query=workflow:Unittest+branch:master) | [![Unit Tests on Develop](https://github.com/morganjwilliams/autopew/workflows/Unittest/badge.svg?branch=develop)](https://github.com/morganjwilliams/autopew/actions?query=workflow:Unittest+branch:develop) |
-|                 [![Coverage Status](https://coveralls.io/repos/github/morganjwilliams/autopew/badge.svg?branch=master)](https://coveralls.io/github/morganjwilliams/autopew?branch=master)                 |                 [![Coverage Status](https://coveralls.io/repos/github/morganjwilliams/autopew/badge.svg?branch=develop)](https://coveralls.io/github/morganjwilliams/autopew?branch=develop)                  |
+| [![Unit Tests on Master](https://github.com/morganjwilliams/autopew/workflows/Unittest/badge.svg?branch=main)](https://github.com/morganjwilliams/autopew/actions?query=workflow:Unittest+branch:main) | [![Unit Tests on Develop](https://github.com/morganjwilliams/autopew/workflows/Unittest/badge.svg?branch=develop)](https://github.com/morganjwilliams/autopew/actions?query=workflow:Unittest+branch:develop) |
+|                 [![Coverage Status](https://coveralls.io/repos/github/morganjwilliams/autopew/badge.svg?branch=main)](https://coveralls.io/github/morganjwilliams/autopew?branch=main)                 |                 [![Coverage Status](https://coveralls.io/repos/github/morganjwilliams/autopew/badge.svg?branch=develop)](https://coveralls.io/github/morganjwilliams/autopew?branch=develop)                  |
