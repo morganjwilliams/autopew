@@ -5,7 +5,7 @@ channels:
   - defaults
 
 dependencies:
-  - python=3.7
+  - python=3.10
   # pandas and scientific python
   - numpy
   - pandas>=1.0
@@ -23,19 +23,19 @@ dependencies:
   - ipykernel
   - pip
   - black
-  - jedi<0.18.0 # for use on atom/ipython
+  - isort
+  - pytest
+  - pytest-runner
+  - pytest-cov
+  - coverage
+  - codecov
+  - sphinx_rtd_theme
+  - recommonmark
+  - versioneer
+  - twine
   - pip:
-    - pytest
-    - pytest-runner
-    - pytest-cov
-    - coverage
-    - codecov
-    - sphinx_rtd_theme
-    - sphinx-autodoc-annotation
-    - recommonmark
-    - versioneer
-    - twine
-    - -e . # install the local autopew package
+      - sphinx-autodoc-annotation
+      - -e . # install the local autopew package
 
 # conda env create -f environment.yml
 # python -m ipykernel install --user --name autopew

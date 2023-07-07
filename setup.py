@@ -1,4 +1,5 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
+
 import versioneer
 
 tests_require = ["pytest", "pytest-runner", "pytest-cov", "coverage", "codecov"]
@@ -24,9 +25,8 @@ setup(
         "Intended Audience :: Science/Research",
         "Natural Language :: English",
         "Programming Language :: Python :: 3 :: Only",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "Topic :: Scientific/Engineering",
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
