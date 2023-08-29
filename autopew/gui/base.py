@@ -30,7 +30,10 @@ def position_figure(fig, pos=None, size=None, scale=0.9, offset=0.05):
     else:  # QT and GTK
         size = size or scale * screensize()
         pos = pos or offset * size
-        mgr.window.setGeometry(*pos, *size)
+        if hasattr(mgr, 'window'):
+            mgr.window.setGeometry(*pos, *size)
+        else:
+            logger.warning("Can't position figure, using backend: {}".format(str(backend)))
 
 
 def screensize():

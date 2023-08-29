@@ -76,7 +76,7 @@ class Pew(object):
                     ",".join([str(i) for i in shape])
                 )
                 msg += " Source should have columns (x,y) or (name,x,y)."
-                return NotImplementedError
+                raise NotImplementedError(msg)
         elif isinstance(src, (str, pathlib.Path)):
             filepath = pathlib.Path(src)
             if not isinstance(handler, PewIOSpecification):
