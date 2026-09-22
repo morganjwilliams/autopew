@@ -30,10 +30,10 @@ def position_figure(fig, pos=None, size=None, scale=0.9, offset=0.05):
     else:  # QT and GTK
         size = size or scale * screensize()
         pos = pos or offset * size
-        if hasattr(mgr, 'window'):
-            mgr.window.setGeometry(*pos, *size)
+        if hasattr(mgr, "window"):
+            mgr.window.setGeometry = (*pos, *size)
         else:
-            logger.warning("Can't position figure, using backend: {}".format(str(backend)))
+            logger.warning(f"Can't position figure, using backend: {backend!s}")
 
 
 def screensize():
@@ -54,7 +54,7 @@ def timer_reset(self, *args, **kwargs):
     self._timer.start()
 
 
-setattr(TimerBase, "reset", timer_reset)
+TimerBase.reset = timer_reset
 
 
 def Timeout(fig, timeout=1000):
@@ -68,7 +68,7 @@ def close_event():
     plt.close()  # timer calls this function after 3 seconds and closes the window
 
 
-class ZoomPan(object):
+class ZoomPan:
     """https://stackoverflow.com/a/19829987"""
 
     def __init__(self):

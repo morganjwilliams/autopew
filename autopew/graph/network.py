@@ -16,7 +16,7 @@ def autolink(x):
     return x
 
 
-class Net(object):
+class Net:
     """
     Network of transformations between objects.
 
@@ -71,12 +71,12 @@ class Net(object):
             * Add check for whether edge exists - and whether this will overwrite etc
         """
         # check the components have been registered
-        assert (A in self.components.keys()) and (B in self.components.keys())
+        assert (A in self.components) and (B in self.components)
 
         # check whether edge exists?
         attrs = kwargs
         edge = [[A, B, {**attrs, "transform": transform}]]
-        logger.debug("Adding Edge: {}".format(edge))
+        logger.debug(f"Adding Edge: {edge}")
         self.graph.add_edges_from(edge)
 
     def link(self, A, B, transform=autolink, inverse_transform=autolink, **kwargs):

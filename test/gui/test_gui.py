@@ -1,14 +1,14 @@
 import unittest
 
 import matplotlib.pyplot as plt
-from scipy import misc
+from scipy import datasets
 
 from autopew.gui.windows import image_point_registration
 
 
 class TestGUI(unittest.TestCase):
     def setUp(self):
-        self.img = misc.face()
+        self.img = datasets.face()
 
     def tearDown(self):
         plt.close("all")

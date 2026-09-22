@@ -1,12 +1,12 @@
 """
 Submodule for calculating affine transforms between planar coordinate systems.
 """
+
 import logging
 import sys
 
 import numpy as np
 import scipy.linalg
-from matplotlib.transforms import Affine2D
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
@@ -49,7 +49,7 @@ def affine_from_AB(X, Y):
 
     assert X.shape == Y.shape
     # least squares X * A = Y
-    A, res, rank, s = np.linalg.lstsq(_pad(X), _pad(Y), rcond=__RCOND__)
+    A, _res, _rank, _s = np.linalg.lstsq(_pad(X), _pad(Y), rcond=__RCOND__)
     A[np.isclose(A, 0.0)] = 0.0
     return A.T
 

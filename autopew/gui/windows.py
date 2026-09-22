@@ -29,8 +29,8 @@ def image_point_registration(img, timeout=None):
 
     zp = ZoomPan()
     scale = 1.1
-    figZoom = zp.zoom_factory(ax, base_scale=scale)
-    figPan = zp.pan_factory(ax)
+    _figZoom = zp.zoom_factory(ax, base_scale=scale)
+    _figPan = zp.pan_factory(ax)
     ax.imshow(img, origin="upper")
     if timeout is not None:
         Timeout(fig, timeout)

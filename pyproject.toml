@@ -1,0 +1,81 @@
+[build-system]
+requires = ["setuptools>=80", "setuptools-scm>=10.2.3"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["autopew"]
+
+[project]
+name = "autopew"
+authors = [
+    { name = "Morgan Williams", email = "morgan.williams@csiro.au" },
+    { name = "Louise Schoneveld", email = "louise.schoneveld@csiro.au" },
+]   
+description="Automating target selection for laser ablation."
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English",
+    "Topic :: Scientific/Engineering",
+]
+keywords=["laser ablation", "geochemistry", "image-registration"]
+dependencies = [
+    "pillow",
+    "networkx",
+    "numpy",
+    "matplotlib",
+    "xlrd",
+    "pandas",
+    "scipy>=1.10.0",
+]
+dynamic = ["version", "readme"]
+license = { file = "LICENSE" }
+
+[tool.setuptools.dynamic]
+readme = { file = "README.md", content-type = "text/markdown" }
+
+
+[project.optional-dependencies]
+notebook = ["ipykernel", "ipywidgets"]
+
+[dependency-groups]
+test = ["pytest",  "pytest-cov", "coverage", "pooch"] # pooch for scipy.datasets
+docs = [
+    "sphinx_book_theme",
+    "docutils",
+    "sphinx>=4",
+    "sphinx-autodoc-annotation",
+    "myst-parser",
+]
+dev = [
+    "ruff",
+    "twine",
+    "build",
+    "autopew[notebook]",
+    { include-group = "test" },
+    { include-group = "docs" },
+]
+
+[tool.setuptools.package-data]
+autopew = ["data/*.lase", "data/*.scanscv"]
+
+[tool.pytest.ini_options]
+python_files = "test_*.py"
+addopts = "--assert=plain --cov=autopew --cov-report html --cov-report xml --cov-report term-missing"
+testpaths = ["test"]
+pythonpath = ["."]
+
+[tool.uv]
+default-groups = ["test", "dev", "docs"]
+
+[tool.setuptools_scm]
+fallback_version = "0.0.0"
+
+[tool.coverage.run]
+# Ignore _version.py
+omit = ["test/*", "docs/*", "*/_version.py"]
+relative_files = true
+source = ["autopew"]

@@ -6,25 +6,22 @@ Todo
 * Implement pandas dataframe accessor for quick export of dataframes to specific
     filetypes (e.g. `df.pew.to_scancsv()`; with dataframe validators).
 """
+
 import json
 import logging
 import pathlib
-import sys
 
 import numpy as np
 import pandas as pd
 
-from ._version import get_versions
-
-__version__ = get_versions()["version"]
-del get_versions
+from ._version import __version__  # noqa: F401
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 logging.captureWarnings(True)
 
 from . import graph, gui, image, io, transform, workflow
 
-__all__ = ["transform", "image", "gui", "graph", "io", "workflow", "Pew"]
+__all__ = ["Pew", "graph", "gui", "image", "io", "transform", "workflow"]
 
 from .io import PewIOSpecification, get_filehandler
 from .transform.affine import affine_from_AB, affine_transform
@@ -32,7 +29,7 @@ from .transform.affine import affine_from_AB, affine_transform
 # pandas dataframe accessor for verifying dataframe structure and accessing coordinates?
 
 
-class Pew(object):
+class Pew:
     def __init__(self, *args, transform=None, archive=None, **kwargs):
         """
         Pew transformer which implements various file handlers for import and export of
@@ -159,7 +156,7 @@ class Pew(object):
         :class:`numpy.ndarray`
         """
         if self._transform is None:
-            raise NotCalibratedError("Transform hasn't yet been calibrated.")
+            raise ValueError("Transform hasn't yet been calibrated.")
         if samples is None:
             samples = self.samples
         if samples is None:

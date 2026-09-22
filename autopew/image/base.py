@@ -1,19 +1,16 @@
 import logging
 from pathlib import Path
 
-import matplotlib.image
 import numpy as np
 import PIL.Image
 import PIL.ImageOps
 
 from ..transform.affine import (
-    affine_from_AB,
     affine_transform,
     compose_affine2d,
     corners,
     decompose_affine2d,
     translate,
-    zoom,
 )
 from ..util.plot import bin_edges_to_centres
 
@@ -70,7 +67,7 @@ def affine_size(A, size, type=int):
     return extent_to_size(affine_extent(A, size), type=type)
 
 
-class PewImage(object):
+class PewImage:
     def __init__(self, img, extent=None, transform=None):
         self.load_image(img)
         self.shape = self.image.size
@@ -88,7 +85,7 @@ class PewImage(object):
 
     def load_image(self, img):
         """Load an image and deal with formatting etc."""
-        if isinstance(img, str) or isinstance(img, Path):
+        if isinstance(img, (str, Path)):
             self.image = PIL.Image.open(img)  # .transpose(1, 0, 2)
         elif isinstance(img, PIL.Image.Image):
             self.image = img
@@ -168,4 +165,4 @@ class PewImage(object):
         )
 
     def __str__(self):
-        return "{}".format(self.__class__)
+        return f"{self.__class__}"

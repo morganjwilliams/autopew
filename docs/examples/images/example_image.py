@@ -2,11 +2,11 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy import misc
+from scipy import datasets
 
 np.random.seed(82)
 fig, ax = plt.subplots(1)
-im = misc.face()
+im = datasets.face()
 ax.axis("off")
 ax.get_xaxis().set_visible(False)
 ax.get_yaxis().set_visible(False)
@@ -19,7 +19,7 @@ ax.scatter(
     marker="+",
     s=50,
     zorder=5,
-    label="Reference Points"
+    label="Reference Points",
 )
 for ix, (x, y) in enumerate(refpoints):
     ax.annotate(

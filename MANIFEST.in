@@ -1,4 +1,0 @@
-include versioneer.py
-include autopew/_version.py
-include LICENSE
-recursive-include autopew/data *

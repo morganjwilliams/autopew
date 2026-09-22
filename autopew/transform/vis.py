@@ -24,7 +24,7 @@ def vis(A, ax=None):
     p = np.array([[0.0, 0.0], [0.0, 1.0], [1.0, 1.0], [1.0, 0.0], [0.0, 0.0]])
 
     if ax is None:
-        fig, ax = plt.subplots(1)
+        _fig, ax = plt.subplots(1)
 
     c = matplotlib.patches.Ellipse(
         (0.5, 0.5), 1, 1, facecolor="None", edgecolor="k", alpha=0.5
