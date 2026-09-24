@@ -12,7 +12,7 @@ authors = [
     { name = "Louise Schoneveld", email = "louise.schoneveld@csiro.au" },
 ]   
 description="Automating target selection for laser ablation."
-requires-python = ">=3.12"
+requires-python = ">=3.13"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
