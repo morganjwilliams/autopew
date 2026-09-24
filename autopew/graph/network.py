@@ -84,7 +84,7 @@ class Net:
         Link nodes A and B with transforms along edges.
         """
         attrs = kwargs
-        edges = [[A, B, attrs]]
+        _edges = [[A, B, attrs]]
 
         if transform is not None:
             self.add_edge(A, B, transform=transform, **attrs)
@@ -111,7 +111,7 @@ class Net:
         method=networkx.draw_shell,
     ):
         if ax is None:
-            fig, ax = plt.subplots(1, figsize=figsize)
+            _fig, ax = plt.subplots(1, figsize=figsize)
         else:
             figsize = ax.figure.get_size_inches()
         df = pd.DataFrame(self.graph.edges, columns=["A", "B"])

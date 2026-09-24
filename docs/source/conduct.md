@@ -1,8 +1,6 @@
-Code of Conduct
-===============
+# Code of Conduct
 
-Our Pledge
------------
+## Our Pledge
 
 In the interest of fostering an open and welcoming environment, we as
 contributors and maintainers pledge to making participation in our project and
@@ -11,8 +9,7 @@ size, disability, ethnicity, sex characteristics, gender identity and expression
 level of experience, education, socio-economic status, nationality, personal
 appearance, race, religion, or sexual identity and orientation.
 
-Our Standards
---------------
+## Our Standards
 
 Examples of behaviour that contributes to creating a positive environment
 include:
@@ -33,8 +30,7 @@ Examples of unacceptable behaviour by participants include:
   * Other conduct which could reasonably be considered inappropriate in a professional
     setting
 
-Our Responsibilities
---------------------
+## Our Responsibilities
 
 Project maintainers are responsible for clarifying the standards of acceptable
 behaviour and are expected to take appropriate and fair corrective action in
@@ -46,8 +42,7 @@ that are not aligned to this Code of Conduct, or to ban temporarily or
 permanently any contributor for other behaviours that they deem inappropriate,
 threatening, offensive, or harmful.
 
-Scope
------
+## Scope
 
 This Code of Conduct applies both within project spaces and in public spaces
 when an individual is representing the project or its community. Examples of
@@ -56,8 +51,7 @@ address, posting via an official social media account, or acting as an appointed
 representative at an online or offline event. Representation of a project may be
 further defined and clarified by project maintainers.
 
-Enforcement
------------
+## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behaviour may be
 reported by contacting the project admins. All
@@ -70,22 +64,18 @@ Project maintainers who do not follow or enforce the Code of Conduct in good
 faith may face temporary or permanent repercussions as determined by other
 members of the project's leadership.
 
-Attribution
------------
+## Attribution
 
-This Code of Conduct is adapted from the `Contributor Covenant`__ Version 1.4,
+This Code of Conduct is adapted from the Contributor Covenant [^1] Version 1.4,
 available at
-`https://www.contributor-covenant.org/version/1/4/code-of-conduct.html <https://www.contributor-covenant.org/version/1/4/code-of-conduct.html>`__.
-The Contributor Covenant is released under the
-`Creative Commons Attribution 4.0 License <http://creativecommons.org/licenses/by/4.0/>`__.
+[https://www.contributor-covenant.org/version/1/4/code-of-conduct.html](https://www.contributor-covenant.org/version/1/4/code-of-conduct.html)
+The Contributor Covenant is released under the [Creative Commons Attribution 4.0 License](http://creativecommons.org/licenses/by/4.0/).
 
-.. raw:: html
-
-  <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-    <img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
-  </a>
-
-.. __ : https://www.contributor-covenant.org
+[^1]: https://www.contributor-covenant.org
 
 For answers to common questions about this code of conduct, see
-`https://www.contributor-covenant.org/faq <https://www.contributor-covenant.org/faq>`__.
+[https://www.contributor-covenant.org/faq](https://www.contributor-covenant.org/faq).
+
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+  <img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+</a>

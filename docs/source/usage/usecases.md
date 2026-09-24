@@ -1,6 +1,4 @@
-Use Cases
-============
-
+# Use Cases
 
 autopew is designed for easy referencing between analytical equipment and/or images.
 This allows users to easily transfer between techniques such as electron probe,
@@ -8,15 +6,14 @@ laser ablation, scanning electron microscope or other imaging techniques.
 autopew will allow consistent measurements of the same grains via different
 techniques and give spatial context to chemical data.
 
-.. image:: ../_static/transform_concept.png
-  :align: center
-  :width: 35%
+```{image} ../_static/transform_concept.png
+:width: 35%
+:align: center
+```
 
-There are a number of use cases that autopew is suited for:
+There are a number of use cases that autopew is suited for, listed below.
 
-
-Two Sets of Points
---------------------
+## Two Sets of Points
 
 E.g. coordinates from stages
 This case is for transfer between various stage coordinate system (e.g. electron
@@ -28,21 +25,18 @@ What you need:
   * X,Y coordinates of the points you wish to analyse
   * at least 3 points in the new coordinate system
 
-.. image:: ../_static/coordinatetransform.png
-  :alt: image of coordinate transform between two sets of points
-  :align: center
-  :width: 65%
-
+```{image} ../_static/coordinatetransform.png
+:alt: An image illustrating the coordinate transform between two sets of points
+:width: 65%
+:align: center
+```
 autopew can translate points with rotation, and shear.
 
-.. seealso::
+:::{seealso}
+* [stage to stage workflow](./workflows/stage2stage.md)
+:::
 
-  `stage2stage workflow <workflows/stage2stage.html>`__
-
-
-
-Image and Set of Points
--------------------------
+## Image and Set of Points
 
 If you have high resolution microscope images or images from other sources such
 as X-ray fluorescence mapping you can use pixel coordinates and convert the
@@ -60,21 +54,17 @@ What you need:
   * an image of high enough resolution to identify the target phases
   * 3 points in the new coordinate system that you can recognise on the image
 
-  .. image:: ../_static/stage2image_concept.png
-    :align: center
-    :width: 80%
+```{image} ../_static/stage2image_concept.png
+:width: 80%
+:align: center
+```
 
-  .. seealso::
+:::{seealso}
+* [image to stage workflow](./workflows/image2laser.md)
+* [stage to image workflow](./workflows/stage2image.md)
+:::
 
-    `image to stage workflow <workflows/image2laser.html>`__,
-    `stage to image workflow <workflows/stage2image.html>`__
-
-
-Two Images
--------------
-**in development**
-
-See `the contributions page <../dev/contributing.html>`__ on how to contribute.
+## Two Images
 
 This allows the pixel coordinates from one image to be translated into the
 pixel coordinates in a second image. This is useful if you need to overlay two
