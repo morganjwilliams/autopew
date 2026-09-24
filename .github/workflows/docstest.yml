@@ -28,7 +28,8 @@ jobs:
           python-version: "3.13"
           enable-cache: true
           cache-dependency-glob: |
-            **/pyproject.toml
+                **/pyproject.toml
+                **/uv.lock
             
       - name: Create Venv
         run: |
