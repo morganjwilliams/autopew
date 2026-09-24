@@ -33,24 +33,29 @@ jobs:
       - name: Install dependencies
         run: |
             uv sync --dev
+            uv pip install coveralls
 
       - name: Test Windows
         if: runner.os == 'Windows'
         env:
           MPLBACKEND: Agg
         run:  uv run pytest
+
       - name: Test MacOS
         if: runner.os == 'macOS'
         run:  uv run pytest
+
       - name: Prep Linux
         if: runner.os == 'Linux'
         run: |
           sudo apt-get install jq curl    # codacy requirement
           sudo apt-get install xvfb python3-tk
+
       - name: Test Linux
         if: runner.os == 'Linux'
         run: |
           xvfb-run uv run pytest
+
       - name: Coveralls
         env:
           COVERALLS_SERVICE_NAME: github
@@ -58,7 +63,7 @@ jobs:
           COVERALLS_FLAG_NAME: ${{ matrix.test-name }}
           COVERALLS_PARALLEL: true
         run: |
-          coveralls
+          uv run coveralls
           
   coveralls:
     name: Indicate completion to coveralls.io
